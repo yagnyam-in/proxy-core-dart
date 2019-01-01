@@ -1,12 +1,12 @@
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:proxy_core/proxy_object.dart';
+import 'package:proxy_core/proxy_utils.dart';
+
 part 'proxy_id.g.dart';
 
 @JsonSerializable()
-class ProxyId implements ProxyBaseObject {
-
-  static const _any = const ProxyId('any');
+class ProxyId extends ProxyBaseObject with ProxyUtils {
+  static ProxyId _any = ProxyId('any');
 
   @JsonKey(nullable: false)
   final String id;
@@ -14,15 +14,17 @@ class ProxyId implements ProxyBaseObject {
   @JsonKey(nullable: true, includeIfNull: false)
   final String sha256Thumbprint;
 
-  const ProxyId(this.id, [this.sha256Thumbprint = null]);
+  ProxyId(this.id, [this.sha256Thumbprint = null])
+      : assert(isNotEmpty(id)),
+        assert(sha256Thumbprint == null || isNotEmpty(sha256Thumbprint));
 
   factory ProxyId.any() {
     return _any;
   }
 
   @override
-  bool operator==(dynamic other) {
-    if (other == null || other is ! ProxyId) {
+  bool operator ==(dynamic other) {
+    if (other == null || other is! ProxyId) {
       return false;
     }
     ProxyId otherProxyId = other as ProxyId;
@@ -60,11 +62,10 @@ class ProxyId implements ProxyBaseObject {
 
   @override
   bool isValid() {
-    return id != null && (sha256Thumbprint == null || sha256Thumbprint.isNotEmpty);
+    return isNotEmpty(id) && (sha256Thumbprint == null || isNotEmpty(sha256Thumbprint));
   }
 
   factory ProxyId.fromJson(Map<String, dynamic> json) => _$ProxyIdFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProxyIdToJson(this);
-
 }

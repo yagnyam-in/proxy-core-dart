@@ -7,7 +7,9 @@ abstract class SignableMessage extends ProxyBaseObject {
   /// Single Signed that can sign this message.
   ///
   /// Don't override this method if multiple signers are possible
-  ProxyId signer();
+  ProxyId signer() {
+    throw UnimplementedError("Either override `validSigners` or override `signer` if this message can only be signed by single signer.");
+  }
 
   Set<ProxyId> validSigners() {
     return Set.of([signer()]);
@@ -18,9 +20,10 @@ abstract class SignableMessage extends ProxyBaseObject {
   @override
   bool isValid();
 
-  String getMessageType();
+  String get messageType;
 
   bool cabBeSignedBy(ProxyId signerId) {
     return validSigners().any((s) => signerId.canSignOnBehalfOf(s));
   }
+
 }

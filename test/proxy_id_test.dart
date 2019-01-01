@@ -3,8 +3,8 @@ import "package:test/test.dart";
 import 'dart:convert';
 
 main() {
-  String _encode(Object object) {
-    return jsonEncode(object);
+  String _encode(ProxyId proxyId) {
+    return jsonEncode(proxyId);
   }
 
   ProxyId _decode(String jsonString) {
@@ -25,8 +25,8 @@ main() {
 
   test('proxy id with sha256Thumbprint', () {
     ProxyId proxyId = ProxyId("id", "sha256");
-    expect(proxyId.uniqueId, equals("id#sha256"));
-    expect(proxyId.isValid(), equals(true));
+    expect(proxyId.uniqueId, "id#sha256");
+    expect(proxyId.isValid(), true);
     expect(proxyId.canSignOnBehalfOf(proxyId), true);
     expect(proxyId.canSignOnBehalfOf(ProxyId.any()), true);
     expect(proxyId.canSignOnBehalfOf(ProxyId("id")), true);
@@ -37,8 +37,8 @@ main() {
 
   test('any proxy id', () {
     ProxyId proxyId = ProxyId.any();
-    expect(proxyId.uniqueId, equals("any"));
-    expect(proxyId.isValid(), equals(true));
+    expect(proxyId.uniqueId, "any");
+    expect(proxyId.isValid(), true);
     expect(proxyId.canSignOnBehalfOf(proxyId), true);
     expect(proxyId.canSignOnBehalfOf(ProxyId("id")), false);
     expect(proxyId.canSignOnBehalfOf(ProxyId("id", "anotherSha256")), false);
