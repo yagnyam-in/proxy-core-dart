@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:proxy_core/proxy_id.dart';
-import 'package:proxy_core/proxy_object.dart';
-import 'package:proxy_core/signable_message.dart';
-import 'package:proxy_core/proxy_utils.dart';
-import 'package:proxy_core/signed_message_signature.dart';
+import 'proxy_id.dart';
+import 'proxy_object.dart';
+import 'signable_message.dart';
+import 'proxy_utils.dart';
+import 'signed_message_signature.dart';
 
 part 'signed_message.g.dart';
 

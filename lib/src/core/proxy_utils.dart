@@ -1,4 +1,4 @@
-import 'package:proxy_core/proxy_object.dart';
+import 'proxy_object.dart';
 
 mixin ProxyUtils {
   bool isNotEmpty(String value) {

@@ -3,23 +3,32 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
-import 'package:proxy_core/certificate.dart';
-import 'package:proxy_core/certificate_chain.dart';
-import 'package:proxy_core/certificates.dart';
-import 'package:proxy_core/services/certificate_service.dart';
+import 'package:meta/meta.dart';
+import 'package:proxy_core/core.dart';
+
+import 'certificate_service.dart';
+import 'proxy_http_client.dart';
 
 typedef StringToString = String Function(String id);
 
+typedef HttpClientFactory = http.Client Function();
+
 class RemoteCertificateService implements CertificateService {
-  final Logger logger = new Logger('MyClassName');
+  final Logger logger = new Logger('proxy.services.RemoteCertificateService');
 
   final StringToString certificatesByIdUrl;
 
   final StringToString certificateBySerialNumberUrl;
 
-  RemoteCertificateService(this.certificatesByIdUrl, this.certificateBySerialNumberUrl)
-      : assert(certificatesByIdUrl != null),
-        assert(certificateBySerialNumberUrl != null);
+  final HttpClientFactory httpClientFactory;
+
+  RemoteCertificateService({
+    @required this.certificatesByIdUrl,
+    @required this.certificateBySerialNumberUrl,
+    HttpClientFactory httpClientFactory,
+  })  : assert(certificatesByIdUrl != null),
+        assert(certificateBySerialNumberUrl != null),
+        httpClientFactory = httpClientFactory ?? ProxyHttpClient.client;
 
   @override
   Future<Certificate> getCertificateBySerialNumber(String serialNumber) async {
@@ -40,16 +49,18 @@ class RemoteCertificateService implements CertificateService {
   }
 
   Future<String> get(String url) async {
-    var client = new http.Client();
+    http.Client httpClient = httpClientFactory();
     try {
-      http.Response response = await client.get(url);
+      http.Response response = await httpClient.get(url);
       if (response.statusCode == 200) {
         return response.body;
       }
-      logger.info("GET $url failed with ${response.statusCode}: ${response.body}");
-      throw HttpException("GET $url failed with ${response.statusCode}: ${response.body}");
+      logger.info(
+          "GET $url failed with ${response.statusCode}: ${response.body}");
+      throw HttpException(
+          "GET $url failed with ${response.statusCode}: ${response.body}");
     } finally {
-      client.close();
+      httpClient.close();
     }
   }
 }

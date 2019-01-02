@@ -1,4 +1,4 @@
-import 'package:proxy_core/signed_message_signature.dart';
+import 'package:proxy_core/core.dart';
 import "package:test/test.dart";
 import 'dart:convert';
 

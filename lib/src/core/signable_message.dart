@@ -1,5 +1,5 @@
-import 'package:proxy_core/proxy_id.dart';
-import 'package:proxy_core/proxy_object.dart';
+import 'proxy_id.dart';
+import 'proxy_object.dart';
 
 /// Interface that need to be implemented by all the messages that can be signed
 abstract class SignableMessage extends ProxyBaseObject {

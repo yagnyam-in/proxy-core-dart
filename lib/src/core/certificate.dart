@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:proxy_core/proxy_id.dart';
-import 'package:proxy_core/proxy_object.dart';
-import 'package:proxy_core/proxy_utils.dart';
+import 'proxy_id.dart';
+import 'proxy_object.dart';
+import 'proxy_utils.dart';
 
 part 'certificate.g.dart';
 
@@ -43,13 +43,11 @@ class Certificate extends ProxyBaseObject with ProxyUtils {
     @required this.certificateEncoded,
   });
 
-  String getId() {
-    return owner;
-  }
+  @JsonKey(ignore: true)
+  String get id => owner;
 
-  String getUniqueId() {
-    return owner + "#" + sha256Thumbprint;
-  }
+  @JsonKey(ignore: true)
+  String get uniqueId => owner + "#" + sha256Thumbprint;
 
   bool matchesCertificateId(String certificateId) {
     if (owner == extractOnlyId(certificateId)) {

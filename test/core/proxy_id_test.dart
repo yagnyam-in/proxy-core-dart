@@ -1,8 +1,14 @@
-import 'package:proxy_core/proxy_id.dart';
+library proxy.core;
+
+import 'package:proxy_core/src/core/proxy_id.dart';
 import "package:test/test.dart";
 import 'dart:convert';
 
 main() {
+
+
+  Matcher throwsArgumentError = throwsA(const TypeMatcher<ArgumentError>());
+
   String _encode(ProxyId proxyId) {
     return jsonEncode(proxyId);
   }
@@ -11,6 +17,12 @@ main() {
     Map userMap = jsonDecode(jsonString);
     return ProxyId.fromJson(userMap);
   }
+
+  test('isValid', (){
+    expect(Future(() => ProxyId(null)), throwsArgumentError);
+    expect(Future(() => ProxyId(" ")), throwsArgumentError);
+    expect(Future(() => ProxyId("x", " ")), throwsArgumentError);
+  });
 
   test('proxy id without sha256Thumbprint', () {
     ProxyId proxyId = ProxyId("id");

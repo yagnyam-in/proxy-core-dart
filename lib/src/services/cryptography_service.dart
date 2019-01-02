@@ -1,5 +1,4 @@
-import 'package:proxy_core/certificate.dart';
-import 'package:proxy_core/proxy.dart';
+import 'package:proxy_core/core.dart';
 
 abstract class CryptographyService {
   Future<String> getSignature({

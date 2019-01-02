@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:proxy_core/certificate.dart';
-import 'package:proxy_core/proxy_object.dart';
-import 'package:proxy_core/proxy_utils.dart';
+import 'certificate.dart';
+import 'proxy_object.dart';
+import 'proxy_utils.dart';
 
 part 'certificate_chain.g.dart';
 

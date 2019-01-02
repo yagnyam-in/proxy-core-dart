@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:proxy_core/certificate.dart';
-import 'package:proxy_core/proxy_id.dart';
-import 'package:proxy_core/proxy_object.dart';
-import 'package:proxy_core/proxy_utils.dart';
+import 'certificate.dart';
+import 'proxy_id.dart';
+import 'proxy_object.dart';
+import 'proxy_utils.dart';
 
 part 'proxy.g.dart';
 
@@ -21,10 +21,24 @@ class Proxy extends ProxyBaseObject with ProxyUtils {
   @JsonKey(nullable: false)
   final Certificate certificate;
 
-  Proxy({@required this.id, this.name, @required this.certificateSerialNumber, @required this.certificate})
+  Proxy(
+      {@required this.id,
+      this.name,
+      @required this.certificateSerialNumber,
+      @required this.certificate})
       : assert(id != null && id.isValid()),
         assert(isNotEmpty(certificateSerialNumber)),
         assert(certificate != null && certificate.isValid());
+
+  Proxy.from(Certificate certificate)
+      : assert(certificate != null && certificate.isValid()),
+        id = ProxyId(certificate.id, certificate.sha256Thumbprint),
+        certificateSerialNumber = certificate.serialNumber,
+        name = certificate.alias,
+        certificate = certificate;
+
+  Proxy._noAssertions(
+      {this.id, this.name, this.certificateSerialNumber, this.certificate});
 
   @override
   bool isValid() {

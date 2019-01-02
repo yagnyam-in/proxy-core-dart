@@ -1,8 +1,6 @@
 
-import 'package:proxy_core/certificate.dart';
-import 'package:proxy_core/certificate_chain.dart';
-import 'package:proxy_core/certificates.dart';
-import 'package:proxy_core/services/certificate_service.dart';
+import 'package:proxy_core/core.dart';
+import 'certificate_service.dart';
 
 class CacheBackedCertificateService implements CertificateService {
 

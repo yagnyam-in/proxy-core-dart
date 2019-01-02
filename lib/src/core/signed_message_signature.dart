@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:proxy_core/proxy_object.dart';
-import 'package:proxy_core/proxy_utils.dart';
+import 'proxy_object.dart';
+import 'proxy_utils.dart';
 part 'signed_message_signature.g.dart';
 
 @JsonSerializable()

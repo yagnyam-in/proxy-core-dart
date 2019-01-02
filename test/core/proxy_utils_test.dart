@@ -1,6 +1,5 @@
-import 'package:proxy_core/proxy_object.dart';
+import 'package:proxy_core/core.dart';
 import "package:test/test.dart";
-import 'package:proxy_core/proxy_utils.dart';
 
 class ProxyUtilsImpl with ProxyUtils {}
 
