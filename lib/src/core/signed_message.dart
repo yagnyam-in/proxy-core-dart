@@ -9,9 +9,20 @@ import 'signed_message_signature.dart';
 part 'signed_message.g.dart';
 
 @JsonSerializable()
-class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with ProxyUtils {
+class SignedMessage<T extends SignableMessage> extends ProxyBaseObject
+    with ProxyUtils {
+
+  /// Underlying Message as Runtime Object
+  ///
+  /// Make sure verified is set to false upon this variable mutation
   @JsonKey(ignore: true)
-  T message;
+  T _message;
+
+  /// Is this message already Verified ??
+  ///
+  /// Verification is costly, not verified if already verified
+  @JsonKey(ignore: true)
+  bool _verified = false;
 
   @JsonKey(nullable: false)
   final String type;
@@ -26,15 +37,17 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
   final List<SignedMessageSignature> signatures;
 
   SignedMessage({
-    this.message,
+    T message,
     @required this.type,
     @required this.payload,
     @required this.signedBy,
     @required this.signatures,
   })  : assert(isNotEmpty(type)),
-        assert(isNotEmpty(payload)),
+        assert(message == null || isNotEmpty(payload)),
+        assert(message == null || message.isValid()),
         assert(signedBy.isValid()),
-        assert(isValidProxyObjectList(signatures));
+        assert(isValidProxyObjectList(signatures)),
+        _message = message;
 
   SignedMessage copy({
     T message,
@@ -44,7 +57,7 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
     List<SignedMessageSignature> signatures,
   }) {
     return SignedMessage(
-      message: message ?? this.message,
+      message: message ?? this._message,
       type: type ?? this.type,
       payload: payload ?? this.payload,
       signedBy: signedBy ?? this.signedBy,
@@ -52,17 +65,37 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
     );
   }
 
+  @JsonKey(ignore: true)
+  T get message => _message;
+
+  @JsonKey(ignore: true)
+  set message(T message) {
+    _verified = false;
+    // Make sure all non final members are specified here
+    _message = message;
+  }
+
+  @JsonKey(ignore: true)
+  bool get verified => _verified;
+
+  @JsonKey(ignore: true)
+  set verified(bool verified) => _verified = verified;
+
   @override
   bool isValid() {
-    return isNotEmpty(type) && isNotEmpty(payload) && signedBy.isValid() && isValidProxyObjectList(signatures);
+    return isNotEmpty(type) &&
+        (_message == null || isNotEmpty(payload)) &&
+        (_message == null || _message.isValid()) &&
+        signedBy.isValid() &&
+        isValidProxyObjectList(signatures);
   }
 
   Set<ProxyId> validSigners() {
-    return message.validSigners();
+    return _message.getValidSigners();
   }
 
   bool cabBeSignedBy(ProxyId signerId) {
-    return message.cabBeSignedBy(signerId);
+    return _message.cabBeSignedBy(signerId);
   }
 
   @override
@@ -71,7 +104,7 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
       return false;
     }
     SignedMessage otherMessage = other as SignedMessage;
-    return message == otherMessage.message &&
+    return _message == otherMessage._message &&
         type == otherMessage.type &&
         payload == otherMessage.payload &&
         signedBy == otherMessage.signedBy &&
@@ -83,7 +116,14 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
     return toJson().toString();
   }
 
-  factory SignedMessage.fromJson(Map<String, dynamic> json) => _$SignedMessageFromJson(json);
+  factory SignedMessage.fromJson(Map<String, dynamic> json) {
+    SignedMessage signedMessage = _$SignedMessageFromJson(json);
+    return signedMessage;
+  }
 
-  Map<String, dynamic> toJson() => _$SignedMessageToJson(this);
+  Map<String, dynamic> toJson() {
+    assert(isNotEmpty(payload));
+    Map<String, dynamic> json = _$SignedMessageToJson(this);
+    return json;
+  }
 }

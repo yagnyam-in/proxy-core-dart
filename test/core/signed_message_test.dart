@@ -3,8 +3,8 @@ import "package:test/test.dart";
 import 'dart:convert';
 
 main() {
-  String _encode(SignedMessage object) {
-    return jsonEncode(object);
+  String _encode(SignedMessage message) {
+    return jsonEncode(message);
   }
 
   SignedMessage _decode(String jsonString) {

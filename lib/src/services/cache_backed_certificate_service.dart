@@ -14,12 +14,12 @@ class CacheBackedCertificateService implements CertificateService {
   }
 
   @override
-  Future<CertificateChain> getCertificateChain(String certificateId) {
+  Future<CertificateChain> getCertificateChain(String certificateId, [String sha256Thumbprint]) {
     return underlyingCertificateService.getCertificateChain(certificateId);
   }
 
   @override
-  Future<Certificates> getCertificatesById(String certificateId) {
+  Future<Certificates> getCertificatesById(String certificateId, [String sha256Thumbprint]) {
     return underlyingCertificateService.getCertificatesById(certificateId);
   }
 

@@ -1,13 +1,15 @@
 abstract class ProxyVersion {
   String get version;
 
-  List<String> get signatureAlgorithms;
+  List<Set<String>> get validSignatureAlgorithmSets;
 
-  String get preferredSignatureAlgorithm;
+  Set<String> get preferredSignatureAlgorithmSet;
 
-  List<String> get encryptionAlgorithms;
+  List<String> get validEncryptionAlgorithms;
 
   String get preferredEncryptionAlgorithm;
+
+  String get certificateSignatureAlgorithm;
 
   const ProxyVersion();
 
@@ -36,14 +38,17 @@ class ProxyVersionV0 extends ProxyVersion {
   String get version => VERSION;
 
   @override
-  List<String> get encryptionAlgorithms => ["RSA/NONE/OAEPwithSHA-256andMGF1Padding"];
+  List<String> get validEncryptionAlgorithms => ["RSA/NONE/OAEPwithSHA-256andMGF1Padding"];
 
   @override
   String get preferredEncryptionAlgorithm => "RSA/NONE/OAEPwithSHA-256andMGF1Padding";
 
   @override
-  String get preferredSignatureAlgorithm => "SHA256WithRSAEncryption";
+  Set<String> get preferredSignatureAlgorithmSet => Set.of(["SHA256WithRSAEncryption"]);
 
   @override
-  List<String> get signatureAlgorithms => ["SHA256WithRSAEncryption"];
+  List<Set<String>> get validSignatureAlgorithmSets => [Set.of(["SHA256WithRSAEncryption"])];
+
+  @override
+  String get certificateSignatureAlgorithm => "SHA256WithRSAEncryption";
 }

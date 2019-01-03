@@ -9,16 +9,18 @@ import 'package:proxy_core/core.dart';
 import 'certificate_service.dart';
 import 'proxy_http_client.dart';
 
-typedef StringToString = String Function(String id);
+typedef CertificateIdToUrl = String Function(String id, [String sha256Thumbprint]);
+
+typedef CertificateSerialNumberToUrl = String Function(String serialNumber);
 
 typedef HttpClientFactory = http.Client Function();
 
-class RemoteCertificateService implements CertificateService {
-  final Logger logger = new Logger('proxy.services.RemoteCertificateService');
+class RemoteCertificateService with ProxyUtils implements CertificateService {
+  final Logger logger = Logger('proxy.services.RemoteCertificateService');
 
-  final StringToString certificatesByIdUrl;
+  final CertificateIdToUrl certificatesByIdUrl;
 
-  final StringToString certificateBySerialNumberUrl;
+  final CertificateSerialNumberToUrl certificateBySerialNumberUrl;
 
   final HttpClientFactory httpClientFactory;
 
@@ -32,23 +34,29 @@ class RemoteCertificateService implements CertificateService {
 
   @override
   Future<Certificate> getCertificateBySerialNumber(String serialNumber) async {
+    assert(isNotEmpty(serialNumber));
     String response = await get(certificateBySerialNumberUrl(serialNumber));
     return Certificate.fromJson(jsonDecode(response));
   }
 
   @override
-  Future<CertificateChain> getCertificateChain(String certificateId) async {
-    String response = await get(certificatesByIdUrl(certificateId));
+  Future<CertificateChain> getCertificateChain(String certificateId, [String sha256Thumbprint]) async {
+    assert(isNotEmpty(certificateId));
+    assert(sha256Thumbprint == null || isNotEmpty(sha256Thumbprint));
+    String response = await get(certificatesByIdUrl(certificateId, sha256Thumbprint));
     return CertificateChain.fromJson(jsonDecode(response));
   }
 
   @override
-  Future<Certificates> getCertificatesById(String certificateId) async {
-    String response = await get(certificatesByIdUrl(certificateId));
+  Future<Certificates> getCertificatesById(String certificateId, [String sha256Thumbprint]) async {
+    assert(isNotEmpty(certificateId));
+    assert(sha256Thumbprint == null || isNotEmpty(sha256Thumbprint));
+    String response = await get(certificatesByIdUrl(certificateId, sha256Thumbprint));
     return Certificates.fromJson(jsonDecode(response));
   }
 
   Future<String> get(String url) async {
+    assert(isNotEmpty(url));
     http.Client httpClient = httpClientFactory();
     try {
       http.Response response = await httpClient.get(url);

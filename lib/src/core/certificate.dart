@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'proxy_id.dart';
 import 'proxy_object.dart';
@@ -41,7 +42,27 @@ class Certificate extends ProxyBaseObject with ProxyUtils {
     @required this.validFrom,
     @required this.validTill,
     @required this.certificateEncoded,
-  });
+  })  : assert(isNotEmpty(serialNumber)),
+        assert(isNotEmpty(owner)),
+        assert(isNotEmpty(sha256Thumbprint)),
+        assert(isNotEmpty(subject)),
+        assert(isNotEmpty(certificateEncoded)),
+        assert(isValidDateTime(validFrom)),
+        assert(isValidDateTime(validTill));
+
+  @deprecated
+  Certificate.nonSafe({
+    @required this.serialNumber,
+    @required this.owner,
+    @required this.sha256Thumbprint,
+    this.alias,
+    @required this.subject,
+    @required this.validFrom,
+    @required this.validTill,
+    @required this.certificateEncoded,
+  }){
+    Logger('proxy.core.Certificate').shout("Certificate.nonSafe is being used");
+  }
 
   @JsonKey(ignore: true)
   String get id => owner;
@@ -60,7 +81,8 @@ class Certificate extends ProxyBaseObject with ProxyUtils {
   bool matchesProxyId(ProxyId proxyId) {
     return proxyId != null &&
         proxyId.id == owner &&
-        (proxyId.sha256Thumbprint == null || proxyId.sha256Thumbprint == sha256Thumbprint);
+        (proxyId.sha256Thumbprint == null ||
+            proxyId.sha256Thumbprint == sha256Thumbprint);
   }
 
   @override
@@ -95,7 +117,8 @@ class Certificate extends ProxyBaseObject with ProxyUtils {
     return toJson().toString();
   }
 
-  factory Certificate.fromJson(Map<String, dynamic> json) => _$CertificateFromJson(json);
+  factory Certificate.fromJson(Map<String, dynamic> json) =>
+      _$CertificateFromJson(json);
 
   Map<String, dynamic> toJson() => _$CertificateToJson(this);
 

@@ -5,10 +5,6 @@ import "package:test/test.dart";
 import 'dart:convert';
 
 main() {
-
-
-  Matcher throwsArgumentError = throwsA(const TypeMatcher<ArgumentError>());
-
   String _encode(ProxyId proxyId) {
     return jsonEncode(proxyId);
   }
@@ -18,10 +14,10 @@ main() {
     return ProxyId.fromJson(userMap);
   }
 
-  test('isValid', (){
-    expect(Future(() => ProxyId(null)), throwsArgumentError);
-    expect(Future(() => ProxyId(" ")), throwsArgumentError);
-    expect(Future(() => ProxyId("x", " ")), throwsArgumentError);
+  test('isValid', () {
+    expect(ProxyId.nonSafe(id: null).isValid(), false);
+    expect(ProxyId.nonSafe(id: " ").isValid(), false);
+    expect(ProxyId.nonSafe(id: "x", sha256Thumbprint: " ").isValid(), false);
   });
 
   test('proxy id without sha256Thumbprint', () {

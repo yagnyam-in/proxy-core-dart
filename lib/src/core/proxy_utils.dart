@@ -1,4 +1,5 @@
 import 'proxy_object.dart';
+import 'proxy_id.dart';
 
 mixin ProxyUtils {
   bool isNotEmpty(String value) {
@@ -11,6 +12,10 @@ mixin ProxyUtils {
 
   bool isValidDateTime(DateTime dateTime) {
     return dateTime != null;
+  }
+
+  bool isValidProxyId(ProxyId proxyId) {
+    return proxyId != null && proxyId.isValid();
   }
 
   bool listEquals<T>(List<T> aList, List<T> bList) {
