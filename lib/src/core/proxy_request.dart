@@ -15,20 +15,25 @@ class ProxyRequest with ProxyUtils {
   final String alias;
 
   @JsonKey(nullable: false)
+  final String revocationPassPhraseSha256;
+
+  @JsonKey(nullable: false)
   final String requestEncoded;
 
   ProxyRequest({
     @required this.id,
     this.alias,
+    @required this.revocationPassPhraseSha256,
     @required this.requestEncoded,
   })  : assert(isNotEmpty(id)),
         assert(isNotEmpty(requestEncoded));
 
   @deprecated
   ProxyRequest.nonSafe({
-    @required this.id,
+    this.id,
     this.alias,
-    @required this.requestEncoded,
+    this.revocationPassPhraseSha256,
+    this.requestEncoded,
   }) {
     Logger('proxy.core.ProxyRequest')
         .shout("ProxyRequest.nonSafe is being used");
@@ -39,10 +44,11 @@ class ProxyRequest with ProxyUtils {
     if (other == null || other is! ProxyRequest) {
       return false;
     }
-    ProxyRequest otherCertificate = other as ProxyRequest;
-    return id == otherCertificate.id &&
-        alias == otherCertificate.alias &&
-        requestEncoded == otherCertificate.requestEncoded;
+    ProxyRequest otherRequest = other as ProxyRequest;
+    return id == otherRequest.id &&
+        alias == otherRequest.alias &&
+        revocationPassPhraseSha256 == otherRequest.revocationPassPhraseSha256 &&
+        requestEncoded == otherRequest.requestEncoded;
   }
 
   @override

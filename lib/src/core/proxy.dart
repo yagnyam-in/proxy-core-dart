@@ -5,9 +5,12 @@ import 'certificate.dart';
 import 'proxy_id.dart';
 import 'proxy_utils.dart';
 
+import 'proxy_object.dart';
+
+part 'proxy.g.dart';
 
 @JsonSerializable()
-class Proxy with ProxyUtils {
+class Proxy extends ProxyBaseObject with ProxyUtils {
   @JsonKey(nullable: false)
   final ProxyId id;
 
@@ -44,4 +47,12 @@ class Proxy with ProxyUtils {
     }.toString();
   }
 
+  @override
+  bool isValid() {
+    return isValidProxyId(id) && isNotEmpty(certificateSerialNumber) && (certificate != null && certificate.isValid());
+  }
+
+  factory Proxy.fromJson(Map<String, dynamic> json) => _$ProxyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProxyToJson(this);
 }

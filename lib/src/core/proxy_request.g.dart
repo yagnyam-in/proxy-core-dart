@@ -10,6 +10,7 @@ ProxyRequest _$ProxyRequestFromJson(Map<String, dynamic> json) {
   return ProxyRequest(
       id: json['id'] as String,
       alias: json['alias'] as String,
+      revocationPassPhraseSha256: json['revocationPassPhraseSha256'] as String,
       requestEncoded: json['requestEncoded'] as String);
 }
 
@@ -25,6 +26,7 @@ Map<String, dynamic> _$ProxyRequestToJson(ProxyRequest instance) {
   }
 
   writeNotNull('alias', instance.alias);
+  val['revocationPassPhraseSha256'] = instance.revocationPassPhraseSha256;
   val['requestEncoded'] = instance.requestEncoded;
   return val;
 }
