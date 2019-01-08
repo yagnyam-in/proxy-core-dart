@@ -1,5 +1,5 @@
 
-import 'package:proxy_core/src/core/proxy_request.dart';
+import 'proxy_request.dart';
 
 abstract class ProxyRequestFactory {
 

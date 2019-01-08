@@ -1,8 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
-
-import 'proxy_utils.dart';
+import 'package:proxy_core/core.dart';
 
 part 'proxy_request.g.dart';
 
