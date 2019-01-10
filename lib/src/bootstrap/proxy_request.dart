@@ -10,8 +10,8 @@ class ProxyRequest with ProxyUtils {
   @JsonKey(nullable: false)
   final String id;
 
-  @JsonKey(nullable: true, includeIfNull: false)
-  final String alias;
+  @JsonKey(nullable: false)
+  final String localAlias;
 
   @JsonKey(nullable: false)
   final String revocationPassPhraseSha256;
@@ -21,21 +21,22 @@ class ProxyRequest with ProxyUtils {
 
   ProxyRequest({
     @required this.id,
-    this.alias,
+    @required this.localAlias,
     @required this.revocationPassPhraseSha256,
     @required this.requestEncoded,
   })  : assert(isNotEmpty(id)),
+        assert(isNotEmpty(localAlias)),
+        assert(isNotEmpty(revocationPassPhraseSha256)),
         assert(isNotEmpty(requestEncoded));
 
   @deprecated
   ProxyRequest.nonSafe({
     this.id,
-    this.alias,
+    this.localAlias,
     this.revocationPassPhraseSha256,
     this.requestEncoded,
   }) {
-    Logger('proxy.core.ProxyRequest')
-        .shout("ProxyRequest.nonSafe is being used");
+    Logger('proxy.core.ProxyRequest').shout("ProxyRequest.nonSafe is being used");
   }
 
   @override
@@ -45,7 +46,7 @@ class ProxyRequest with ProxyUtils {
     }
     ProxyRequest otherRequest = other as ProxyRequest;
     return id == otherRequest.id &&
-        alias == otherRequest.alias &&
+        localAlias == otherRequest.localAlias &&
         revocationPassPhraseSha256 == otherRequest.revocationPassPhraseSha256 &&
         requestEncoded == otherRequest.requestEncoded;
   }
@@ -55,8 +56,7 @@ class ProxyRequest with ProxyUtils {
     return toJson().toString();
   }
 
-  factory ProxyRequest.fromJson(Map<String, dynamic> json) =>
-      _$ProxyRequestFromJson(json);
+  factory ProxyRequest.fromJson(Map<String, dynamic> json) => _$ProxyRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProxyRequestToJson(this);
 }
