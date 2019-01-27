@@ -10,7 +10,6 @@ Proxy _$ProxyFromJson(Map<String, dynamic> json) {
   return Proxy(
       id: ProxyId.fromJson(json['id'] as Map<String, dynamic>),
       name: json['name'] as String,
-      certificateSerialNumber: json['certificateSerialNumber'] as String,
       certificate:
           Certificate.fromJson(json['certificate'] as Map<String, dynamic>));
 }
@@ -27,7 +26,6 @@ Map<String, dynamic> _$ProxyToJson(Proxy instance) {
   }
 
   writeNotNull('name', instance.name);
-  val['certificateSerialNumber'] = instance.certificateSerialNumber;
   val['certificate'] = instance.certificate;
   return val;
 }

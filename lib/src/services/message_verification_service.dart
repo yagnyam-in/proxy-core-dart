@@ -32,7 +32,7 @@ class MessageVerificationService with ProxyUtils {
   Future<bool> verifySignedMessage<T extends SignableMessage>(SignedMessage<T> message) async {
     assert(message != null);
     if (!message.isValid()) {
-      logger.info("Message validation failed", message);
+      logger.info("Message validation failed $message");
       throw InvalidMessageException("Message validation failed", message);
     }
     if (!message.cabBeSignedBy(message.signedBy)) {
@@ -67,15 +67,11 @@ class MessageVerificationService with ProxyUtils {
       logger.shout("SignedMessage must be de-serialized before verifying signature");
       throw StateError("SignedMessage must be de-serialized before verifying signature");
     }
-    List<Proxy> proxies = await proxyResolver.resolveProxy(message.signedBy);
-    if (proxies.isEmpty) {
-      logger.info("Invalid Signer/Proxy Id. No proxies found.");
-      throw ArgumentError("Invalid Signer/Proxy Id. No proxies found.");
-    } else if (proxies.length != 1) {
-      logger.info("Incomplete Signer/Proxy Id. Multiple proxies found.");
-      throw ArgumentError("Incomplete Signer/Proxy Id. Multiple proxies found.");
-    } else {
-      return proxies[0];
+    Proxy proxy = await proxyResolver.resolveProxy(message.signedBy);
+    if (proxy == null) {
+      logger.info("Invalid Signer/Proxy Id. No proxy found.");
+      throw ArgumentError("Invalid Signer/Proxy Id. No proxy found.");
     }
+    return proxy;
   }
 }

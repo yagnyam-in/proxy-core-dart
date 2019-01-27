@@ -14,6 +14,5 @@ main() {
           certificateEncoded: "certificate"),
     );
     expect(proxy.id, ProxyId("id", "sha256"));
-    expect(proxy.certificateSerialNumber, "123");
   });
 }

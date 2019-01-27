@@ -11,6 +11,10 @@ abstract class ProxyVersion {
 
   String get certificateSignatureAlgorithm;
 
+  String get keyGenerationAlgorithm;
+
+  int get keySize;
+
   const ProxyVersion();
 
   factory ProxyVersion.latestVersion() {
@@ -51,4 +55,11 @@ class ProxyVersionV0 extends ProxyVersion {
 
   @override
   String get certificateSignatureAlgorithm => "SHA256WithRSAEncryption";
+
+  @override
+  String get keyGenerationAlgorithm => "RSA";
+
+  @override
+  int get keySize => 2048;
+
 }

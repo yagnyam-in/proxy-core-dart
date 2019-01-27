@@ -18,24 +18,18 @@ class Proxy extends ProxyBaseObject with ProxyUtils {
   final String name;
 
   @JsonKey(nullable: false)
-  final String certificateSerialNumber;
-
-  @JsonKey(nullable: false)
   final Certificate certificate;
 
   Proxy({
     @required this.id,
     this.name,
-    @required this.certificateSerialNumber,
     @required this.certificate,
   })  : assert(isValidProxyId(id)),
-        assert(isNotEmpty(certificateSerialNumber)),
         assert(certificate != null && certificate.isValid());
 
   Proxy.fromCertificate(Certificate certificate)
       : assert(certificate != null && certificate.isValid()),
         id = ProxyId(certificate.id, certificate.sha256Thumbprint),
-        certificateSerialNumber = certificate.serialNumber,
         name = certificate.alias,
         certificate = certificate;
 
@@ -43,13 +37,12 @@ class Proxy extends ProxyBaseObject with ProxyUtils {
     return {
       "id": id,
       "name": name,
-      "certificateSerialNumber": certificateSerialNumber,
     }.toString();
   }
 
   @override
   bool isValid() {
-    return isValidProxyId(id) && isNotEmpty(certificateSerialNumber) && (certificate != null && certificate.isValid());
+    return isValidProxyId(id) && (certificate != null && certificate.isValid());
   }
 
   factory Proxy.fromJson(Map<String, dynamic> json) => _$ProxyFromJson(json);
