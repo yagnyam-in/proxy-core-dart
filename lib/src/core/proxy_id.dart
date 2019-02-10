@@ -8,6 +8,8 @@ part 'proxy_id.g.dart';
 
 @JsonSerializable()
 class ProxyId extends ProxyBaseObject with ProxyUtils {
+  static final ID_REGEX = RegExp(r"^[a-zA-Z][a-zA-Z0-9-]{0,34}[a-zA-Z0-9]$");
+
   static ProxyId _any = ProxyId('any');
 
   @JsonKey(nullable: false)
@@ -69,10 +71,15 @@ class ProxyId extends ProxyBaseObject with ProxyUtils {
 
   @override
   bool isValid() {
-    return isNotEmpty(id) && (sha256Thumbprint == null || isNotEmpty(sha256Thumbprint));
+    return isValidId(id) && (sha256Thumbprint == null || isNotEmpty(sha256Thumbprint));
+  }
+
+  static bool isValidId(String id) {
+    return id != null && ID_REGEX.hasMatch(id);
   }
 
   factory ProxyId.fromJson(Map<String, dynamic> json) => _$ProxyIdFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProxyIdToJson(this);
+
 }

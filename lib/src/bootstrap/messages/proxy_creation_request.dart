@@ -51,7 +51,7 @@ class ProxyCreationRequest extends ProxyBaseObject with ProxyUtils {
   @override
   bool isValid() {
     return isNotEmpty(requestId) &&
-        isNotEmpty(proxyId) &&
+        ProxyId.isValidId(proxyId) &&
         isNotEmpty(revocationPassPhraseSha256) &&
         isNotEmpty(certificateRequestEncoded);
   }

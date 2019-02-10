@@ -6,7 +6,7 @@ import 'package:proxy_core/core.dart';
 part 'proxy_request.g.dart';
 
 @JsonSerializable()
-class ProxyRequest with ProxyUtils {
+class ProxyRequest extends ProxyBaseObject with ProxyUtils {
   @JsonKey(nullable: false)
   final String id;
 
@@ -59,4 +59,9 @@ class ProxyRequest with ProxyUtils {
   factory ProxyRequest.fromJson(Map<String, dynamic> json) => _$ProxyRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProxyRequestToJson(this);
+
+  @override
+  bool isValid() {
+    return ProxyId.isValidId(id) && isNotEmpty(revocationPassPhraseSha256) && isNotEmpty(requestEncoded);
+  }
 }
