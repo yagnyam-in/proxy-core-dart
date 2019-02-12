@@ -2,37 +2,38 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
-import 'package:meta/meta.dart';
 import 'package:proxy_core/core.dart';
 
-import 'proxy_resolver.dart';
 import 'proxy_http_client.dart';
-
-typedef ProxyFetchUrl = String Function(String id,
-    [String sha256Thumbprint]);
+import 'proxy_resolver.dart';
 
 typedef HttpClientFactory = http.Client Function();
 
-class RemoteProxyResolver
-    with ProxyUtils, HttpClientUtils
-    implements ProxyResolver {
-  final Logger logger = Logger('proxy.services.RemoteCertificateService');
+class RemoteProxyResolver with ProxyUtils, HttpClientUtils implements ProxyResolver {
+  final Logger _logger = Logger('proxy.services.RemoteCertificateService');
 
-  final ProxyFetchUrl proxyFetchUrl;
-
+  final String proxyFetchUrl;
   final HttpClientFactory httpClientFactory;
 
   RemoteProxyResolver({
-    @required this.proxyFetchUrl,
+    String proxyFetchUrl,
     HttpClientFactory httpClientFactory,
-  })  : assert(proxyFetchUrl != null),
-        httpClientFactory = httpClientFactory ?? ProxyHttpClient.client;
+  })  : proxyFetchUrl = proxyFetchUrl ?? "https://proxy-cs.appspot.com/proxy",
+        httpClientFactory = httpClientFactory ?? ProxyHttpClient.client {
+    _logger.info("constructing RemoteProxyResolver(proxyFetchUrl: $proxyFetchUrl)");
+  }
 
   @override
   Future<Proxy> resolveProxy(ProxyId proxyId) async {
     assert(proxyId != null);
-    String response = await get(
-        httpClientFactory(), proxyFetchUrl(proxyId.id, proxyId.sha256Thumbprint));
+    String url = _getProxyFetchUrl(proxyId.id, proxyId.sha256Thumbprint);
+    _logger.fine("resolveProxy($proxyId) => $url");
+    String response = await get(httpClientFactory(), url);
     return Proxy.fromJson(jsonDecode(response));
+  }
+
+  String _getProxyFetchUrl(String id, String sha256Thumbprint) {
+    String urlPrefix = proxyFetchUrl.endsWith('/') ? proxyFetchUrl : '$proxyFetchUrl/';
+    return "$urlPrefix$id?sha256Thumbprint=$sha256Thumbprint";
   }
 }

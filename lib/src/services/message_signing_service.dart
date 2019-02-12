@@ -1,10 +1,11 @@
+import 'dart:convert';
+
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:proxy_core/core.dart';
+import 'package:proxy_core/src/core/proxy_key.dart';
 
 import 'cryptography_service.dart';
-import 'proxy_resolver.dart';
-import 'dart:convert';
 
 /// Message Signing service for digitally signing messages
 ///
@@ -14,33 +15,29 @@ class MessageSigningService with ProxyUtils {
 
   final CryptographyService cryptographyService;
 
-  final ProxyResolver proxyResolver;
-
   final ProxyVersion proxyVersion;
 
   MessageSigningService({
     @required this.cryptographyService,
-    @required this.proxyResolver,
     ProxyVersion proxyVersion,
   }) : proxyVersion = proxyVersion ?? ProxyVersion.latestVersion() {
     assert(cryptographyService != null);
-    assert(proxyResolver != null);
     assert(proxyVersion.validSignatureAlgorithmSets.isNotEmpty);
     assert(proxyVersion.validSignatureAlgorithmSets.every((s) => s.isNotEmpty));
     assert(proxyVersion.preferredSignatureAlgorithmSet.isNotEmpty);
   }
 
-  Future<SignedMessage<T>> signMessage<T extends SignableMessage>(T message, Proxy proxy) async {
+  Future<SignedMessage<T>> signMessage<T extends SignableMessage>(T message, ProxyKey signer) async {
     assert(message != null);
     if (!message.isValid()) {
       logger.info("Message validation failed", message);
       throw InvalidMessageException("Message validation failed", message);
     }
-    if (!message.cabBeSignedBy(proxy.id)) {
+    if (!message.cabBeSignedBy(signer.id)) {
       logger.info(
-          "Message can only be signed by ${message.getValidSigners()}, but trying to sign by ${proxy.id}", message);
+          "Message can only be signed by ${message.getValidSigners()}, but trying to sign by ${signer.id}", message);
       throw InvalidMessageException(
-          "Message can only be signed by ${message.getValidSigners()}, but trying to sign by ${proxy.id}", message);
+          "Message can only be signed by ${message.getValidSigners()}, but trying to sign by ${signer.id}", message);
     }
     String payload = jsonEncode(message.toJson());
     Set<String> signatureAlgorithmSet = proxyVersion.preferredSignatureAlgorithmSet;
@@ -49,7 +46,7 @@ class MessageSigningService with ProxyUtils {
       throw new StateError("At least one signature algorithm is mandatory, but found none");
     }
     Map<String, String> signatures = await cryptographyService.getSignatures(
-      proxy: proxy,
+      proxyKey: signer,
       input: payload,
       signatureAlgorithms: signatureAlgorithmSet,
     );
@@ -57,7 +54,7 @@ class MessageSigningService with ProxyUtils {
     return SignedMessage(
       type: message.messageType,
       payload: payload,
-      signedBy: proxy.id,
+      signedBy: signer.id,
       signatures: signatures.entries.map((e) => SignedMessageSignature(e.key, e.value)),
     );
   }

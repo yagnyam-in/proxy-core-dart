@@ -1,4 +1,5 @@
 import 'package:proxy_core/core.dart';
+import 'package:proxy_core/src/core/proxy_key.dart';
 
 /// Cryptography Service to sign, verify, encrypt and decrypt messages
 ///
@@ -7,12 +8,12 @@ import 'package:proxy_core/core.dart';
 abstract class CryptographyService with ProxyUtils {
   /// Get the digital signature of given Signature Algorithm
   Future<String> getSignature({
-    Proxy proxy,
+    ProxyKey proxyKey,
     String input,
     String signatureAlgorithm,
   }) async {
     Map<String, String> signatures = await getSignatures(
-      proxy: proxy,
+      proxyKey: proxyKey,
       input: input,
       signatureAlgorithms: Set.of([signatureAlgorithm]),
     );
@@ -23,7 +24,7 @@ abstract class CryptographyService with ProxyUtils {
 
   /// Get the digital signatures of given Signature Algorithms at once
   Future<Map<String, String>> getSignatures({
-    Proxy proxy,
+    ProxyKey proxyKey,
     String input,
     Set<String> signatureAlgorithms,
   });
@@ -58,7 +59,7 @@ abstract class CryptographyService with ProxyUtils {
   });
 
   Future<String> decrypt({
-    Proxy proxy,
+    ProxyKey proxyKey,
     String encryptionAlgorithm,
     String cipherText,
   });

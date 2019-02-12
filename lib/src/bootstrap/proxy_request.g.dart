@@ -9,7 +9,6 @@ part of 'proxy_request.dart';
 ProxyRequest _$ProxyRequestFromJson(Map<String, dynamic> json) {
   return ProxyRequest(
       id: json['id'] as String,
-      localAlias: json['localAlias'] as String,
       revocationPassPhraseSha256: json['revocationPassPhraseSha256'] as String,
       requestEncoded: json['requestEncoded'] as String);
 }
@@ -17,7 +16,6 @@ ProxyRequest _$ProxyRequestFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$ProxyRequestToJson(ProxyRequest instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'localAlias': instance.localAlias,
       'revocationPassPhraseSha256': instance.revocationPassPhraseSha256,
       'requestEncoded': instance.requestEncoded
     };

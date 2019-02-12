@@ -1,6 +1,7 @@
 import 'package:mockito/mockito.dart';
 import 'package:proxy_core/services.dart';
 import 'package:proxy_core/src/core/proxy.dart';
+import 'package:proxy_core/src/core/proxy_key.dart';
 import "package:test/test.dart";
 
 class MockCryptographyService extends CryptographyService {
@@ -11,7 +12,7 @@ class MockCryptographyService extends CryptographyService {
   MockCryptographyService({this.getSignaturesResponse, this.verifySignaturesResponse});
 
   @override
-  Future<String> decrypt({Proxy proxy, String encryptionAlgorithm, String cipherText}) {
+  Future<String> decrypt({ProxyKey proxyKey, String encryptionAlgorithm, String cipherText}) {
     throw UnimplementedError("decrypt");
   }
 
@@ -21,7 +22,7 @@ class MockCryptographyService extends CryptographyService {
   }
 
   @override
-  Future<Map<String, String>> getSignatures({Proxy proxy, String input, Set<String> signatureAlgorithms}) {
+  Future<Map<String, String>> getSignatures({ProxyKey proxyKey, String input, Set<String> signatureAlgorithms}) {
     return Future.value(getSignaturesResponse);
   }
 
@@ -32,13 +33,14 @@ class MockCryptographyService extends CryptographyService {
 }
 
 class MockProxy extends Mock implements Proxy {}
+class MockProxyKey extends Mock implements ProxyKey {}
 
 main() {
   test('CryptographyService.getSignature', () async {
-    var proxy = MockProxy();
+    var proxyKey = MockProxyKey();
     var algorithm = "algorithm";
     var cryptographyService = MockCryptographyService(getSignaturesResponse: {algorithm: "sign"});
-    expect(await cryptographyService.getSignature(proxy: proxy, input: "input", signatureAlgorithm: algorithm), "sign");
+    expect(await cryptographyService.getSignature(proxyKey: proxyKey, input: "input", signatureAlgorithm: algorithm), "sign");
   });
 
   test('CryptographyService.verifySignature positive', () async {

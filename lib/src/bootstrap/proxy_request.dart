@@ -11,9 +11,6 @@ class ProxyRequest extends ProxyBaseObject with ProxyUtils {
   final String id;
 
   @JsonKey(nullable: false)
-  final String localAlias;
-
-  @JsonKey(nullable: false)
   final String revocationPassPhraseSha256;
 
   @JsonKey(nullable: false)
@@ -21,18 +18,15 @@ class ProxyRequest extends ProxyBaseObject with ProxyUtils {
 
   ProxyRequest({
     @required this.id,
-    @required this.localAlias,
     @required this.revocationPassPhraseSha256,
     @required this.requestEncoded,
   })  : assert(isNotEmpty(id)),
-        assert(isNotEmpty(localAlias)),
         assert(isNotEmpty(revocationPassPhraseSha256)),
         assert(isNotEmpty(requestEncoded));
 
   @deprecated
   ProxyRequest.nonSafe({
     this.id,
-    this.localAlias,
     this.revocationPassPhraseSha256,
     this.requestEncoded,
   }) {
@@ -46,7 +40,6 @@ class ProxyRequest extends ProxyBaseObject with ProxyUtils {
     }
     ProxyRequest otherRequest = other as ProxyRequest;
     return id == otherRequest.id &&
-        localAlias == otherRequest.localAlias &&
         revocationPassPhraseSha256 == otherRequest.revocationPassPhraseSha256 &&
         requestEncoded == otherRequest.requestEncoded;
   }
