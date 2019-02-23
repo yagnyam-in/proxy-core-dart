@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:logging/logging.dart';
 import 'package:proxy_core/core.dart';
 import 'package:proxy_core/services.dart';
 import 'package:uuid/uuid.dart';
@@ -10,8 +9,7 @@ import 'messages/proxy_creation_response.dart';
 import 'proxy_request.dart';
 
 /// Create Proxy
-class ProxyFactory with ProxyUtils, HttpClientUtils {
-  final Logger _logger = Logger('proxy.bootstrap.ProxyFactory');
+class ProxyFactory with ProxyUtils, HttpClientUtils, DebugUtils {
   final Uuid uuidFactory = Uuid();
 
   final String createProxyUrl;
@@ -21,7 +19,6 @@ class ProxyFactory with ProxyUtils, HttpClientUtils {
       : createProxyUrl = createProxyUrl ?? "https://proxy-cs.appspot.com/proxy",
         httpClientFactory = httpClientFactory ?? ProxyHttpClient.client {
     assert(isNotEmpty(this.createProxyUrl));
-    print("ProxyFactory(createProxyUrl: ${this.createProxyUrl})");
   }
 
   Future<Proxy> createProxy(ProxyRequest proxyRequest) async {
@@ -31,11 +28,8 @@ class ProxyFactory with ProxyUtils, HttpClientUtils {
       revocationPassPhraseSha256: proxyRequest.revocationPassPhraseSha256,
       certificateRequestEncoded: proxyRequest.requestEncoded,
     );
-    print("POST $createProxyUrl");
     String jsonResponse = await post(httpClientFactory(), createProxyUrl, jsonEncode(request.toJson()));
-    print("POST $createProxyUrl => $jsonResponse");
     ProxyCreationResponse proxyCreationResponse = ProxyCreationResponse.fromJson(jsonDecode(jsonResponse));
-    print("POST $createProxyUrl => $proxyCreationResponse");
     return proxyCreationResponse.proxy;
   }
 }

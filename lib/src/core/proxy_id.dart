@@ -22,6 +22,7 @@ class ProxyId extends ProxyBaseObject with ProxyUtils {
       : assert(isNotEmpty(id)),
         assert(sha256Thumbprint == null || isNotEmpty(sha256Thumbprint));
 
+
   @deprecated
   ProxyId.nonSafe({this.id, this.sha256Thumbprint}) {
     Logger('proxy.core.ProxyId').shout("ProxyId.nonSafe is being used");
@@ -30,6 +31,17 @@ class ProxyId extends ProxyBaseObject with ProxyUtils {
   factory ProxyId.any() {
     return _any;
   }
+
+  factory ProxyId.fromUniqueId(String uniqueId) {
+    assert(uniqueId != null);
+    List<String> tokens = uniqueId.split("#");
+    if (tokens.isEmpty || tokens.length > 2) {
+      throw "Invalid Proxy Id $uniqueId";
+    } else {
+      return ProxyId(tokens[0], tokens.length == 2 ? tokens[1] : null);
+    }
+  }
+
 
   @override
   bool operator ==(dynamic other) {
