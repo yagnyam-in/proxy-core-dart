@@ -14,6 +14,10 @@ mixin ProxyUtils {
     return dateTime != null;
   }
 
+  bool isValidProxyObject(ProxyBaseObject proxyObject) {
+    return proxyObject != null && proxyObject.isValid();
+  }
+
   bool isValidProxyId(ProxyId proxyId) {
     return proxyId != null && proxyId.isValid();
   }

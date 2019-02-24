@@ -8,6 +8,7 @@ export 'src/core/proxy_key.dart';
 export 'src/core/proxy_utils.dart';
 export 'src/core/proxy_object.dart';
 export 'src/core/signable_message.dart';
+export 'src/core/signable_request_message.dart';
 export 'src/core/signed_message.dart';
 export 'src/core/signed_message_signature.dart';
 export 'src/core/proxy_version.dart';

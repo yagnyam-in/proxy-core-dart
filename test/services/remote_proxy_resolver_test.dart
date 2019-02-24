@@ -12,5 +12,8 @@ http.Client mockGet(String url, http.Response response) {
 }
 
 main() {
-  test('RemoteCertificateService.getCertificateBySerialNumber Success', () {});
+  test('RemoteProxyResolver.resolveProxy Success', () {
+    http.Client mockClient = mockGet("/hello", http.Response("hello-there", 200));
+
+  });
 }
