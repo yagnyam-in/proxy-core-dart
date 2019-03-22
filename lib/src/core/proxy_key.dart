@@ -38,6 +38,10 @@ class ProxyKey extends ProxyBaseObject with ProxyUtils {
     return isValidProxyId(id) && isNotEmpty(localAlias);
   }
 
+  ProxyKey copyWith({ProxyId id, String name, String localAlias}) {
+    return ProxyKey(id: id ?? this.id, name: name ?? this.name, localAlias: localAlias ?? this.localAlias);
+  }
+
   factory ProxyKey.fromJson(Map<String, dynamic> json) => _$ProxyKeyFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProxyKeyToJson(this);

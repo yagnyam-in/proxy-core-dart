@@ -22,9 +22,9 @@ class MessageSigningService with ProxyUtils {
     ProxyVersion proxyVersion,
   }) : proxyVersion = proxyVersion ?? ProxyVersion.latestVersion() {
     assert(cryptographyService != null);
-    assert(proxyVersion.validSignatureAlgorithmSets.isNotEmpty);
-    assert(proxyVersion.validSignatureAlgorithmSets.every((s) => s.isNotEmpty));
-    assert(proxyVersion.preferredSignatureAlgorithmSet.isNotEmpty);
+    assert(this.proxyVersion.validSignatureAlgorithmSets.isNotEmpty);
+    assert(this.proxyVersion.validSignatureAlgorithmSets.every((s) => s.isNotEmpty));
+    assert(this.proxyVersion.preferredSignatureAlgorithmSet.isNotEmpty);
   }
 
   Future<SignedMessage<T>> signMessage<T extends SignableMessage>(T message, ProxyKey signer) async {
