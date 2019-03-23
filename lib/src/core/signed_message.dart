@@ -1,17 +1,17 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:proxy_core/src/core/message_builder.dart';
+
 import 'proxy_id.dart';
 import 'proxy_object.dart';
-import 'signable_message.dart';
 import 'proxy_utils.dart';
+import 'signable_message.dart';
 import 'signed_message_signature.dart';
 
 part 'signed_message.g.dart';
 
 @JsonSerializable()
-class SignedMessage<T extends SignableMessage> extends ProxyBaseObject
-    with ProxyUtils {
-
+class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with ProxyUtils {
   /// Underlying Message as Runtime Object
   ///
   /// Make sure verified is set to false upon this variable mutation
@@ -116,14 +116,11 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject
     return toJson().toString();
   }
 
-  factory SignedMessage.fromJson(Map<String, dynamic> json) {
-    SignedMessage signedMessage = _$SignedMessageFromJson(json);
-    return signedMessage;
-  }
+  static SignedMessage<X> fromJson<X extends SignableMessage>(Map<String, dynamic> json) =>
+      _$SignedMessageFromJson<X>(json);
 
   Map<String, dynamic> toJson() {
     assert(isNotEmpty(payload));
-    Map<String, dynamic> json = _$SignedMessageToJson(this);
-    return json;
+    return _$SignedMessageToJson(this);
   }
 }

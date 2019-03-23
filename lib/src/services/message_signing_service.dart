@@ -50,12 +50,12 @@ class MessageSigningService with ProxyUtils {
       input: payload,
       signatureAlgorithms: signatureAlgorithmSet,
     );
-    logger.fine("Singatures for $message => $signatures");
+    logger.info("Singatures for $message => $signatures");
     return SignedMessage(
       type: message.messageType,
       payload: payload,
       signedBy: signer.id,
-      signatures: signatures.entries.map((e) => SignedMessageSignature(e.key, e.value)),
+      signatures: signatures.entries.map((e) => SignedMessageSignature(e.key, e.value)).toList(),
     );
   }
 }
