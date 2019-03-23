@@ -23,8 +23,9 @@ class ProxyCreationResponse extends SignableMessage with ProxyUtils {
   ProxyCreationResponse({
     @required this.request,
     @required this.proxy,
-  })  : assert(request != null && request.isValid()),
-        assert(proxy != null && proxy.isValid());
+  }) {
+    assertValid();
+  }
 
   ProxyCreationResponse.nonSafe({
     this.request,
@@ -33,8 +34,15 @@ class ProxyCreationResponse extends SignableMessage with ProxyUtils {
 
   @override
   bool isValid() {
-    return (request != null && request.isValid()) &&
-        (proxy != null && proxy.isValid());
+    return (request != null && request.isValid()) && (proxy != null && proxy.isValid());
+  }
+
+  @override
+  void assertValid() {
+    assert(request != null);
+    request.assertValid();
+    assert(proxy != null);
+    proxy.assertValid();
   }
 
   factory ProxyCreationResponse.fromJson(Map<String, dynamic> json) => _$ProxyCreationResponseFromJson(json);

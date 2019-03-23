@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:proxy_core/src/core/message_builder.dart';
 
 import 'proxy_id.dart';
 import 'proxy_object.dart';
@@ -42,12 +41,9 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
     @required this.payload,
     @required this.signedBy,
     @required this.signatures,
-  })  : assert(isNotEmpty(type)),
-        assert(message == null || isNotEmpty(payload)),
-        assert(message == null || message.isValid()),
-        assert(signedBy.isValid()),
-        assert(isValidProxyObjectList(signatures)),
-        _message = message;
+  }) : _message = message {
+    assertValid();
+  }
 
   SignedMessage copy({
     T message,
@@ -88,6 +84,15 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
         (_message == null || _message.isValid()) &&
         signedBy.isValid() &&
         isValidProxyObjectList(signatures);
+  }
+
+  @override
+  void assertValid() {
+    assert(isNotEmpty(type));
+    assert(_message == null || isNotEmpty(payload));
+    assert(_message == null || _message.isValid());
+    signedBy.assertValid();
+    assertValidProxyObjectList(signatures);
   }
 
   Set<ProxyId> validSigners() {

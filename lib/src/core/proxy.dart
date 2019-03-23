@@ -24,8 +24,9 @@ class Proxy extends ProxyBaseObject with ProxyUtils {
     @required this.id,
     this.name,
     @required this.certificate,
-  })  : assert(isValidProxyId(id)),
-        assert(certificate != null && certificate.isValid());
+  })  {
+    assertValid();
+  }
 
   Proxy.fromCertificate(Certificate certificate)
       : assert(certificate != null && certificate.isValid()),
@@ -43,6 +44,12 @@ class Proxy extends ProxyBaseObject with ProxyUtils {
   @override
   bool isValid() {
     return isValidProxyId(id) && (certificate != null && certificate.isValid());
+  }
+
+  void assertValid() {
+    assert(isValidProxyId(id));
+    assert(certificate != null);
+    certificate.assertValid();
   }
 
   factory Proxy.fromJson(Map<String, dynamic> json) => _$ProxyFromJson(json);

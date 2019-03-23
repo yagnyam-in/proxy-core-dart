@@ -6,11 +6,15 @@ class ProxyUtilsImpl with ProxyUtils {}
 class ValidProxyObject extends ProxyBaseObject {
   @override
   bool isValid()  => true;
+  @override
+  void assertValid() {}
 }
 
 class InValidProxyObject extends ProxyBaseObject {
   @override
   bool isValid()  => false;
+  @override
+  void assertValid() {}
 }
 
 main() {

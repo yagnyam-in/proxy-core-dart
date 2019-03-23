@@ -21,6 +21,7 @@ abstract class SignableMessage extends ProxyBaseObject {
   @override
   bool isValid();
 
+
   String get messageType;
 
   bool cabBeSignedBy(ProxyId signerId) {
@@ -34,4 +35,7 @@ abstract class SignableMessage extends ProxyBaseObject {
 
 
   Map<String, dynamic> toJson();
+
+  @override
+  String toString() => toJson().toString();
 }

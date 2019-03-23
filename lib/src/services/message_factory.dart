@@ -12,23 +12,24 @@ class MessageFactory with ProxyUtils {
 
   final MessageBuilder messageBuilder;
 
-  MessageFactory({@required this.messageBuilder, @required this.messageVerificationService}) {
-    assert(messageVerificationService != null);
-    assert(messageBuilder != null);
+  MessageFactory({@required this.messageVerificationService, MessageBuilder messageBuilder})
+      : this.messageBuilder = messageBuilder ?? MessageBuilder.instance() {
+    assert(this.messageVerificationService != null);
+    assert(this.messageBuilder != null);
   }
 
   SignedMessage<T> buildSignedMessage<T extends SignableMessage>(
     String jsonMessage,
-    SignableMessageBuildMethod<T> buildMethod,
+    SignableMessageFromJsonMethod<T> fromJson,
   ) {
-    return messageBuilder.buildSignedMessage(jsonMessage, buildMethod);
+    return messageBuilder.buildSignedMessage(jsonMessage, fromJson);
   }
 
   T buildSignableMessage<T extends SignableMessage>(
     String jsonMessage,
-    SignableMessageBuildMethod<T> buildMethod,
+    SignableMessageFromJsonMethod<T> fromJson,
   ) {
-    return messageBuilder.buildSignableMessage(jsonMessage, buildMethod);
+    return messageBuilder.buildSignableMessage(jsonMessage, fromJson);
   }
 
   Future<bool> verifySignedMessage<T extends SignableMessage>(
@@ -57,7 +58,7 @@ class MessageFactory with ProxyUtils {
 
   Future<SignedMessage<T>> buildAndVerifySignedMessage<T extends SignableMessage>(
     String jsonMessage,
-    SignableMessageBuildMethod<T> buildMethod,
+    SignableMessageFromJsonMethod<T> buildMethod,
   ) async {
     SignedMessage<T> signedMessage = buildSignedMessage(jsonMessage, buildMethod);
     bool valid = await verifySignedMessage(signedMessage);

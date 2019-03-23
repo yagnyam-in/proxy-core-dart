@@ -10,7 +10,9 @@ class Certificates extends ProxyBaseObject with ProxyUtils {
   @JsonKey(nullable: false)
   final List<Certificate> certificates;
 
-  Certificates(this.certificates) : assert(isValidProxyObjectList(certificates));
+  Certificates(this.certificates) {
+    assertValid();
+  }
 
   @override
   String toString() {
@@ -25,5 +27,11 @@ class Certificates extends ProxyBaseObject with ProxyUtils {
   bool isValid() {
     return isValidProxyObjectList(certificates);
   }
+
+  @override
+  void assertValid() {
+    assertValidProxyObjectList(certificates);
+  }
+
 
 }

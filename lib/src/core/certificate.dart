@@ -42,13 +42,9 @@ class Certificate extends ProxyBaseObject with ProxyUtils {
     @required this.validFrom,
     @required this.validTill,
     @required this.certificateEncoded,
-  })  : assert(isNotEmpty(serialNumber)),
-        assert(isNotEmpty(owner)),
-        assert(isNotEmpty(sha256Thumbprint)),
-        assert(isNotEmpty(subject)),
-        assert(isNotEmpty(certificateEncoded)),
-        assert(isValidDateTime(validFrom)),
-        assert(isValidDateTime(validTill));
+  })  {
+    assertValid();
+  }
 
   @deprecated
   Certificate.nonSafe({
@@ -60,7 +56,7 @@ class Certificate extends ProxyBaseObject with ProxyUtils {
     @required this.validFrom,
     @required this.validTill,
     @required this.certificateEncoded,
-  }){
+  }) {
     Logger('proxy.core.Certificate').shout("Certificate.nonSafe is being used");
   }
 
@@ -81,8 +77,7 @@ class Certificate extends ProxyBaseObject with ProxyUtils {
   bool matchesProxyId(ProxyId proxyId) {
     return proxyId != null &&
         proxyId.id == owner &&
-        (proxyId.sha256Thumbprint == null ||
-            proxyId.sha256Thumbprint == sha256Thumbprint);
+        (proxyId.sha256Thumbprint == null || proxyId.sha256Thumbprint == sha256Thumbprint);
   }
 
   @override
@@ -94,6 +89,17 @@ class Certificate extends ProxyBaseObject with ProxyUtils {
         isValidDateTime(validFrom) &&
         isValidDateTime(validTill) &&
         isNotEmpty(certificateEncoded);
+  }
+
+  @override
+  void assertValid() {
+    assert(isNotEmpty(serialNumber));
+    assert(isNotEmpty(owner));
+    assert(isNotEmpty(sha256Thumbprint));
+    assert(isNotEmpty(subject));
+    assert(isValidDateTime(validFrom));
+    assert(isValidDateTime(validTill));
+    assert(isNotEmpty(certificateEncoded));
   }
 
   @override
@@ -117,8 +123,7 @@ class Certificate extends ProxyBaseObject with ProxyUtils {
     return toJson().toString();
   }
 
-  factory Certificate.fromJson(Map<String, dynamic> json) =>
-      _$CertificateFromJson(json);
+  factory Certificate.fromJson(Map<String, dynamic> json) => _$CertificateFromJson(json);
 
   Map<String, dynamic> toJson() => _$CertificateToJson(this);
 

@@ -22,7 +22,9 @@ class ProxyKey extends ProxyBaseObject with ProxyUtils {
     @required this.id,
     this.name,
     @required this.localAlias,
-  }) : assert(isValidProxyId(id));
+  }) {
+    assertValid();
+  }
 
 
   String toString() {
@@ -36,6 +38,12 @@ class ProxyKey extends ProxyBaseObject with ProxyUtils {
   @override
   bool isValid() {
     return isValidProxyId(id) && isNotEmpty(localAlias);
+  }
+
+  @override
+  void assertValid() {
+    assert(isValidProxyId(id));
+    assert(isNotEmpty(localAlias));
   }
 
   ProxyKey copyWith({ProxyId id, String name, String localAlias}) {

@@ -10,6 +10,13 @@ mixin ProxyUtils {
     return values != null && values.isNotEmpty && values.every((e) => e.isValid());
   }
 
+  void assertValidProxyObjectList<T extends ProxyBaseObject>(List<T> values) {
+    assert(values != null);
+    assert(values.isNotEmpty);
+    values.forEach((e) => e.assertValid());
+  }
+
+
   bool isValidDateTime(DateTime dateTime) {
     return dateTime != null;
   }

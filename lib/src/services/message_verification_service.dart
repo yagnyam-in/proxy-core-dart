@@ -45,9 +45,10 @@ class MessageVerificationService with ProxyUtils {
       logger.info("No signatures found in $message");
       throw InvalidMessageException("No signatures found", message);
     }
-    Set<String> signatureAlgorithmSet = message.signatures.map((s) => s.algorithm);
-    if (!proxyVersion.validSignatureAlgorithmSets.contains(signatureAlgorithmSet)) {
+    Set<String> signatureAlgorithmSet = message.signatures.map((s) => s.algorithm).toSet();
+    if (!proxyVersion.validSignatureAlgorithmSets.any((set) => set.length == signatureAlgorithmSet.length && set.every(signatureAlgorithmSet.contains))) {
       logger.info("Un-recognised signature algorithms $signatureAlgorithmSet in $message");
+      print("Un-recognised signature algorithms $signatureAlgorithmSet. Valid => ${proxyVersion.validSignatureAlgorithmSets}");
       throw InvalidMessageException("Un-recognised signature algorithms $signatureAlgorithmSet", message);
     }
     Proxy proxy = await getSignerProxy(message);

@@ -9,6 +9,11 @@ abstract class ProxyBaseObject {
   /// Checks the business rules etc.
   bool isValid();
 
+  /// Validate the Object (Only for development).
+  ///
+  /// isValid doesn't point to the problem. Hence this method.
+  void assertValid();
+
 }
 
 

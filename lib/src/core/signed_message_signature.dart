@@ -11,13 +11,19 @@ class SignedMessageSignature extends ProxyBaseObject with ProxyUtils {
   @JsonKey(nullable: false)
   final String value;
 
-  SignedMessageSignature(this.algorithm, this.value)
-      : assert(isNotEmpty(algorithm)),
-        assert(isNotEmpty(value));
+  SignedMessageSignature(this.algorithm, this.value){
+    assertValid();
+  }
 
   @override
   bool isValid() {
     return isNotEmpty(algorithm) && isNotEmpty(value);
+  }
+
+  @override
+  void assertValid() {
+    assert(isNotEmpty(algorithm));
+    assert(isNotEmpty(value));
   }
 
   @override

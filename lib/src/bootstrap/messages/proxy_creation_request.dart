@@ -36,10 +36,9 @@ class ProxyCreationRequest extends ProxyBaseObject with ProxyUtils {
     @required this.proxyId,
     @required this.revocationPassPhraseSha256,
     @required this.certificateRequestEncoded,
-  })  : assert(isNotEmpty(requestId)),
-        assert(isNotEmpty(proxyId)),
-        assert(isNotEmpty(revocationPassPhraseSha256)),
-        assert(isNotEmpty(certificateRequestEncoded));
+  })  {
+    assertValid();
+  }
 
   ProxyCreationRequest.nonSafe({
     this.requestId,
@@ -54,6 +53,14 @@ class ProxyCreationRequest extends ProxyBaseObject with ProxyUtils {
         ProxyId.isValidId(proxyId) &&
         isNotEmpty(revocationPassPhraseSha256) &&
         isNotEmpty(certificateRequestEncoded);
+  }
+
+  @override
+  void assertValid() {
+    assert(isNotEmpty(requestId));
+    assert(ProxyId.isValidId(proxyId));
+    assert(isNotEmpty(revocationPassPhraseSha256));
+    assert(isNotEmpty(certificateRequestEncoded));
   }
 
   factory ProxyCreationRequest.fromJson(Map<String, dynamic> json) => _$ProxyCreationRequestFromJson(json);

@@ -20,9 +20,9 @@ class ProxyRequest extends ProxyBaseObject with ProxyUtils {
     @required this.id,
     @required this.revocationPassPhraseSha256,
     @required this.requestEncoded,
-  })  : assert(isNotEmpty(id)),
-        assert(isNotEmpty(revocationPassPhraseSha256)),
-        assert(isNotEmpty(requestEncoded));
+  })  {
+    assertValid();
+  }
 
   @deprecated
   ProxyRequest.nonSafe({
@@ -56,5 +56,12 @@ class ProxyRequest extends ProxyBaseObject with ProxyUtils {
   @override
   bool isValid() {
     return ProxyId.isValidId(id) && isNotEmpty(revocationPassPhraseSha256) && isNotEmpty(requestEncoded);
+  }
+
+  @override
+  void assertValid() {
+    assert(ProxyId.isValidId(id));
+    assert(isNotEmpty(revocationPassPhraseSha256));
+    assert(isNotEmpty(requestEncoded));
   }
 }

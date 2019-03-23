@@ -21,9 +21,9 @@ class CertificateChain extends ProxyBaseObject with ProxyUtils {
     this.certificateSerial,
     this.certificateId,
     @required this.certificates,
-  })  : assert(certificateSerial == null || isNotEmpty(certificateSerial)),
-        assert(certificateId != null || isNotEmpty(certificateId)),
-        assert(isValidProxyObjectList(certificates));
+  })  {
+    assertValid();
+  }
 
   @override
   String toString() {
@@ -39,5 +39,12 @@ class CertificateChain extends ProxyBaseObject with ProxyUtils {
     return (certificateSerial == null || isNotEmpty(certificateSerial)) &&
         (certificateId == null || isNotEmpty(certificateId)) &&
         isValidProxyObjectList(certificates);
+  }
+
+  @override
+  void assertValid() {
+    assert(certificateSerial == null || isNotEmpty(certificateSerial));
+    assert(certificateId == null || isNotEmpty(certificateId));
+    assert(isValidProxyObjectList(certificates));
   }
 }

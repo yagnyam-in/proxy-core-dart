@@ -19,8 +19,9 @@ class ProxyId extends ProxyBaseObject with ProxyUtils {
   final String sha256Thumbprint;
 
   ProxyId(this.id, [this.sha256Thumbprint = null])
-      : assert(isNotEmpty(id)),
-        assert(sha256Thumbprint == null || isNotEmpty(sha256Thumbprint));
+  {
+    assertValid();
+  }
 
 
   @deprecated
@@ -84,6 +85,12 @@ class ProxyId extends ProxyBaseObject with ProxyUtils {
   @override
   bool isValid() {
     return isValidId(id) && (sha256Thumbprint == null || isNotEmpty(sha256Thumbprint));
+  }
+
+  @override
+  void assertValid() {
+    assert(isValidId(id));
+    assert(sha256Thumbprint == null || isNotEmpty(sha256Thumbprint));
   }
 
   static bool isValidId(String id) {
