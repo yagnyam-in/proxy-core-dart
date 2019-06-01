@@ -18,7 +18,7 @@ class RemoteProxyResolver with ProxyUtils, HttpClientUtils implements ProxyResol
   RemoteProxyResolver({
     String proxyFetchUrl,
     HttpClientFactory httpClientFactory,
-  })  : proxyFetchUrl = proxyFetchUrl ?? "https://proxy-cs.appspot.com/proxy",
+  })  : proxyFetchUrl = proxyFetchUrl ?? "https://cs.pxy.yagnyam.in/proxy",
         httpClientFactory = httpClientFactory ?? ProxyHttpClient.client {
     _logger.info("constructing RemoteProxyResolver(proxyFetchUrl: $proxyFetchUrl)");
   }

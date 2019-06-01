@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:proxy_core/core.dart';
@@ -16,7 +17,7 @@ class ProxyFactory with ProxyUtils, HttpClientUtils, DebugUtils {
   final HttpClientFactory httpClientFactory;
 
   ProxyFactory({String createProxyUrl, HttpClientFactory httpClientFactory})
-      : createProxyUrl = createProxyUrl ?? "https://proxy-cs.appspot.com/proxy",
+      : createProxyUrl = createProxyUrl ?? "https://cs.pxy.yagnyam.in/proxy",
         httpClientFactory = httpClientFactory ?? ProxyHttpClient.client {
     assert(isNotEmpty(this.createProxyUrl));
   }
