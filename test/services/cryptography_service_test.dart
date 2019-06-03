@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:mockito/mockito.dart';
 import 'package:proxy_core/services.dart';
 import 'package:proxy_core/src/core/proxy.dart';
@@ -9,7 +11,9 @@ class MockCryptographyService extends CryptographyService {
 
   final bool verifySignaturesResponse;
 
-  MockCryptographyService({this.getSignaturesResponse, this.verifySignaturesResponse});
+  final String getHashResponse;
+
+  MockCryptographyService({this.getSignaturesResponse, this.verifySignaturesResponse, this.getHashResponse});
 
   @override
   Future<String> decrypt({ProxyKey proxyKey, String encryptionAlgorithm, String cipherText}) {
@@ -29,6 +33,11 @@ class MockCryptographyService extends CryptographyService {
   @override
   Future<bool> verifySignatures({Proxy proxy, String input, Map<String, String> signatures}) {
     return Future.value(verifySignaturesResponse);
+  }
+
+  @override
+  Future<String> getHash({String hashAlgorithm, String input}) {
+    return Future.value(getHashResponse);
   }
 }
 

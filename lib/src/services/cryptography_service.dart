@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:meta/meta.dart';
 import 'package:proxy_core/core.dart';
 import 'package:proxy_core/src/core/proxy_key.dart';
 
@@ -8,9 +11,9 @@ import 'package:proxy_core/src/core/proxy_key.dart';
 abstract class CryptographyService with ProxyUtils {
   /// Get the digital signature of given Signature Algorithm
   Future<String> getSignature({
-    ProxyKey proxyKey,
-    String input,
-    String signatureAlgorithm,
+    @required ProxyKey proxyKey,
+    @required String input,
+    @required String signatureAlgorithm,
   }) async {
     Map<String, String> signatures = await getSignatures(
       proxyKey: proxyKey,
@@ -24,17 +27,17 @@ abstract class CryptographyService with ProxyUtils {
 
   /// Get the digital signatures of given Signature Algorithms at once
   Future<Map<String, String>> getSignatures({
-    ProxyKey proxyKey,
-    String input,
-    Set<String> signatureAlgorithms,
+    @required ProxyKey proxyKey,
+    @required String input,
+    @required Set<String> signatureAlgorithms,
   });
 
   /// Verify the digital signature
   Future<bool> verifySignature({
-    Proxy proxy,
-    String input,
-    String signatureAlgorithm,
-    String signature,
+    @required Proxy proxy,
+    @required String input,
+    @required String signatureAlgorithm,
+    @required String signature,
   }) {
     return verifySignatures(
       proxy: proxy,
@@ -47,20 +50,26 @@ abstract class CryptographyService with ProxyUtils {
 
   /// Verify multiple digital signatures at once
   Future<bool> verifySignatures({
-    Proxy proxy,
-    String input,
-    Map<String, String> signatures,
+    @required Proxy proxy,
+    @required String input,
+    @required Map<String, String> signatures,
   });
 
   Future<String> encrypt({
-    Proxy proxy,
-    String encryptionAlgorithm,
-    String input,
+    @required Proxy proxy,
+    @required String encryptionAlgorithm,
+    @required String input,
   });
 
   Future<String> decrypt({
-    ProxyKey proxyKey,
-    String encryptionAlgorithm,
-    String cipherText,
+    @required ProxyKey proxyKey,
+    @required String encryptionAlgorithm,
+    @required String cipherText,
+  });
+
+  // Get the Cryptographic Hash of given message
+  Future<String> getHash({
+    @required String hashAlgorithm,
+    @required String input,
   });
 }
