@@ -2,6 +2,10 @@ import 'proxy_object.dart';
 import 'proxy_id.dart';
 
 mixin ProxyUtils {
+  bool isEmpty(String value) {
+    return value == null || value.trim().isEmpty;
+  }
+
   bool isNotEmpty(String value) {
     return value != null && value.trim().isNotEmpty;
   }
