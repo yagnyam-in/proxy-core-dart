@@ -6,7 +6,7 @@ part of 'proxy_id.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProxyId _$ProxyIdFromJson(Map<String, dynamic> json) {
+ProxyId _$ProxyIdFromJson(Map json) {
   return ProxyId(json['id'] as String, json['sha256Thumbprint'] as String);
 }
 

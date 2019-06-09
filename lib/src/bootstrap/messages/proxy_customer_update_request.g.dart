@@ -6,11 +6,10 @@ part of 'proxy_customer_update_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProxyCustomerUpdateRequest _$ProxyCustomerUpdateRequestFromJson(
-    Map<String, dynamic> json) {
+ProxyCustomerUpdateRequest _$ProxyCustomerUpdateRequestFromJson(Map json) {
   return ProxyCustomerUpdateRequest(
       requestId: json['requestId'] as String,
-      proxyId: ProxyId.fromJson(json['proxyId'] as Map<String, dynamic>),
+      proxyId: ProxyId.fromJson(json['proxyId'] as Map),
       gcmToken: json['gcmToken'] as String,
       name: json['name'] as String,
       emailAddress: json['emailAddress'] as String,
@@ -22,7 +21,7 @@ Map<String, dynamic> _$ProxyCustomerUpdateRequestToJson(
         ProxyCustomerUpdateRequest instance) =>
     <String, dynamic>{
       'requestId': instance.requestId,
-      'proxyId': instance.proxyId,
+      'proxyId': instance.proxyId.toJson(),
       'gcmToken': instance.gcmToken,
       'name': instance.name,
       'emailAddress': instance.emailAddress,

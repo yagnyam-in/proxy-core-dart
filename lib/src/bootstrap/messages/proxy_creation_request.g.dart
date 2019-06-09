@@ -6,7 +6,7 @@ part of 'proxy_creation_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProxyCreationRequest _$ProxyCreationRequestFromJson(Map<String, dynamic> json) {
+ProxyCreationRequest _$ProxyCreationRequestFromJson(Map json) {
   return ProxyCreationRequest(
       requestId: json['requestId'] as String,
       proxyId: json['proxyId'] as String,

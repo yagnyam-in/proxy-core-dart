@@ -19,7 +19,7 @@ class Certificates extends ProxyBaseObject with ProxyUtils {
     return toJson().toString();
   }
 
-  factory Certificates.fromJson(Map<String, dynamic> json) => _$CertificatesFromJson(json);
+  factory Certificates.fromJson(Map json) => _$CertificatesFromJson(json);
 
   Map<String, dynamic> toJson() => _$CertificatesToJson(this);
 

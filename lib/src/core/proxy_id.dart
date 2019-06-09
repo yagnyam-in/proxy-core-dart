@@ -97,7 +97,7 @@ class ProxyId extends ProxyBaseObject with ProxyUtils {
     return id != null && ID_REGEX.hasMatch(id);
   }
 
-  factory ProxyId.fromJson(Map<String, dynamic> json) => _$ProxyIdFromJson(json);
+  factory ProxyId.fromJson(Map json) => _$ProxyIdFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProxyIdToJson(this);
 

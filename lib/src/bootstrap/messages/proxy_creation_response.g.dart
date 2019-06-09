@@ -6,14 +6,15 @@ part of 'proxy_creation_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProxyCreationResponse _$ProxyCreationResponseFromJson(
-    Map<String, dynamic> json) {
+ProxyCreationResponse _$ProxyCreationResponseFromJson(Map json) {
   return ProxyCreationResponse(
-      request: ProxyCreationRequest.fromJson(
-          json['request'] as Map<String, dynamic>),
-      proxy: Proxy.fromJson(json['proxy'] as Map<String, dynamic>));
+      request: ProxyCreationRequest.fromJson(json['request'] as Map),
+      proxy: Proxy.fromJson(json['proxy'] as Map));
 }
 
 Map<String, dynamic> _$ProxyCreationResponseToJson(
         ProxyCreationResponse instance) =>
-    <String, dynamic>{'request': instance.request, 'proxy': instance.proxy};
+    <String, dynamic>{
+      'request': instance.request.toJson(),
+      'proxy': instance.proxy.toJson()
+    };

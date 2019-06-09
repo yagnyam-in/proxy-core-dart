@@ -6,7 +6,7 @@ part of 'proxy_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProxyRequest _$ProxyRequestFromJson(Map<String, dynamic> json) {
+ProxyRequest _$ProxyRequestFromJson(Map json) {
   return ProxyRequest(
       id: json['id'] as String,
       revocationPassPhraseSha256: json['revocationPassPhraseSha256'] as String,

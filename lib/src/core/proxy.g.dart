@@ -6,17 +6,16 @@ part of 'proxy.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Proxy _$ProxyFromJson(Map<String, dynamic> json) {
+Proxy _$ProxyFromJson(Map json) {
   return Proxy(
-      id: ProxyId.fromJson(json['id'] as Map<String, dynamic>),
+      id: ProxyId.fromJson(json['id'] as Map),
       name: json['name'] as String,
-      certificate:
-          Certificate.fromJson(json['certificate'] as Map<String, dynamic>));
+      certificate: Certificate.fromJson(json['certificate'] as Map));
 }
 
 Map<String, dynamic> _$ProxyToJson(Proxy instance) {
   final val = <String, dynamic>{
-    'id': instance.id,
+    'id': instance.id.toJson(),
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -26,6 +25,6 @@ Map<String, dynamic> _$ProxyToJson(Proxy instance) {
   }
 
   writeNotNull('name', instance.name);
-  val['certificate'] = instance.certificate;
+  val['certificate'] = instance.certificate.toJson();
   return val;
 }

@@ -6,7 +6,7 @@ part of 'certificate.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Certificate _$CertificateFromJson(Map<String, dynamic> json) {
+Certificate _$CertificateFromJson(Map json) {
   return Certificate(
       serialNumber: json['serialNumber'] as String,
       owner: json['owner'] as String,

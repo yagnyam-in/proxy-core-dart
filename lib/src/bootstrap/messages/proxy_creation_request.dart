@@ -63,7 +63,7 @@ class ProxyCreationRequest extends ProxyBaseObject with ProxyUtils {
     assert(isNotEmpty(certificateRequestEncoded));
   }
 
-  factory ProxyCreationRequest.fromJson(Map<String, dynamic> json) => _$ProxyCreationRequestFromJson(json);
+  factory ProxyCreationRequest.fromJson(Map json) => _$ProxyCreationRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProxyCreationRequestToJson(this);
 }

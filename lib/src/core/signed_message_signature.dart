@@ -40,7 +40,7 @@ class SignedMessageSignature extends ProxyBaseObject with ProxyUtils {
     return toJson().toString();
   }
 
-  factory SignedMessageSignature.fromJson(Map<String, dynamic> json) => _$SignedMessageSignatureFromJson(json);
+  factory SignedMessageSignature.fromJson(Map json) => _$SignedMessageSignatureFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignedMessageSignatureToJson(this);
 

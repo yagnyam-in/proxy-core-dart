@@ -49,7 +49,7 @@ class ProxyRequest extends ProxyBaseObject with ProxyUtils {
     return toJson().toString();
   }
 
-  factory ProxyRequest.fromJson(Map<String, dynamic> json) => _$ProxyRequestFromJson(json);
+  factory ProxyRequest.fromJson(Map json) => _$ProxyRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProxyRequestToJson(this);
 

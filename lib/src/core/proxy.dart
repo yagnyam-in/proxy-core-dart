@@ -52,7 +52,7 @@ class Proxy extends ProxyBaseObject with ProxyUtils {
     certificate.assertValid();
   }
 
-  factory Proxy.fromJson(Map<String, dynamic> json) => _$ProxyFromJson(json);
+  factory Proxy.fromJson(Map json) => _$ProxyFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProxyToJson(this);
 }

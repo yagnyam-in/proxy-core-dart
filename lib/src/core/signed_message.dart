@@ -121,7 +121,7 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
     return toJson().toString();
   }
 
-  static SignedMessage<X> fromJson<X extends SignableMessage>(Map<String, dynamic> json) =>
+  static SignedMessage<X> fromJson<X extends SignableMessage>(Map json) =>
       _$SignedMessageFromJson<X>(json);
 
   Map<String, dynamic> toJson() {

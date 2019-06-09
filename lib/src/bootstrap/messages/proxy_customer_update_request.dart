@@ -73,9 +73,9 @@ class ProxyCustomerUpdateRequest extends SignableMessage with ProxyUtils {
   @override
   Map<String, dynamic> toJson() => _$ProxyCustomerUpdateRequestToJson(this);
 
-  static ProxyCustomerUpdateRequest fromJson(Map<String, dynamic> json) => _$ProxyCustomerUpdateRequestFromJson(json);
+  static ProxyCustomerUpdateRequest fromJson(Map json) => _$ProxyCustomerUpdateRequestFromJson(json);
 
-  static SignedMessage<ProxyCustomerUpdateRequest> signedMessageFromJson(Map<String, dynamic> json) {
+  static SignedMessage<ProxyCustomerUpdateRequest> signedMessageFromJson(Map json) {
     SignedMessage<ProxyCustomerUpdateRequest> signedMessage = SignedMessage.fromJson<ProxyCustomerUpdateRequest>(json);
     signedMessage.message = MessageBuilder.instance().buildSignableMessage(signedMessage.payload, fromJson);
     return signedMessage;

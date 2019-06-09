@@ -50,7 +50,7 @@ class ProxyKey extends ProxyBaseObject with ProxyUtils {
     return ProxyKey(id: id ?? this.id, name: name ?? this.name, localAlias: localAlias ?? this.localAlias);
   }
 
-  factory ProxyKey.fromJson(Map<String, dynamic> json) => _$ProxyKeyFromJson(json);
+  factory ProxyKey.fromJson(Map json) => _$ProxyKeyFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProxyKeyToJson(this);
 }

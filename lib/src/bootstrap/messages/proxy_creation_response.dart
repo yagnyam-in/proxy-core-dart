@@ -45,7 +45,7 @@ class ProxyCreationResponse extends SignableMessage with ProxyUtils {
     proxy.assertValid();
   }
 
-  factory ProxyCreationResponse.fromJson(Map<String, dynamic> json) => _$ProxyCreationResponseFromJson(json);
+  factory ProxyCreationResponse.fromJson(Map json) => _$ProxyCreationResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProxyCreationResponseToJson(this);
 
