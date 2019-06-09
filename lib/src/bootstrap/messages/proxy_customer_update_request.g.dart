@@ -18,13 +18,22 @@ ProxyCustomerUpdateRequest _$ProxyCustomerUpdateRequestFromJson(Map json) {
 }
 
 Map<String, dynamic> _$ProxyCustomerUpdateRequestToJson(
-        ProxyCustomerUpdateRequest instance) =>
-    <String, dynamic>{
-      'requestId': instance.requestId,
-      'proxyId': instance.proxyId.toJson(),
-      'gcmToken': instance.gcmToken,
-      'name': instance.name,
-      'emailAddress': instance.emailAddress,
-      'phoneNumber': instance.phoneNumber,
-      'syncWithContacts': instance.syncWithContacts
-    };
+    ProxyCustomerUpdateRequest instance) {
+  final val = <String, dynamic>{
+    'requestId': instance.requestId,
+    'proxyId': instance.proxyId.toJson(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('gcmToken', instance.gcmToken);
+  writeNotNull('name', instance.name);
+  writeNotNull('emailAddress', instance.emailAddress);
+  writeNotNull('phoneNumber', instance.phoneNumber);
+  writeNotNull('syncWithContacts', instance.syncWithContacts);
+  return val;
+}
