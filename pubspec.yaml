@@ -7,7 +7,7 @@ author: Chenna Reddy <chenna@alavala.in>
 homepage: http://github.com/yagnyam-in/proxy-core-dart
 
 environment:
- sdk: '>=2.0.0-dev.62.0 <3.0.0'
+ sdk: '>=2.2.2 <3.0.0'
 
 dependencies:
   json_annotation: ^2.4.0
