@@ -9,8 +9,10 @@ part of 'proxy.dart';
 Proxy _$ProxyFromJson(Map json) {
   return Proxy(
       id: ProxyId.fromJson(json['id'] as Map),
-      name: json['name'] as String,
-      certificate: Certificate.fromJson(json['certificate'] as Map));
+      certificate: Certificate.fromJson(json['certificate'] as Map),
+      publicKeyEncoded: json['publicKeyEncoded'] as String,
+      publicKeySha256Thumbprint: json['publicKeySha256Thumbprint'] as String,
+      name: json['name'] as String);
 }
 
 Map<String, dynamic> _$ProxyToJson(Proxy instance) {
@@ -26,5 +28,7 @@ Map<String, dynamic> _$ProxyToJson(Proxy instance) {
 
   writeNotNull('name', instance.name);
   val['certificate'] = instance.certificate.toJson();
+  val['publicKeyEncoded'] = instance.publicKeyEncoded;
+  val['publicKeySha256Thumbprint'] = instance.publicKeySha256Thumbprint;
   return val;
 }

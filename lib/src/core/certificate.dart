@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
+
 import 'proxy_id.dart';
 import 'proxy_object.dart';
 import 'proxy_utils.dart';
@@ -33,6 +33,12 @@ class Certificate extends ProxyBaseObject with ProxyUtils {
   @JsonKey(nullable: false)
   final String certificateEncoded;
 
+  @JsonKey(nullable: false)
+  final String publicKeyEncoded;
+
+  @JsonKey(nullable: false)
+  final String publicKeySha256Thumbprint;
+
   Certificate({
     @required this.serialNumber,
     @required this.owner,
@@ -42,22 +48,10 @@ class Certificate extends ProxyBaseObject with ProxyUtils {
     @required this.validFrom,
     @required this.validTill,
     @required this.certificateEncoded,
-  })  {
-    assertValid();
-  }
-
-  @deprecated
-  Certificate.nonSafe({
-    @required this.serialNumber,
-    @required this.owner,
-    @required this.sha256Thumbprint,
-    this.alias,
-    @required this.subject,
-    @required this.validFrom,
-    @required this.validTill,
-    @required this.certificateEncoded,
+    @required this.publicKeyEncoded,
+    @required this.publicKeySha256Thumbprint,
   }) {
-    Logger('proxy.core.Certificate').shout("Certificate.nonSafe is being used");
+    assertValid();
   }
 
   @JsonKey(ignore: true)

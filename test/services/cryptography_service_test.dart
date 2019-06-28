@@ -11,9 +11,7 @@ class MockCryptographyService extends CryptographyService {
 
   final bool verifySignaturesResponse;
 
-  final String getHashResponse;
-
-  MockCryptographyService({this.getSignaturesResponse, this.verifySignaturesResponse, this.getHashResponse});
+  MockCryptographyService({this.getSignaturesResponse, this.verifySignaturesResponse});
 
   @override
   Future<String> decrypt({ProxyKey proxyKey, String encryptionAlgorithm, String cipherText}) {
@@ -34,14 +32,10 @@ class MockCryptographyService extends CryptographyService {
   Future<bool> verifySignatures({Proxy proxy, String input, Map<String, String> signatures}) {
     return Future.value(verifySignaturesResponse);
   }
-
-  @override
-  Future<String> getHash({String hashAlgorithm, String input}) {
-    return Future.value(getHashResponse);
-  }
 }
 
 class MockProxy extends Mock implements Proxy {}
+
 class MockProxyKey extends Mock implements ProxyKey {}
 
 main() {
@@ -49,7 +43,8 @@ main() {
     var proxyKey = MockProxyKey();
     var algorithm = "algorithm";
     var cryptographyService = MockCryptographyService(getSignaturesResponse: {algorithm: "sign"});
-    expect(await cryptographyService.getSignature(proxyKey: proxyKey, input: "input", signatureAlgorithm: algorithm), "sign");
+    expect(await cryptographyService.getSignature(proxyKey: proxyKey, input: "input", signatureAlgorithm: algorithm),
+        "sign");
   });
 
   test('CryptographyService.verifySignature positive', () async {
@@ -70,5 +65,22 @@ main() {
         await cryptographyService.verifySignature(
             proxy: proxy, input: "input", signatureAlgorithm: algorithm, signature: "sign"),
         false);
+  });
+
+  test('CryptographyService.getHash', () async {
+    var cryptographyService = MockCryptographyService(verifySignaturesResponse: false);
+    expect(
+      await cryptographyService.getHash(input: "Hello World!!", hashAlgorithm: "SHA256"),
+      "CWwKcsMfmi1lEm2OikAaKrLy4h0KKCpv/mZCu+9l/9k=",
+    );
+  });
+
+
+  test('CryptographyService.getHmac', () async {
+    var cryptographyService = MockCryptographyService(verifySignaturesResponse: false);
+    expect(
+      await cryptographyService.getHmac(input: "Hello World!!", hmacAlgorithm: "HmacSHA256", key: "Secret Key"),
+      "greqDRX0BW75FowfIKLB6xOmTTsrU8zE+4emBPOlTHw=",
+    );
   });
 }

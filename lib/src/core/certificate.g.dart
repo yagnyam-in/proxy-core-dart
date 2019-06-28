@@ -15,7 +15,9 @@ Certificate _$CertificateFromJson(Map json) {
       subject: json['subject'] as String,
       validFrom: DateTime.parse(json['validFrom'] as String),
       validTill: DateTime.parse(json['validTill'] as String),
-      certificateEncoded: json['certificateEncoded'] as String);
+      certificateEncoded: json['certificateEncoded'] as String,
+      publicKeyEncoded: json['publicKeyEncoded'] as String,
+      publicKeySha256Thumbprint: json['publicKeySha256Thumbprint'] as String);
 }
 
 Map<String, dynamic> _$CertificateToJson(Certificate instance) {
@@ -36,5 +38,7 @@ Map<String, dynamic> _$CertificateToJson(Certificate instance) {
   val['validFrom'] = instance.validFrom.toIso8601String();
   val['validTill'] = instance.validTill.toIso8601String();
   val['certificateEncoded'] = instance.certificateEncoded;
+  val['publicKeyEncoded'] = instance.publicKeyEncoded;
+  val['publicKeySha256Thumbprint'] = instance.publicKeySha256Thumbprint;
   return val;
 }

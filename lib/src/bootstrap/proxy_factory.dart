@@ -29,7 +29,7 @@ class ProxyFactory with ProxyUtils, HttpClientUtils, DebugUtils {
       revocationPassPhraseSha256: proxyRequest.revocationPassPhraseSha256,
       certificateRequestEncoded: proxyRequest.requestEncoded,
     );
-    String jsonResponse = await post(httpClientFactory(), createProxyUrl, jsonEncode(request.toJson()));
+    String jsonResponse = await post(httpClientFactory(), createProxyUrl, body: jsonEncode(request.toJson()));
     ProxyCreationResponse proxyCreationResponse = ProxyCreationResponse.fromJson(jsonDecode(jsonResponse));
     return proxyCreationResponse.proxy;
   }

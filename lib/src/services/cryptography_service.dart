@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
 import 'package:meta/meta.dart';
 import 'package:proxy_core/core.dart';
 import 'package:proxy_core/src/core/proxy_key.dart';
@@ -71,5 +73,31 @@ abstract class CryptographyService with ProxyUtils {
   Future<String> getHash({
     @required String hashAlgorithm,
     @required String input,
-  });
+  }) {
+    if (hashAlgorithm == 'SHA256') {
+      return Future(() {
+        var digest = sha256.convert(utf8.encode(input));
+        return base64Encode(digest.bytes);
+      });
+    } else {
+      throw ArgumentError("Invalid Hash Algorithm $hashAlgorithm");
+    }
+  }
+
+  // Get the Cryptographic Hash of given message
+  Future<String> getHmac({
+    @required String hmacAlgorithm,
+    @required String key,
+    @required String input,
+  }) {
+    if (hmacAlgorithm == 'HmacSHA256') {
+      return Future(() {
+        var hmacSha256 = new Hmac(sha256, utf8.encode(key));
+        var digest = hmacSha256.convert(utf8.encode(input));
+        return base64Encode(digest.bytes);
+      });
+    } else {
+      throw ArgumentError("Invalid HMAC Algorithm $hmacAlgorithm");
+    }
+  }
 }

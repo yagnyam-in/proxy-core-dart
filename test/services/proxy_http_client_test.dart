@@ -15,37 +15,28 @@ http.Client mockHttpClient(String url, http.Response response) {
   });
 }
 
-
 class HttpClientUtilsImpl with ProxyUtils, HttpClientUtils {
   HttpClientUtilsImpl();
 }
 
 main() {
   test('HttpClientUtils.get Success', () async {
-    http.Client mockClient =
-        mockHttpClient("/hello", http.Response("hello-there", 200));
-    expect(
-        await HttpClientUtilsImpl().get(mockClient, "/hello"), "hello-there");
+    http.Client mockClient = mockHttpClient("/hello", http.Response("hello-there", 200));
+    expect(await HttpClientUtilsImpl().get(mockClient, "/hello"), "hello-there");
   });
 
   test('HttpClientUtils.get Error Status', () async {
-    http.Client mockClient =
-        mockHttpClient("/hello", http.Response("hello-there", 400));
-    expect(HttpClientUtilsImpl().get(mockClient, "/hello"),
-        throwsA(const TypeMatcher<HttpException>()));
+    http.Client mockClient = mockHttpClient("/hello", http.Response("hello-there", 400));
+    expect(HttpClientUtilsImpl().get(mockClient, "/hello"), throwsA(const TypeMatcher<HttpException>()));
   });
   test('HttpClientUtils.post Success', () async {
-    http.Client mockClient =
-    mockHttpClient("/hello", http.Response("hello-there", 200));
-    expect(
-        await HttpClientUtilsImpl().post(mockClient, "/hello", "dummy-data"), "hello-there");
+    http.Client mockClient = mockHttpClient("/hello", http.Response("hello-there", 200));
+    expect(await HttpClientUtilsImpl().post(mockClient, "/hello", body: "dummy-data"), "hello-there");
   });
 
   test('HttpClientUtils.post Error Status', () async {
-    http.Client mockClient =
-    mockHttpClient("/hello", http.Response("hello-there", 400));
-    expect(HttpClientUtilsImpl().post(mockClient, "/hello", "dummy-data"),
+    http.Client mockClient = mockHttpClient("/hello", http.Response("hello-there", 400));
+    expect(HttpClientUtilsImpl().post(mockClient, "/hello", body: "dummy-data"),
         throwsA(const TypeMatcher<HttpException>()));
   });
-
 }
