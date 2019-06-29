@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:proxy_core/core.dart';
 
@@ -20,17 +19,8 @@ class ProxyRequest extends ProxyBaseObject with ProxyUtils {
     @required this.id,
     @required this.revocationPassPhraseSha256,
     @required this.requestEncoded,
-  })  {
-    assertValid();
-  }
-
-  @deprecated
-  ProxyRequest.nonSafe({
-    this.id,
-    this.revocationPassPhraseSha256,
-    this.requestEncoded,
   }) {
-    Logger('proxy.core.ProxyRequest').shout("ProxyRequest.nonSafe is being used");
+    assertValid();
   }
 
   @override

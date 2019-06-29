@@ -48,10 +48,10 @@ class ProxyVersionV0 extends ProxyVersion {
   String get preferredEncryptionAlgorithm => "RSA/NONE/OAEPwithSHA-256andMGF1Padding";
 
   @override
-  Set<String> get preferredSignatureAlgorithmSet => Set.of(["SHA256WithRSAEncryption"]);
+  Set<String> get preferredSignatureAlgorithmSet => {"SHA256WithRSAEncryption"};
 
   @override
-  List<Set<String>> get validSignatureAlgorithmSets => [Set.of(["SHA256WithRSAEncryption"])];
+  List<Set<String>> get validSignatureAlgorithmSets => [{"SHA256WithRSAEncryption"}];
 
   @override
   String get certificateSignatureAlgorithm => "SHA256WithRSAEncryption";

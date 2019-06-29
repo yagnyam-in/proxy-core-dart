@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:pointycastle/api.dart';
 
 import 'certificate.dart';
 import 'proxy_id.dart';
@@ -25,12 +26,16 @@ class Proxy extends ProxyBaseObject with ProxyUtils {
   @JsonKey(nullable: false)
   final String publicKeySha256Thumbprint;
 
+  @JsonKey(ignore: true)
+  PublicKey publicKey;
+
   Proxy({
     @required this.id,
     @required this.certificate,
     @required this.publicKeyEncoded,
     @required this.publicKeySha256Thumbprint,
     this.name,
+    this.publicKey,
   }) {
     assertValid();
   }
@@ -41,7 +46,8 @@ class Proxy extends ProxyBaseObject with ProxyUtils {
         name = certificate.alias,
         certificate = certificate,
         publicKeyEncoded = certificate.publicKeyEncoded,
-        publicKeySha256Thumbprint = certificate.publicKeySha256Thumbprint;
+        publicKeySha256Thumbprint = certificate.publicKeySha256Thumbprint,
+        publicKey = certificate.publicKey;
 
   String toString() {
     return {

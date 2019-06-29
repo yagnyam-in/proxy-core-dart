@@ -15,4 +15,8 @@ class ProxyIdFactory {
     } while (!_alpha.hasMatch(id[0]));
     return id;
   }
+
+  String testProxyId() {
+    return uuid.v4().replaceRange(0, 5, 'test-');
+  }
 }

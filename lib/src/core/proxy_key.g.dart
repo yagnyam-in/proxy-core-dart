@@ -10,7 +10,10 @@ ProxyKey _$ProxyKeyFromJson(Map json) {
   return ProxyKey(
       id: ProxyId.fromJson(json['id'] as Map),
       name: json['name'] as String,
-      localAlias: json['localAlias'] as String);
+      localAlias: json['localAlias'] as String,
+      privateKeyEncoded: json['privateKeyEncoded'] as String,
+      publicKeyEncoded: json['publicKeyEncoded'] as String,
+      publicKeySha256Thumbprint: json['publicKeySha256Thumbprint'] as String);
 }
 
 Map<String, dynamic> _$ProxyKeyToJson(ProxyKey instance) {
@@ -26,5 +29,8 @@ Map<String, dynamic> _$ProxyKeyToJson(ProxyKey instance) {
 
   writeNotNull('name', instance.name);
   val['localAlias'] = instance.localAlias;
+  writeNotNull('privateKeyEncoded', instance.privateKeyEncoded);
+  writeNotNull('publicKeyEncoded', instance.publicKeyEncoded);
+  writeNotNull('publicKeySha256Thumbprint', instance.publicKeySha256Thumbprint);
   return val;
 }

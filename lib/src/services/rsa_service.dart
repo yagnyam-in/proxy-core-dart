@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:meta/meta.dart';
 import "package:pointycastle/export.dart";
 
-class RsaKeyHelper {
+class RsaService {
   SecureRandom _getSecureRandom() {
     var secureRandom = FortunaRandom();
     var random = Random.secure();
@@ -16,27 +17,25 @@ class RsaKeyHelper {
     return secureRandom;
   }
 
-  String sign({
-    String message,
-    String algorithm,
-    RSAPrivateKey privateKey,
-  }) {
+  Future<String> sign({
+    @required String message,
+    @required String algorithm,
+    @required RSAPrivateKey privateKey,
+  }) async {
     var signer = _signer(algorithm);
     signer.init(true, PrivateKeyParameter<RSAPrivateKey>(privateKey));
-    return base64Encode(
-        signer.generateSignature(_createUint8ListFromString(message)).bytes);
+    return base64Encode(signer.generateSignature(_createUint8ListFromString(message)).bytes);
   }
 
-  bool verify({
-    String algorithm,
-    String signedMessage,
-    String message,
-    RSAPublicKey publicKey,
-  }) {
+  Future<bool> verify({
+    @required String algorithm,
+    @required String signedMessage,
+    @required String message,
+    @required RSAPublicKey publicKey,
+  }) async {
     var signer = _signer(algorithm);
     signer.init(false, PublicKeyParameter<RSAPublicKey>(publicKey));
-    return signer.verifySignature(Uint8List.fromList(message.codeUnits),
-        RSASignature(base64Decode(signedMessage)));
+    return signer.verifySignature(Uint8List.fromList(message.codeUnits), RSASignature(base64Decode(signedMessage)));
   }
 
   Uint8List _createUint8ListFromString(String s) {
@@ -49,8 +48,7 @@ class RsaKeyHelper {
   ) {
     return Future(() {
       SecureRandom secureRandom = _getSecureRandom();
-      var rsaParams =
-          new RSAKeyGeneratorParameters(BigInt.from(65537), keySize, 5);
+      var rsaParams = new RSAKeyGeneratorParameters(BigInt.from(65537), keySize, 5);
       var params = new ParametersWithRandom(rsaParams, secureRandom);
       var keyGenerator = new RSAKeyGenerator();
       keyGenerator.init(params);
@@ -62,6 +60,6 @@ class RsaKeyHelper {
     if (algorithm == 'SHA256WithRSAEncryption') {
       return RSASigner(SHA256Digest(), "0609608648016503040201");
     }
-    throw "Unsupported algorithm $algorithm";
+    throw "Unsupported signing algorithm $algorithm";
   }
 }

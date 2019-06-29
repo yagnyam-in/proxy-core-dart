@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:pointycastle/api.dart';
 
 import 'proxy_id.dart';
 import 'proxy_object.dart';
@@ -18,14 +19,37 @@ class ProxyKey extends ProxyBaseObject with ProxyUtils {
   @JsonKey(nullable: false)
   final String localAlias;
 
+  @JsonKey(nullable: true)
+  final String privateKeyEncoded;
+
+  @JsonKey(nullable: true)
+  final String privateKeySha256Thumbprint;
+
+  @JsonKey(nullable: true)
+  final String publicKeyEncoded;
+
+  @JsonKey(nullable: true)
+  final String publicKeySha256Thumbprint;
+
+  @JsonKey(ignore: true)
+  final PublicKey publicKey;
+
+  @JsonKey(ignore: true)
+  PrivateKey privateKey;
+
   ProxyKey({
     @required this.id,
     this.name,
     @required this.localAlias,
+    this.privateKeyEncoded,
+    this.privateKeySha256Thumbprint,
+    this.publicKeyEncoded,
+    this.publicKeySha256Thumbprint,
+    this.privateKey,
+    this.publicKey,
   }) {
     assertValid();
   }
-
 
   String toString() {
     return {
@@ -47,7 +71,17 @@ class ProxyKey extends ProxyBaseObject with ProxyUtils {
   }
 
   ProxyKey copyWith({ProxyId id, String name, String localAlias}) {
-    return ProxyKey(id: id ?? this.id, name: name ?? this.name, localAlias: localAlias ?? this.localAlias);
+    return ProxyKey(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      localAlias: localAlias ?? this.localAlias,
+      privateKeyEncoded: privateKeyEncoded,
+      privateKeySha256Thumbprint: privateKeySha256Thumbprint,
+      publicKeyEncoded: publicKeyEncoded,
+      publicKeySha256Thumbprint: publicKeySha256Thumbprint,
+      privateKey: privateKey,
+      publicKey: publicKey,
+    );
   }
 
   factory ProxyKey.fromJson(Map json) => _$ProxyKeyFromJson(json);

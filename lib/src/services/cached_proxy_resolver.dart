@@ -9,11 +9,8 @@ class CachedProxyResolver implements ProxyResolver {
 
   final Cache<ProxyId, Proxy> _cache;
 
-  final int maximumSize;
-
   CachedProxyResolver({@required this.proxyResolver, int maximumSize = 16})
-      : _cache = MapCache<ProxyId, Proxy>(),
-        maximumSize = maximumSize {
+      : _cache = MapCache<ProxyId, Proxy>.lru(maximumSize: maximumSize) {
     assert(proxyResolver != null);
   }
 

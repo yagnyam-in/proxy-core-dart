@@ -20,7 +20,7 @@ abstract class CryptographyService with ProxyUtils {
     Map<String, String> signatures = await getSignatures(
       proxyKey: proxyKey,
       input: input,
-      signatureAlgorithms: Set.of([signatureAlgorithm]),
+      signatureAlgorithms: {signatureAlgorithm},
     );
     String signature = signatures[signatureAlgorithm];
     assert(isNotEmpty(signature));
@@ -69,35 +69,42 @@ abstract class CryptographyService with ProxyUtils {
     @required String cipherText,
   });
 
-  // Get the Cryptographic Hash of given message
   Future<String> getHash({
     @required String hashAlgorithm,
     @required String input,
   }) {
     if (hashAlgorithm == 'SHA256') {
-      return Future(() {
-        var digest = sha256.convert(utf8.encode(input));
-        return base64Encode(digest.bytes);
-      });
+      return getSha256Hash(input: input);
     } else {
       throw ArgumentError("Invalid Hash Algorithm $hashAlgorithm");
     }
   }
 
-  // Get the Cryptographic Hash of given message
+  Future<String> getSha256Hash({
+    @required String input,
+  }) async {
+    var digest = sha256.convert(utf8.encode(input));
+    return base64Encode(digest.bytes);
+  }
+
   Future<String> getHmac({
     @required String hmacAlgorithm,
     @required String key,
     @required String input,
   }) {
     if (hmacAlgorithm == 'HmacSHA256') {
-      return Future(() {
-        var hmacSha256 = new Hmac(sha256, utf8.encode(key));
-        var digest = hmacSha256.convert(utf8.encode(input));
-        return base64Encode(digest.bytes);
-      });
+      return getSha256Hmac(key: key, input: input);
     } else {
       throw ArgumentError("Invalid HMAC Algorithm $hmacAlgorithm");
     }
+  }
+
+  Future<String> getSha256Hmac({
+    @required String key,
+    @required String input,
+  }) async {
+    var hmacSha256 = new Hmac(sha256, utf8.encode(key));
+    var digest = hmacSha256.convert(utf8.encode(input));
+    return base64Encode(digest.bytes);
   }
 }
