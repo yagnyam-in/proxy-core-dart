@@ -73,7 +73,7 @@ abstract class CryptographyService with ProxyUtils {
     @required String hashAlgorithm,
     @required String input,
   }) {
-    if (hashAlgorithm == 'SHA256') {
+    if (hashAlgorithm == 'SHA256' || hashAlgorithm == 'SHA-256') {
       return getSha256Hash(input: input);
     } else {
       throw ArgumentError("Invalid Hash Algorithm $hashAlgorithm");
@@ -92,7 +92,7 @@ abstract class CryptographyService with ProxyUtils {
     @required String key,
     @required String input,
   }) {
-    if (hmacAlgorithm == 'HmacSHA256') {
+    if (hmacAlgorithm == 'HmacSHA256' || hmacAlgorithm == 'HmacSHA-256') {
       return getSha256Hmac(key: key, input: input);
     } else {
       throw ArgumentError("Invalid HMAC Algorithm $hmacAlgorithm");

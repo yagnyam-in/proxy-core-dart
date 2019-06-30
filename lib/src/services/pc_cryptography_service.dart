@@ -88,7 +88,7 @@ class PointyCastleCryptographyService extends CryptographyService {
     @required String signatureAlgorithm,
   }) async {
     if (proxyKey.privateKey == null) {
-      proxyKey.privateKey = _pemService.decodePrivateKey(proxyKey.publicKeyEncoded);
+      proxyKey.privateKey = _pemService.decodePrivateKey(proxyKey.privateKeyEncoded);
     }
     return _rsaKeyHelper.sign(
       privateKey: proxyKey.privateKey,
