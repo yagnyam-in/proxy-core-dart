@@ -1,5 +1,6 @@
 import 'package:asn1lib/asn1lib.dart';
 import 'package:meta/meta.dart';
+import 'package:proxy_core/core.dart';
 import 'package:proxy_core/services.dart';
 import 'package:proxy_core/src/bootstrap/proxy_request.dart';
 import 'package:proxy_core/src/bootstrap/proxy_request_factory.dart';
@@ -17,7 +18,7 @@ class PointyCastleProxyRequestFactory extends ProxyRequestFactory {
     @required String signatureAlgorithm,
     @required String revocationPassPhrase,
   }) {
-    if (signatureAlgorithm == 'SHA256WithRSAEncryption') {
+    if (signatureAlgorithm.toUpperCase() == 'SHA256WithRSAEncryption'.toUpperCase()) {
       return createProxyRequestForSha256WithRSAEncryption(
         proxyKey: proxyKey,
         revocationPassPhrase: revocationPassPhrase,
@@ -38,15 +39,14 @@ class PointyCastleProxyRequestFactory extends ProxyRequestFactory {
     assert(proxyKey.privateKey != null);
     ASN1Object encodedCSR = makeRSACSR(dn, proxyKey.privateKey, proxyKey.publicKey);
     String requestEncoded = encodeCSRToPem(encodedCSR);
-    /* TODO: Not right */
-    String revocationPassPhraseSha256 = await cryptographyService.getSha256Hmac(
-      key: revocationPassPhrase,
-      input: proxyKey.id.id,
+    HashValue revocationPassPhraseHash = await cryptographyService.getHash(
+      hashAlgorithm: 'SHA256',
+      input: revocationPassPhrase,
     );
     return ProxyRequest(
       id: proxyKey.id.id,
       requestEncoded: requestEncoded,
-      revocationPassPhraseSha256: revocationPassPhraseSha256,
+      revocationPassPhraseHash: revocationPassPhraseHash,
     );
   }
 }

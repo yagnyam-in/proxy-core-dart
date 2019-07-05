@@ -26,7 +26,7 @@ class ProxyFactory with ProxyUtils, HttpClientUtils, DebugUtils {
     ProxyCreationRequest request = ProxyCreationRequest(
       requestId: uuidFactory.v4(),
       proxyId: proxyRequest.id,
-      revocationPassPhraseSha256: proxyRequest.revocationPassPhraseSha256,
+      revocationPassPhraseHash: proxyRequest.revocationPassPhraseHash,
       certificateRequestEncoded: proxyRequest.requestEncoded,
     );
     String jsonResponse = await post(httpClientFactory(), createProxyUrl, body: jsonEncode(request.toJson()));

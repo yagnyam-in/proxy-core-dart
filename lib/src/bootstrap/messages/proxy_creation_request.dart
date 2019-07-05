@@ -19,10 +19,10 @@ class ProxyCreationRequest extends ProxyBaseObject with ProxyUtils {
   final String proxyId;
 
   /**
-   * Pass phrase to de-activate a given Proxy (sha256(proxyId#passPhrase))
+   * Pass phrase to de-activate a given Proxy
    */
   @JsonKey(nullable: false)
-  final String revocationPassPhraseSha256;
+  final HashValue revocationPassPhraseHash;
 
   /**
    * Valid Certificate Request for Subject requestId. This is to prevent misusing un-protected
@@ -34,7 +34,7 @@ class ProxyCreationRequest extends ProxyBaseObject with ProxyUtils {
   ProxyCreationRequest({
     @required this.requestId,
     @required this.proxyId,
-    @required this.revocationPassPhraseSha256,
+    @required this.revocationPassPhraseHash,
     @required this.certificateRequestEncoded,
   })  {
     assertValid();
@@ -43,7 +43,7 @@ class ProxyCreationRequest extends ProxyBaseObject with ProxyUtils {
   ProxyCreationRequest.nonSafe({
     this.requestId,
     this.proxyId,
-    this.revocationPassPhraseSha256,
+    this.revocationPassPhraseHash,
     this.certificateRequestEncoded,
   });
 
@@ -51,7 +51,7 @@ class ProxyCreationRequest extends ProxyBaseObject with ProxyUtils {
   bool isValid() {
     return isNotEmpty(requestId) &&
         ProxyId.isValidId(proxyId) &&
-        isNotEmpty(revocationPassPhraseSha256) &&
+        isValidProxyObject(revocationPassPhraseHash) &&
         isNotEmpty(certificateRequestEncoded);
   }
 
@@ -59,7 +59,7 @@ class ProxyCreationRequest extends ProxyBaseObject with ProxyUtils {
   void assertValid() {
     assert(isNotEmpty(requestId));
     assert(ProxyId.isValidId(proxyId));
-    assert(isNotEmpty(revocationPassPhraseSha256));
+    assert(isValidProxyObject(revocationPassPhraseHash));
     assert(isNotEmpty(certificateRequestEncoded));
   }
 

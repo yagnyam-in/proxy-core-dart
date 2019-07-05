@@ -65,7 +65,7 @@ class RsaService {
   }
 
   RSASigner _signer(String algorithm) {
-    if (algorithm == 'SHA256WithRSAEncryption') {
+    if (algorithm.toUpperCase() == 'SHA256WithRSAEncryption'.toUpperCase()) {
       return RSASigner(SHA256Digest(), "0609608648016503040201");
     }
     throw "Unsupported signing algorithm $algorithm";

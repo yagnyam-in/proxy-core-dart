@@ -10,14 +10,14 @@ class ProxyRequest extends ProxyBaseObject with ProxyUtils {
   final String id;
 
   @JsonKey(nullable: false)
-  final String revocationPassPhraseSha256;
+  final HashValue revocationPassPhraseHash;
 
   @JsonKey(nullable: false)
   final String requestEncoded;
 
   ProxyRequest({
     @required this.id,
-    @required this.revocationPassPhraseSha256,
+    @required this.revocationPassPhraseHash,
     @required this.requestEncoded,
   }) {
     assertValid();
@@ -30,7 +30,7 @@ class ProxyRequest extends ProxyBaseObject with ProxyUtils {
     }
     ProxyRequest otherRequest = other as ProxyRequest;
     return id == otherRequest.id &&
-        revocationPassPhraseSha256 == otherRequest.revocationPassPhraseSha256 &&
+        revocationPassPhraseHash == otherRequest.revocationPassPhraseHash &&
         requestEncoded == otherRequest.requestEncoded;
   }
 
@@ -45,13 +45,13 @@ class ProxyRequest extends ProxyBaseObject with ProxyUtils {
 
   @override
   bool isValid() {
-    return ProxyId.isValidId(id) && isNotEmpty(revocationPassPhraseSha256) && isNotEmpty(requestEncoded);
+    return ProxyId.isValidId(id) && isValidProxyObject(revocationPassPhraseHash) && isNotEmpty(requestEncoded);
   }
 
   @override
   void assertValid() {
     assert(ProxyId.isValidId(id));
-    assert(isNotEmpty(revocationPassPhraseSha256));
+    assert(isValidProxyObject(revocationPassPhraseHash));
     assert(isNotEmpty(requestEncoded));
   }
 }

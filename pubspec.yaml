@@ -20,6 +20,7 @@ dependencies:
   pointycastle: ^1.0.1
   asn1lib: ^0.5.8
   x509csr: ^1.0.2
+  encrypt: ^3.2.0
 
 dev_dependencies:
   build_runner: ^1.4.0

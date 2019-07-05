@@ -17,3 +17,5 @@ export 'src/core/message_builder.dart';
 export 'src/core/utils/debug_utils.dart';
 export 'src/core/signable_alert_message.dart';
 export 'src/core/proxy_universe.dart';
+export 'src/core/hash_value.dart';
+export 'src/core/cipher_text.dart';

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:mockito/mockito.dart';
+import 'package:proxy_core/core.dart';
 import 'package:proxy_core/services.dart';
 import 'package:proxy_core/src/core/proxy.dart';
 import 'package:proxy_core/src/core/proxy_key.dart';
@@ -67,20 +68,24 @@ main() {
         false);
   });
 
-  test('CryptographyService.getHash', () async {
+  test('CryptographyService Hash', () async {
     var cryptographyService = MockCryptographyService(verifySignaturesResponse: false);
-    expect(
-      await cryptographyService.getHash(input: "Hello World!!", hashAlgorithm: "SHA256"),
-      "CWwKcsMfmi1lEm2OikAaKrLy4h0KKCpv/mZCu+9l/9k=",
-    );
+    String input = "Hello World!!";
+    HashValue hash = await cryptographyService.getHash(input: input, hashAlgorithm: "SHA256");
+    expect(await cryptographyService.verifyHash(hashValue: hash, input: input), true);
+    expect(await cryptographyService.verifyHash(hashValue: hash, input: input + "."), false);
   });
 
-
-  test('CryptographyService.getHmac', () async {
+  test('CryptographyService Hash using external Input', () async {
     var cryptographyService = MockCryptographyService(verifySignaturesResponse: false);
     expect(
-      await cryptographyService.getHmac(input: "Hello World!!", hmacAlgorithm: "HmacSHA256", key: "Secret Key"),
-      "greqDRX0BW75FowfIKLB6xOmTTsrU8zE+4emBPOlTHw=",
-    );
+        await cryptographyService.verifyHash(
+            hashValue: HashValue(
+              hash: 'LtCD/gSdJbHtPPIvrZZh8gaTXFho2ClN0qj7W96UCSc=',
+              algorithm: 'SHA256',
+              iv: 'ku3MWQzCI/awXZRrZvzbX/R99TMuaJIiFGRaSx/FTQE=',
+            ),
+            input: '"Hello World!!"'),
+        false);
   });
 }

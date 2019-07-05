@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:meta/meta.dart';
 import 'package:proxy_core/core.dart';
+import 'package:proxy_core/src/core/hash_value.dart';
 import 'package:proxy_core/src/core/proxy_key.dart';
 
 /// Cryptography Service to sign, verify, encrypt and decrypt messages
@@ -69,42 +72,53 @@ abstract class CryptographyService with ProxyUtils {
     @required String cipherText,
   });
 
-  Future<String> getHash({
+  Future<HashValue> getHash({
     @required String hashAlgorithm,
     @required String input,
   }) {
-    if (hashAlgorithm == 'SHA256' || hashAlgorithm == 'SHA-256') {
-      return getSha256Hash(input: input);
+    if (hashAlgorithm.toUpperCase() == 'SHA256' || hashAlgorithm.toUpperCase() == 'SHA-256') {
+      return getSha256Hash(input: input, hashAlgorithm: hashAlgorithm);
     } else {
       throw ArgumentError("Invalid Hash Algorithm $hashAlgorithm");
     }
   }
 
-  Future<String> getSha256Hash({
-    @required String input,
-  }) async {
-    var digest = sha256.convert(utf8.encode(input));
-    return base64Encode(digest.bytes);
-  }
-
-  Future<String> getHmac({
-    @required String hmacAlgorithm,
-    @required String key,
+  Future<bool> verifyHash({
+    @required HashValue hashValue,
     @required String input,
   }) {
-    if (hmacAlgorithm == 'HmacSHA256' || hmacAlgorithm == 'HmacSHA-256') {
-      return getSha256Hmac(key: key, input: input);
+    if (hashValue.algorithm.toUpperCase() == 'SHA256' || hashValue.algorithm.toUpperCase() == 'SHA-256') {
+      return verifySha256Hash(input: input, hashValue: hashValue);
     } else {
-      throw ArgumentError("Invalid HMAC Algorithm $hmacAlgorithm");
+      throw ArgumentError("Invalid Hash Algorithm ${hashValue.algorithm}");
     }
   }
 
-  Future<String> getSha256Hmac({
-    @required String key,
+  Future<HashValue> getSha256Hash({
+    @required String hashAlgorithm,
     @required String input,
   }) async {
-    var hmacSha256 = new Hmac(sha256, utf8.encode(key));
-    var digest = hmacSha256.convert(utf8.encode(input));
-    return base64Encode(digest.bytes);
+    var iv = randomIv();
+    var digest = sha256.convert(iv + utf8.encode(input));
+    return HashValue(iv: base64Encode(iv), hash: base64Encode(digest.bytes), algorithm: hashAlgorithm,);
+  }
+
+
+  Future<bool> verifySha256Hash({
+    @required HashValue hashValue,
+    @required String input,
+  }) async {
+    Uint8List iv = base64Decode(hashValue.iv);
+    var digest = sha256.convert(iv + utf8.encode(input));
+    return listEquals(digest.bytes, base64Decode(hashValue.hash));
+  }
+
+
+  static List<int> randomIv([int length = 32]) {
+    var rand = Random.secure();
+    return new List.generate(
+      length,
+      (index) => rand.nextInt(256),
+    );
   }
 }
