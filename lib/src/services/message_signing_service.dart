@@ -52,6 +52,7 @@ class MessageSigningService with ProxyUtils {
     );
     logger.info("Singatures for $message => $signatures");
     return SignedMessage(
+      message: message,
       type: message.messageType,
       payload: payload,
       signedBy: signer.id,
