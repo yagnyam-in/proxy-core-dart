@@ -10,7 +10,6 @@ ProxyCustomerUpdateRequest _$ProxyCustomerUpdateRequestFromJson(Map json) {
   return ProxyCustomerUpdateRequest(
       requestId: json['requestId'] as String,
       proxyId: ProxyId.fromJson(json['proxyId'] as Map),
-      gcmToken: json['gcmToken'] as String,
       name: json['name'] as String,
       emailAddress: json['emailAddress'] as String,
       phoneNumber: json['phoneNumber'] as String,
@@ -30,7 +29,6 @@ Map<String, dynamic> _$ProxyCustomerUpdateRequestToJson(
     }
   }
 
-  writeNotNull('gcmToken', instance.gcmToken);
   writeNotNull('name', instance.name);
   writeNotNull('emailAddress', instance.emailAddress);
   writeNotNull('phoneNumber', instance.phoneNumber);

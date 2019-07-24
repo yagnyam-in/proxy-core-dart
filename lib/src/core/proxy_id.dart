@@ -53,6 +53,8 @@ class ProxyId extends ProxyBaseObject with ProxyUtils {
     return id == otherProxyId.id && sha256Thumbprint == otherProxyId.sha256Thumbprint;
   }
 
+  @override int get hashCode => id.hashCode;
+
   /// Can `this` ProxyId sign on behalf of `other` ProxyId??
   ///
   bool canSignOnBehalfOf(ProxyId other) {
