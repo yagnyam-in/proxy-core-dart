@@ -1,16 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
+import 'multi_signable_message.dart';
+import 'multi_signed_message_signature.dart';
 import 'proxy_id.dart';
 import 'proxy_object.dart';
 import 'proxy_utils.dart';
-import 'signable_message.dart';
-import 'signed_message_signature.dart';
 
-part 'signed_message.g.dart';
+part 'multi_signed_message.g.dart';
 
 @JsonSerializable()
-class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with ProxyUtils {
+class MultiSignedMessage<T extends MultiSignableMessage> extends ProxyBaseObject with ProxyUtils {
   /// Underlying Message as Runtime Object
   ///
   /// Make sure verified is set to false upon this variable mutation
@@ -30,34 +30,37 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
   final String payload;
 
   @JsonKey(nullable: false)
-  final ProxyId signedBy;
+  final List<MultiSignedMessageSignature> signatures;
 
-  @JsonKey(nullable: false)
-  final List<SignedMessageSignature> signatures;
-
-  SignedMessage({
+  MultiSignedMessage({
     T message,
     @required this.type,
     @required this.payload,
-    @required this.signedBy,
     @required this.signatures,
   }) : _message = message {
     assertValid();
   }
 
-  SignedMessage copy({
+  MultiSignedMessage copy({
     T message,
     String type,
     String payload,
-    ProxyId signedBy,
-    List<SignedMessageSignature> signatures,
+    List<MultiSignedMessageSignature> signatures,
   }) {
-    return SignedMessage(
+    return MultiSignedMessage(
       message: message ?? this._message,
       type: type ?? this.type,
       payload: payload ?? this.payload,
-      signedBy: signedBy ?? this.signedBy,
       signatures: signatures ?? this.signatures,
+    );
+  }
+
+  MultiSignedMessage addSignature(MultiSignedMessageSignature signature) {
+    return MultiSignedMessage(
+      message: this._message,
+      type: this.type,
+      payload: this.payload,
+      signatures: [...this.signatures, signature],
     );
   }
 
@@ -74,6 +77,11 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
   @JsonKey(ignore: true)
   bool get verified => _verified;
 
+  bool hasSufficientSignatures() {
+    final signers = signatures.map((s) => s.signedBy).toSet();
+    return _message.hasSufficientSignatures(signers);
+  }
+
   @JsonKey(ignore: true)
   set verified(bool verified) => _verified = verified;
 
@@ -82,8 +90,7 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
     return isNotEmpty(type) &&
         (_message == null || isNotEmpty(payload)) &&
         (_message == null || _message.isValid()) &&
-        signedBy.isValid() &&
-        isValidProxyObjectList(signatures);
+        (signatures != null && signatures.every((s) => s.isValid()));
   }
 
   @override
@@ -91,8 +98,8 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
     assert(isNotEmpty(type));
     assert(_message == null || isNotEmpty(payload));
     assert(_message == null || _message.isValid());
-    signedBy.assertValid();
-    assertValidProxyObjectList(signatures);
+    assert(signatures != null);
+    signatures.forEach((s) => s.assertValid());
   }
 
   Set<ProxyId> validSigners() {
@@ -105,14 +112,13 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
 
   @override
   bool operator ==(dynamic other) {
-    if (other == null || other is! SignedMessage) {
+    if (other == null || other is! MultiSignedMessage) {
       return false;
     }
-    SignedMessage otherMessage = other as SignedMessage;
+    MultiSignedMessage otherMessage = other as MultiSignedMessage;
     return _message == otherMessage._message &&
         type == otherMessage.type &&
         payload == otherMessage.payload &&
-        signedBy == otherMessage.signedBy &&
         listEquals(signatures, otherMessage.signatures);
   }
 
@@ -121,10 +127,11 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
     return toJson().toString();
   }
 
-  static SignedMessage<X> fromJson<X extends SignableMessage>(Map json) => _$SignedMessageFromJson<X>(json);
+  static MultiSignedMessage<X> fromJson<X extends MultiSignableMessage>(Map json) =>
+      _$MultiSignedMessageFromJson<X>(json);
 
   Map<String, dynamic> toJson() {
     assert(isNotEmpty(payload));
-    return _$SignedMessageToJson(this);
+    return _$MultiSignedMessageToJson(this);
   }
 }

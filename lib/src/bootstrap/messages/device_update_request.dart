@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:proxy_core/src/core/message_builder.dart';
+import 'package:proxy_core/src/core/multi_signable_message.dart';
+import 'package:proxy_core/src/core/multi_signed_message.dart';
 import 'package:proxy_core/src/core/proxy_id.dart';
 import 'package:proxy_core/src/core/proxy_utils.dart';
 import 'package:proxy_core/src/core/signable_message.dart';
@@ -49,7 +51,12 @@ class DeviceUpdateRequest extends SignableMessage with ProxyUtils {
   }
 
   @override
-  List<SignedMessage<SignableMessage>> getChildMessages() {
+  List<SignedMessage<SignableMessage>> getSignedChildMessages() {
+    return [];
+  }
+
+  @override
+  List<MultiSignedMessage<MultiSignableMessage>> getMultiSignedChildMessages() {
     return [];
   }
 

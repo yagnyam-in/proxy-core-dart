@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:proxy_core/core.dart';
+import 'package:proxy_core/src/core/multi_signable_message.dart';
+import 'package:proxy_core/src/core/multi_signed_message.dart';
 
 import 'proxy_creation_request.dart';
 
@@ -50,7 +52,12 @@ class ProxyCreationResponse extends SignableMessage with ProxyUtils {
   Map<String, dynamic> toJson() => _$ProxyCreationResponseToJson(this);
 
   @override
-  List<SignedMessage<SignableMessage>> getChildMessages() {
+  List<SignedMessage<SignableMessage>> getSignedChildMessages() {
+    return [];
+  }
+
+  @override
+  List<MultiSignedMessage<MultiSignableMessage>> getMultiSignedChildMessages() {
     return [];
   }
 

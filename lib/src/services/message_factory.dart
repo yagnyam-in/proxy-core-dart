@@ -43,17 +43,14 @@ class MessageFactory with ProxyUtils {
     }
     logger.fine("verifying message $signedMessage");
     assert(signedMessage.message != null, "SignedMessage must be built fully before verifying");
-    signedMessage.verified = await messageVerificationService.verifySignedMessage(signedMessage);
-    if (!signedMessage.verified) {
-      logger.info("Message verification failed", signedMessage);
-      return false;
-    }
-    List<bool> verificationResults = await Future.wait(
-      signedMessage.message.getChildMessages().map((s) => verifySignedMessage(s)),
-    );
-    bool valid = verificationResults.every((v) => v);
-    logger.fine("Message verification ${valid ? 'success' : 'failed'} for $signedMessage");
-    return valid;
+    List<bool> verificationResults = await Future.wait([
+      messageVerificationService.verifySignedMessage(signedMessage),
+      ...signedMessage.message.getSignedChildMessages().map((s) => verifySignedMessage(s)).toList(),
+      ...signedMessage.message.getMultiSignedChildMessages().map((s) => verifyMultiSignedMessage(s)).toList(),
+    ]);
+    signedMessage.verified = verificationResults.every((v) => v);
+    logger.fine("Message verification ${signedMessage.verified ? 'success' : 'failed'} for $signedMessage");
+    return signedMessage.verified;
   }
 
   Future<SignedMessage<T>> buildAndVerifySignedMessage<T extends SignableMessage>(
@@ -69,4 +66,56 @@ class MessageFactory with ProxyUtils {
       throw InvalidMessageException("Message verification failed", signedMessage);
     }
   }
+
+  // Multi Signed Messages
+
+  MultiSignedMessage<T> buildMultiSignedMessage<T extends MultiSignableMessage>(
+      String jsonMessage,
+      MultiSignableMessageFromJsonMethod<T> fromJson,
+      ) {
+    return messageBuilder.buildMultiSignedMessage(jsonMessage, fromJson);
+  }
+
+  T buildMultiSignableMessage<T extends MultiSignableMessage>(
+      String jsonMessage,
+      MultiSignableMessageFromJsonMethod<T> fromJson,
+      ) {
+    return messageBuilder.buildMultiSignableMessage(jsonMessage, fromJson);
+  }
+
+  Future<bool> verifyMultiSignedMessage<T extends MultiSignableMessage>(
+      MultiSignedMessage<T> signedMessage,
+      ) async {
+    assert(signedMessage != null);
+    // Already verified
+    if (signedMessage.verified) {
+      logger.fine("$signedMessage is already verified");
+      return Future.value(true);
+    }
+    logger.fine("verifying message $signedMessage");
+    assert(signedMessage.message != null, "MultiSignedMessage must be built fully before verifying");
+    List<bool> verificationResults = await Future.wait([
+      messageVerificationService.verifyMultiSignedMessage(signedMessage),
+      ...signedMessage.message.getSignedChildMessages().map((s) => verifySignedMessage(s)).toList(),
+      ...signedMessage.message.getMultiSignedChildMessages().map((s) => verifyMultiSignedMessage(s)).toList(),
+    ]);
+    signedMessage.verified = verificationResults.every((v) => v);
+    logger.fine("Message verification ${signedMessage.verified ? 'success' : 'failed'} for $signedMessage");
+    return signedMessage.verified;
+  }
+
+  Future<MultiSignedMessage<T>> buildAndVerifyMultiSignedMessage<T extends MultiSignableMessage>(
+      String jsonMessage,
+      MultiSignableMessageFromJsonMethod<T> buildMethod,
+      ) async {
+    MultiSignedMessage<T> signedMessage = buildMultiSignedMessage(jsonMessage, buildMethod);
+    bool valid = await verifyMultiSignedMessage(signedMessage);
+    if (valid) {
+      return signedMessage;
+    } else {
+      logger.info("Message verification failed", signedMessage);
+      throw InvalidMessageException("Message verification failed", signedMessage);
+    }
+  }
+
 }

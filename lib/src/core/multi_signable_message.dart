@@ -3,24 +3,25 @@ import 'proxy_id.dart';
 import 'proxy_object.dart';
 import 'signed_message.dart';
 
-/// Interface that need to be implemented by all the messages that can be signed
-abstract class SignableMessage extends ProxyBaseObject {
-  /// Single Signed that can sign this message.
-  ///
-  /// Don't override this method if multiple signers are possible
-  ProxyId getSigner() {
-    throw UnimplementedError(
-        "Either override `validSigners` or override `signer` if this message can only be signed by single signer.");
-  }
+/// Interface that need to be implemented by all the messages that need multiple signatures
+abstract class MultiSignableMessage extends ProxyBaseObject {
+  Set<ProxyId> getValidSigners();
 
-  Set<ProxyId> getValidSigners() {
-    return Set.of([getSigner()]);
+  int minimumRequiredSignatures();
+
+  bool validateSigners(Set<ProxyId> signers) {
+    Set<ProxyId> validSigners = getValidSigners();
+    return validSigners.containsAll(signers);
   }
 
   String toReadableString();
 
   @override
   bool isValid();
+
+  bool hasSufficientSignatures(Set<ProxyId> signers) {
+    return validateSigners(signers) && signers.length >= minimumRequiredSignatures();
+  }
 
   String get messageType;
 
