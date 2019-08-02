@@ -10,6 +10,12 @@ mixin ProxyUtils {
     return value != null && value.trim().isNotEmpty;
   }
 
+
+  bool assertNotEmpty(String value) {
+    assert(value != null);
+    assert(value.isNotEmpty);
+  }
+
   bool isValidProxyObjectList<T extends ProxyBaseObject>(List<T> values) {
     return values != null && values.isNotEmpty && values.every((e) => e.isValid());
   }
@@ -20,17 +26,32 @@ mixin ProxyUtils {
     values.forEach((e) => e.assertValid());
   }
 
-
   bool isValidDateTime(DateTime dateTime) {
     return dateTime != null;
   }
 
+  bool assertValidDateTime(DateTime dateTime) {
+    assert(dateTime != null);
+  }
+
+
   bool isValidProxyObject(ProxyBaseObject proxyObject) {
     return proxyObject != null && proxyObject.isValid();
   }
+  
+  bool assertValidProxyObject(ProxyBaseObject proxyObject) {
+    assert(proxyObject != null);
+    proxyObject.assertValid();
+  }
+
 
   bool isValidProxyId(ProxyId proxyId) {
     return proxyId != null && proxyId.isValid();
+  }
+
+  bool assertValidProxyId(ProxyId proxyId) {
+    assert(proxyId != null);
+    proxyId.assertValid();
   }
 
   bool listEquals<T>(List<T> aList, List<T> bList) {
