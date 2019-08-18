@@ -6,5 +6,5 @@ export 'src/bootstrap/proxy_id_factory.dart';
 export 'src/bootstrap/pc_proxy_key_factory.dart';
 export 'src/bootstrap/pc_proxy_request_factory.dart';
 
-export 'src/bootstrap/messages/proxy_customer_update_request.dart';
-export 'src/bootstrap/messages/device_update_request.dart';
+export 'src/bootstrap/messages/pending_alerts_request.dart';
+export 'src/bootstrap/messages/subscribe_for_alerts_request.dart';

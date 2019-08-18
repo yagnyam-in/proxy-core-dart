@@ -8,48 +8,54 @@ import 'package:proxy_core/src/core/proxy_utils.dart';
 import 'package:proxy_core/src/core/signable_message.dart';
 import 'package:proxy_core/src/core/signed_message.dart';
 
-part 'proxy_customer_update_request.g.dart';
+part 'pending_alerts_request.g.dart';
 
 @JsonSerializable()
-class ProxyCustomerUpdateRequest extends SignableMessage with ProxyUtils {
+class PendingAlertsRequest extends SignableMessage with ProxyUtils {
   @JsonKey(nullable: false)
   final String requestId;
 
   @JsonKey(nullable: false)
   final ProxyId proxyId;
 
-  @JsonKey(nullable: true)
-  final String name;
+  @JsonKey(nullable: false)
+  final String deviceId;
 
   @JsonKey(nullable: true)
-  final String emailAddress;
+  final DateTime fromTime;
 
+  // TODO: Make this mandatory
   @JsonKey(nullable: true)
-  final String phoneNumber;
+  final ProxyId alertProviderProxyId;
 
-  @JsonKey(nullable: true)
-  final bool syncWithContacts;
-
-  ProxyCustomerUpdateRequest({
+  PendingAlertsRequest({
     @required this.requestId,
     @required this.proxyId,
-    this.name,
-    this.emailAddress,
-    this.phoneNumber,
-    this.syncWithContacts,
+    @required this.deviceId,
+    this.fromTime,
+    this.alertProviderProxyId,
   });
 
   @override
   void assertValid() {
-    assert(requestId != null);
     assert(isNotEmpty(requestId));
-    assert(proxyId != null);
-    proxyId.assertValid();
+    assertValidProxyId(proxyId);
+    assert(isNotEmpty(deviceId));
+    if (fromTime != null) {
+      assertValidDateTime(fromTime);
+    }
+    if (alertProviderProxyId != null) {
+      assertValidProxyId(alertProviderProxyId);
+    }
   }
 
   @override
   bool isValid() {
-    return isNotEmpty(requestId) && isValidProxyId(proxyId);
+    return isNotEmpty(requestId) &&
+        isValidProxyId(proxyId) &&
+        isNotEmpty(deviceId) &&
+        (fromTime == null || isValidDateTime(fromTime)) &&
+        (alertProviderProxyId == null || isValidProxyId(alertProviderProxyId));
   }
 
   @override
@@ -63,7 +69,7 @@ class ProxyCustomerUpdateRequest extends SignableMessage with ProxyUtils {
   }
 
   @override
-  String get messageType => "in.yagnyam.proxy.messages.registration.ProxyCustomerUpdateRequest";
+  String get messageType => "in.yagnyam.proxy.messages.alerts.PendingAlertsRequest";
 
   @override
   ProxyId getSigner() => proxyId;
@@ -74,12 +80,12 @@ class ProxyCustomerUpdateRequest extends SignableMessage with ProxyUtils {
   }
 
   @override
-  Map<String, dynamic> toJson() => _$ProxyCustomerUpdateRequestToJson(this);
+  Map<String, dynamic> toJson() => _$PendingAlertsRequestToJson(this);
 
-  static ProxyCustomerUpdateRequest fromJson(Map json) => _$ProxyCustomerUpdateRequestFromJson(json);
+  static PendingAlertsRequest fromJson(Map json) => _$PendingAlertsRequestFromJson(json);
 
-  static SignedMessage<ProxyCustomerUpdateRequest> signedMessageFromJson(Map json) {
-    SignedMessage<ProxyCustomerUpdateRequest> signedMessage = SignedMessage.fromJson<ProxyCustomerUpdateRequest>(json);
+  static SignedMessage<PendingAlertsRequest> signedMessageFromJson(Map json) {
+    SignedMessage<PendingAlertsRequest> signedMessage = SignedMessage.fromJson<PendingAlertsRequest>(json);
     signedMessage.message = MessageBuilder.instance().buildSignableMessage(signedMessage.payload, fromJson);
     return signedMessage;
   }

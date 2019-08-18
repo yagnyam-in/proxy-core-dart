@@ -8,10 +8,10 @@ import 'package:proxy_core/src/core/proxy_utils.dart';
 import 'package:proxy_core/src/core/signable_message.dart';
 import 'package:proxy_core/src/core/signed_message.dart';
 
-part 'device_update_request.g.dart';
+part 'subscribe_for_alerts_request.g.dart';
 
 @JsonSerializable()
-class DeviceUpdateRequest extends SignableMessage with ProxyUtils {
+class SubscribeForAlertsRequest extends SignableMessage with ProxyUtils {
   @JsonKey(nullable: false)
   final String requestId;
 
@@ -24,30 +24,36 @@ class DeviceUpdateRequest extends SignableMessage with ProxyUtils {
   @JsonKey(nullable: false)
   final String fcmToken;
 
+  // TODO: Make this mandatory
   @JsonKey(nullable: true)
-  final String deviceName;
+  final ProxyId alertProviderProxyId;
 
-  DeviceUpdateRequest({
+  SubscribeForAlertsRequest({
     @required this.requestId,
     @required this.proxyId,
     @required this.deviceId,
     @required this.fcmToken,
-    this.deviceName,
+    this.alertProviderProxyId,
   });
 
   @override
   void assertValid() {
-    assert(requestId != null);
     assert(isNotEmpty(requestId));
+    assertValidProxyId(proxyId);
     assert(isNotEmpty(deviceId));
     assert(isNotEmpty(fcmToken));
-    assert(proxyId != null);
-    proxyId.assertValid();
+    if (alertProviderProxyId != null) {
+      assertValidProxyId(alertProviderProxyId);
+    }
   }
 
   @override
   bool isValid() {
-    return isNotEmpty(requestId) && isValidProxyId(proxyId) && isNotEmpty(deviceId) && isNotEmpty(fcmToken);
+    return isNotEmpty(requestId) &&
+        isValidProxyId(proxyId) &&
+        isNotEmpty(deviceId) &&
+        isNotEmpty(fcmToken) &&
+        (alertProviderProxyId == null || isValidProxyId(alertProviderProxyId));
   }
 
   @override
@@ -61,7 +67,7 @@ class DeviceUpdateRequest extends SignableMessage with ProxyUtils {
   }
 
   @override
-  String get messageType => "in.yagnyam.proxy.messages.registration.DeviceUpdateRequest";
+  String get messageType => "in.yagnyam.proxy.messages.alerts.SubscribeForAlertsRequest";
 
   @override
   ProxyId getSigner() => proxyId;
@@ -72,12 +78,12 @@ class DeviceUpdateRequest extends SignableMessage with ProxyUtils {
   }
 
   @override
-  Map<String, dynamic> toJson() => _$DeviceUpdateRequestToJson(this);
+  Map<String, dynamic> toJson() => _$SubscribeForAlertsRequestToJson(this);
 
-  static DeviceUpdateRequest fromJson(Map json) => _$DeviceUpdateRequestFromJson(json);
+  static SubscribeForAlertsRequest fromJson(Map json) => _$SubscribeForAlertsRequestFromJson(json);
 
-  static SignedMessage<DeviceUpdateRequest> signedMessageFromJson(Map json) {
-    SignedMessage<DeviceUpdateRequest> signedMessage = SignedMessage.fromJson<DeviceUpdateRequest>(json);
+  static SignedMessage<SubscribeForAlertsRequest> signedMessageFromJson(Map json) {
+    SignedMessage<SubscribeForAlertsRequest> signedMessage = SignedMessage.fromJson<SubscribeForAlertsRequest>(json);
     signedMessage.message = MessageBuilder.instance().buildSignableMessage(signedMessage.payload, fromJson);
     return signedMessage;
   }

@@ -1,21 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'device_update_request.dart';
+part of 'subscribe_for_alerts_request.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-DeviceUpdateRequest _$DeviceUpdateRequestFromJson(Map json) {
-  return DeviceUpdateRequest(
+SubscribeForAlertsRequest _$SubscribeForAlertsRequestFromJson(Map json) {
+  return SubscribeForAlertsRequest(
       requestId: json['requestId'] as String,
       proxyId: ProxyId.fromJson(json['proxyId'] as Map),
       deviceId: json['deviceId'] as String,
       fcmToken: json['fcmToken'] as String,
-      deviceName: json['deviceName'] as String);
+      alertProviderProxyId: json['alertProviderProxyId'] == null
+          ? null
+          : ProxyId.fromJson(json['alertProviderProxyId'] as Map));
 }
 
-Map<String, dynamic> _$DeviceUpdateRequestToJson(DeviceUpdateRequest instance) {
+Map<String, dynamic> _$SubscribeForAlertsRequestToJson(
+    SubscribeForAlertsRequest instance) {
   final val = <String, dynamic>{
     'requestId': instance.requestId,
     'proxyId': instance.proxyId.toJson(),
@@ -29,6 +32,6 @@ Map<String, dynamic> _$DeviceUpdateRequestToJson(DeviceUpdateRequest instance) {
     }
   }
 
-  writeNotNull('deviceName', instance.deviceName);
+  writeNotNull('alertProviderProxyId', instance.alertProviderProxyId?.toJson());
   return val;
 }
