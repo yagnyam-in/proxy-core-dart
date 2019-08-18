@@ -3,9 +3,9 @@ import 'signable_message.dart';
 
 abstract class SignableAlertMessage extends SignableMessage {
 
-  static const String ALERT_TYPE = "alertType";
-  static const String ALERT_ID = "alertId";
-  static const String PROXY_UNIVERSE = "proxyUniverse";
+  static const String FIELD_ALERT_TYPE = "alertType";
+  static const String FIELD_ALERT_ID = "alertId";
+  static const String FIELD_PROXY_UNIVERSE = "proxyUniverse";
 
   String get alertId;
 
@@ -20,9 +20,9 @@ abstract class SignableAlertMessage extends SignableMessage {
    */
   Map<String, String> toFcmMap() =>
       {
-        ALERT_TYPE: messageType,
-        ALERT_ID: alertId,
-        PROXY_UNIVERSE: proxyUniverse,
+        FIELD_ALERT_TYPE: messageType,
+        FIELD_ALERT_ID: alertId,
+        FIELD_PROXY_UNIVERSE: proxyUniverse,
       };
 
 }
