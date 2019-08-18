@@ -9,11 +9,12 @@ part of 'multi_signed_message.dart';
 MultiSignedMessage<T>
     _$MultiSignedMessageFromJson<T extends MultiSignableMessage>(Map json) {
   return MultiSignedMessage<T>(
-      type: json['type'] as String,
-      payload: json['payload'] as String,
-      signatures: (json['signatures'] as List)
-          .map((e) => MultiSignedMessageSignature.fromJson(e as Map))
-          .toList());
+    type: json['type'] as String,
+    payload: json['payload'] as String,
+    signatures: (json['signatures'] as List)
+        .map((e) => MultiSignedMessageSignature.fromJson(e as Map))
+        .toList(),
+  );
 }
 
 Map<String, dynamic> _$MultiSignedMessageToJson<T extends MultiSignableMessage>(
@@ -21,5 +22,5 @@ Map<String, dynamic> _$MultiSignedMessageToJson<T extends MultiSignableMessage>(
     <String, dynamic>{
       'type': instance.type,
       'payload': instance.payload,
-      'signatures': instance.signatures.map((e) => e.toJson()).toList()
+      'signatures': instance.signatures.map((e) => e.toJson()).toList(),
     };

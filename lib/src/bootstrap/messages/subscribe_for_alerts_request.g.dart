@@ -8,13 +8,14 @@ part of 'subscribe_for_alerts_request.dart';
 
 SubscribeForAlertsRequest _$SubscribeForAlertsRequestFromJson(Map json) {
   return SubscribeForAlertsRequest(
-      requestId: json['requestId'] as String,
-      proxyId: ProxyId.fromJson(json['proxyId'] as Map),
-      deviceId: json['deviceId'] as String,
-      fcmToken: json['fcmToken'] as String,
-      alertProviderProxyId: json['alertProviderProxyId'] == null
-          ? null
-          : ProxyId.fromJson(json['alertProviderProxyId'] as Map));
+    requestId: json['requestId'] as String,
+    proxyId: ProxyId.fromJson(json['proxyId'] as Map),
+    deviceId: json['deviceId'] as String,
+    fcmToken: json['fcmToken'] as String,
+    alertProviderProxyId: json['alertProviderProxyId'] == null
+        ? null
+        : ProxyId.fromJson(json['alertProviderProxyId'] as Map),
+  );
 }
 
 Map<String, dynamic> _$SubscribeForAlertsRequestToJson(

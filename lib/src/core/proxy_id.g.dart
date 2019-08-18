@@ -7,7 +7,10 @@ part of 'proxy_id.dart';
 // **************************************************************************
 
 ProxyId _$ProxyIdFromJson(Map json) {
-  return ProxyId(json['id'] as String, json['sha256Thumbprint'] as String);
+  return ProxyId(
+    json['id'] as String,
+    json['sha256Thumbprint'] as String,
+  );
 }
 
 Map<String, dynamic> _$ProxyIdToJson(ProxyId instance) {

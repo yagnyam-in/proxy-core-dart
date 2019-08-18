@@ -8,13 +8,14 @@ part of 'proxy_key.dart';
 
 ProxyKey _$ProxyKeyFromJson(Map json) {
   return ProxyKey(
-      id: ProxyId.fromJson(json['id'] as Map),
-      name: json['name'] as String,
-      localAlias: json['localAlias'] as String,
-      privateKeyEncoded: json['privateKeyEncoded'] as String,
-      privateKeySha256Thumbprint: json['privateKeySha256Thumbprint'] as String,
-      publicKeyEncoded: json['publicKeyEncoded'] as String,
-      publicKeySha256Thumbprint: json['publicKeySha256Thumbprint'] as String);
+    id: ProxyId.fromJson(json['id'] as Map),
+    name: json['name'] as String,
+    localAlias: json['localAlias'] as String,
+    privateKeyEncoded: json['privateKeyEncoded'] as String,
+    privateKeySha256Thumbprint: json['privateKeySha256Thumbprint'] as String,
+    publicKeyEncoded: json['publicKeyEncoded'] as String,
+    publicKeySha256Thumbprint: json['publicKeySha256Thumbprint'] as String,
+  );
 }
 
 Map<String, dynamic> _$ProxyKeyToJson(ProxyKey instance) {

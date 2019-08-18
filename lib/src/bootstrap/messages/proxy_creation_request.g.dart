@@ -8,11 +8,12 @@ part of 'proxy_creation_request.dart';
 
 ProxyCreationRequest _$ProxyCreationRequestFromJson(Map json) {
   return ProxyCreationRequest(
-      requestId: json['requestId'] as String,
-      proxyId: json['proxyId'] as String,
-      revocationPassPhraseHash:
-          HashValue.fromJson(json['revocationPassPhraseHash'] as Map),
-      certificateRequestEncoded: json['certificateRequestEncoded'] as String);
+    requestId: json['requestId'] as String,
+    proxyId: json['proxyId'] as String,
+    revocationPassPhraseHash:
+        HashValue.fromJson(json['revocationPassPhraseHash'] as Map),
+    certificateRequestEncoded: json['certificateRequestEncoded'] as String,
+  );
 }
 
 Map<String, dynamic> _$ProxyCreationRequestToJson(
@@ -21,5 +22,5 @@ Map<String, dynamic> _$ProxyCreationRequestToJson(
       'requestId': instance.requestId,
       'proxyId': instance.proxyId,
       'revocationPassPhraseHash': instance.revocationPassPhraseHash.toJson(),
-      'certificateRequestEncoded': instance.certificateRequestEncoded
+      'certificateRequestEncoded': instance.certificateRequestEncoded,
     };

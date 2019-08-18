@@ -8,11 +8,12 @@ part of 'cipher_text.dart';
 
 CipherText _$CipherTextFromJson(Map json) {
   return CipherText(
-      encryptionAlgorithm: json['encryptionAlgorithm'] as String,
-      iv: json['iv'] as String,
-      cipherText: json['cipherText'] as String,
-      hmacAlgorithm: json['hmacAlgorithm'] as String,
-      hmac: json['hmac'] as String);
+    encryptionAlgorithm: json['encryptionAlgorithm'] as String,
+    iv: json['iv'] as String,
+    cipherText: json['cipherText'] as String,
+    hmacAlgorithm: json['hmacAlgorithm'] as String,
+    hmac: json['hmac'] as String,
+  );
 }
 
 Map<String, dynamic> _$CipherTextToJson(CipherText instance) {

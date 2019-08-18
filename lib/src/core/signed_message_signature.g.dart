@@ -8,9 +8,14 @@ part of 'signed_message_signature.dart';
 
 SignedMessageSignature _$SignedMessageSignatureFromJson(Map json) {
   return SignedMessageSignature(
-      json['algorithm'] as String, json['value'] as String);
+    json['algorithm'] as String,
+    json['value'] as String,
+  );
 }
 
 Map<String, dynamic> _$SignedMessageSignatureToJson(
         SignedMessageSignature instance) =>
-    <String, dynamic>{'algorithm': instance.algorithm, 'value': instance.value};
+    <String, dynamic>{
+      'algorithm': instance.algorithm,
+      'value': instance.value,
+    };

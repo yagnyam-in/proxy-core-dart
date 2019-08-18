@@ -8,15 +8,16 @@ part of 'pending_alerts_request.dart';
 
 PendingAlertsRequest _$PendingAlertsRequestFromJson(Map json) {
   return PendingAlertsRequest(
-      requestId: json['requestId'] as String,
-      proxyId: ProxyId.fromJson(json['proxyId'] as Map),
-      deviceId: json['deviceId'] as String,
-      fromTime: json['fromTime'] == null
-          ? null
-          : DateTime.parse(json['fromTime'] as String),
-      alertProviderProxyId: json['alertProviderProxyId'] == null
-          ? null
-          : ProxyId.fromJson(json['alertProviderProxyId'] as Map));
+    requestId: json['requestId'] as String,
+    proxyId: ProxyId.fromJson(json['proxyId'] as Map),
+    deviceId: json['deviceId'] as String,
+    fromTime: json['fromTime'] == null
+        ? null
+        : DateTime.parse(json['fromTime'] as String),
+    alertProviderProxyId: json['alertProviderProxyId'] == null
+        ? null
+        : ProxyId.fromJson(json['alertProviderProxyId'] as Map),
+  );
 }
 
 Map<String, dynamic> _$PendingAlertsRequestToJson(

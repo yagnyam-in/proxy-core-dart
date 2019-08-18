@@ -8,16 +8,17 @@ part of 'certificate.dart';
 
 Certificate _$CertificateFromJson(Map json) {
   return Certificate(
-      serialNumber: json['serialNumber'] as String,
-      owner: json['owner'] as String,
-      sha256Thumbprint: json['sha256Thumbprint'] as String,
-      alias: json['alias'] as String,
-      subject: json['subject'] as String,
-      validFrom: DateTime.parse(json['validFrom'] as String),
-      validTill: DateTime.parse(json['validTill'] as String),
-      certificateEncoded: json['certificateEncoded'] as String,
-      publicKeyEncoded: json['publicKeyEncoded'] as String,
-      publicKeySha256Thumbprint: json['publicKeySha256Thumbprint'] as String);
+    serialNumber: json['serialNumber'] as String,
+    owner: json['owner'] as String,
+    sha256Thumbprint: json['sha256Thumbprint'] as String,
+    alias: json['alias'] as String,
+    subject: json['subject'] as String,
+    validFrom: DateTime.parse(json['validFrom'] as String),
+    validTill: DateTime.parse(json['validTill'] as String),
+    certificateEncoded: json['certificateEncoded'] as String,
+    publicKeyEncoded: json['publicKeyEncoded'] as String,
+    publicKeySha256Thumbprint: json['publicKeySha256Thumbprint'] as String,
+  );
 }
 
 Map<String, dynamic> _$CertificateToJson(Certificate instance) {
