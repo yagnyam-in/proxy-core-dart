@@ -8,3 +8,4 @@ export 'src/bootstrap/pc_proxy_request_factory.dart';
 
 export 'src/bootstrap/messages/pending_alerts_request.dart';
 export 'src/bootstrap/messages/subscribe_for_alerts_request.dart';
+export 'src/bootstrap/messages/delete_alerts_request.dart';

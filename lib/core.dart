@@ -19,7 +19,7 @@ export 'src/core/signable_alert_message.dart';
 export 'src/core/proxy_universe.dart';
 export 'src/core/hash_value.dart';
 export 'src/core/cipher_text.dart';
-export 'src/core/alert.dart';
+export 'src/core/lite_alert.dart';
 export 'src/core/multi_signed_message.dart';
 export 'src/core/multi_signable_message.dart';
 export 'src/core/multi_signed_message_signature.dart';

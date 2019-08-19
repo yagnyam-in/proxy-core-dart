@@ -6,6 +6,7 @@ abstract class SignableAlertMessage extends SignableMessage {
   static const String FIELD_ALERT_TYPE = "alertType";
   static const String FIELD_ALERT_ID = "alertId";
   static const String FIELD_PROXY_UNIVERSE = "proxyUniverse";
+  static const String FIELD_RECEIVER_PROXY_ID = "receiverProxyId";
 
   String get alertId;
 
