@@ -28,26 +28,16 @@ DeleteAlertsRequest _$DeleteAlertsRequestFromJson(Map json) {
     alertIds: (json['alertIds'] as List)
         .map((e) => AlertId.fromJson(e as Map))
         .toList(),
-    alertProviderProxyId: json['alertProviderProxyId'] == null
-        ? null
-        : ProxyId.fromJson(json['alertProviderProxyId'] as Map),
+    alertProviderProxyId: ProxyId.fromJson(json['alertProviderProxyId'] as Map),
   );
 }
 
-Map<String, dynamic> _$DeleteAlertsRequestToJson(DeleteAlertsRequest instance) {
-  final val = <String, dynamic>{
-    'requestId': instance.requestId,
-    'proxyId': instance.proxyId.toJson(),
-    'deviceId': instance.deviceId,
-    'alertIds': instance.alertIds.map((e) => e.toJson()).toList(),
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('alertProviderProxyId', instance.alertProviderProxyId?.toJson());
-  return val;
-}
+Map<String, dynamic> _$DeleteAlertsRequestToJson(
+        DeleteAlertsRequest instance) =>
+    <String, dynamic>{
+      'requestId': instance.requestId,
+      'proxyId': instance.proxyId.toJson(),
+      'deviceId': instance.deviceId,
+      'alertIds': instance.alertIds.map((e) => e.toJson()).toList(),
+      'alertProviderProxyId': instance.alertProviderProxyId.toJson(),
+    };

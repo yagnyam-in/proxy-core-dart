@@ -24,16 +24,15 @@ class PendingAlertsRequest extends SignableMessage with ProxyUtils {
   @JsonKey(nullable: true)
   final DateTime fromTime;
 
-  // TODO: Make this mandatory
-  @JsonKey(nullable: true)
+  @JsonKey(nullable: false)
   final ProxyId alertProviderProxyId;
 
   PendingAlertsRequest({
     @required this.requestId,
     @required this.proxyId,
     @required this.deviceId,
+    @required this.alertProviderProxyId,
     this.fromTime,
-    this.alertProviderProxyId,
   });
 
   @override
@@ -41,11 +40,9 @@ class PendingAlertsRequest extends SignableMessage with ProxyUtils {
     assert(isNotEmpty(requestId));
     assertValidProxyId(proxyId);
     assert(isNotEmpty(deviceId));
+    assertValidProxyId(alertProviderProxyId);
     if (fromTime != null) {
       assertValidDateTime(fromTime);
-    }
-    if (alertProviderProxyId != null) {
-      assertValidProxyId(alertProviderProxyId);
     }
   }
 
@@ -54,8 +51,8 @@ class PendingAlertsRequest extends SignableMessage with ProxyUtils {
     return isNotEmpty(requestId) &&
         isValidProxyId(proxyId) &&
         isNotEmpty(deviceId) &&
-        (fromTime == null || isValidDateTime(fromTime)) &&
-        (alertProviderProxyId == null || isValidProxyId(alertProviderProxyId));
+        isValidProxyId(alertProviderProxyId) &&
+        (fromTime == null || isValidDateTime(fromTime));
   }
 
   @override

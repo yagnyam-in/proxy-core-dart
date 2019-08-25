@@ -11,12 +11,10 @@ PendingAlertsRequest _$PendingAlertsRequestFromJson(Map json) {
     requestId: json['requestId'] as String,
     proxyId: ProxyId.fromJson(json['proxyId'] as Map),
     deviceId: json['deviceId'] as String,
+    alertProviderProxyId: ProxyId.fromJson(json['alertProviderProxyId'] as Map),
     fromTime: json['fromTime'] == null
         ? null
         : DateTime.parse(json['fromTime'] as String),
-    alertProviderProxyId: json['alertProviderProxyId'] == null
-        ? null
-        : ProxyId.fromJson(json['alertProviderProxyId'] as Map),
   );
 }
 
@@ -35,6 +33,6 @@ Map<String, dynamic> _$PendingAlertsRequestToJson(
   }
 
   writeNotNull('fromTime', instance.fromTime?.toIso8601String());
-  writeNotNull('alertProviderProxyId', instance.alertProviderProxyId?.toJson());
+  val['alertProviderProxyId'] = instance.alertProviderProxyId.toJson();
   return val;
 }

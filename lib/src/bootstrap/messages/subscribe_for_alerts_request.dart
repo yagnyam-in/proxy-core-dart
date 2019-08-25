@@ -24,8 +24,7 @@ class SubscribeForAlertsRequest extends SignableMessage with ProxyUtils {
   @JsonKey(nullable: false)
   final String fcmToken;
 
-  // TODO: Make this mandatory
-  @JsonKey(nullable: true)
+  @JsonKey(nullable: false)
   final ProxyId alertProviderProxyId;
 
   SubscribeForAlertsRequest({
@@ -33,7 +32,7 @@ class SubscribeForAlertsRequest extends SignableMessage with ProxyUtils {
     @required this.proxyId,
     @required this.deviceId,
     @required this.fcmToken,
-    this.alertProviderProxyId,
+    @required this.alertProviderProxyId,
   });
 
   @override
@@ -42,9 +41,7 @@ class SubscribeForAlertsRequest extends SignableMessage with ProxyUtils {
     assertValidProxyId(proxyId);
     assert(isNotEmpty(deviceId));
     assert(isNotEmpty(fcmToken));
-    if (alertProviderProxyId != null) {
-      assertValidProxyId(alertProviderProxyId);
-    }
+    assertValidProxyId(alertProviderProxyId);
   }
 
   @override
@@ -53,7 +50,7 @@ class SubscribeForAlertsRequest extends SignableMessage with ProxyUtils {
         isValidProxyId(proxyId) &&
         isNotEmpty(deviceId) &&
         isNotEmpty(fcmToken) &&
-        (alertProviderProxyId == null || isValidProxyId(alertProviderProxyId));
+        isValidProxyId(alertProviderProxyId);
   }
 
   @override

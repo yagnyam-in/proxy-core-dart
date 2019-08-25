@@ -41,7 +41,6 @@ class AlertId extends ProxyBaseObject with ProxyUtils {
   Map<String, dynamic> toJson() => _$AlertIdToJson(this);
 
   static AlertId fromJson(Map json) => _$AlertIdFromJson(json);
-
 }
 
 @JsonSerializable()
@@ -58,8 +57,7 @@ class DeleteAlertsRequest extends SignableMessage with ProxyUtils {
   @JsonKey(nullable: false)
   final List<AlertId> alertIds;
 
-  // TODO: Make this mandatory
-  @JsonKey(nullable: true)
+  @JsonKey(nullable: false)
   final ProxyId alertProviderProxyId;
 
   DeleteAlertsRequest({
@@ -67,7 +65,7 @@ class DeleteAlertsRequest extends SignableMessage with ProxyUtils {
     @required this.proxyId,
     @required this.deviceId,
     @required this.alertIds,
-    this.alertProviderProxyId,
+    @required this.alertProviderProxyId,
   }) {
     assertValid();
   }
@@ -78,9 +76,7 @@ class DeleteAlertsRequest extends SignableMessage with ProxyUtils {
     assertValidProxyId(proxyId);
     assert(isNotEmpty(deviceId));
     assertValidProxyObjectList(alertIds);
-    if (alertProviderProxyId != null) {
-      assertValidProxyId(alertProviderProxyId);
-    }
+    assertValidProxyId(alertProviderProxyId);
   }
 
   @override
@@ -89,7 +85,7 @@ class DeleteAlertsRequest extends SignableMessage with ProxyUtils {
         isValidProxyId(proxyId) &&
         isNotEmpty(deviceId) &&
         isValidProxyObjectList(alertIds) &&
-        (alertProviderProxyId == null || isValidProxyId(alertProviderProxyId));
+        isValidProxyId(alertProviderProxyId);
   }
 
   @override
