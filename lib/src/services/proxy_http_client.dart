@@ -16,6 +16,7 @@ mixin HttpClientUtils on ProxyUtils {
     String url, {
     bool close = true,
     String basicAuthorization,
+    String bearerAuthorization,
   }) async {
     assert(isNotEmpty(url));
     try {
@@ -23,6 +24,7 @@ mixin HttpClientUtils on ProxyUtils {
         url,
         headers: headers(
           basicAuthorization: basicAuthorization,
+          bearerAuthorization: bearerAuthorization,
         ),
       );
       if (response.statusCode == 200) {
@@ -42,6 +44,7 @@ mixin HttpClientUtils on ProxyUtils {
     @required String body,
     bool close = true,
     String basicAuthorization,
+    String bearerAuthorization,
   }) async {
     assert(isNotEmpty(url));
     try {
@@ -49,6 +52,7 @@ mixin HttpClientUtils on ProxyUtils {
         'Content-Type': 'application/json',
         ...headers(
           basicAuthorization: basicAuthorization,
+          bearerAuthorization: bearerAuthorization,
         ),
       });
       if (response.statusCode == 200) {
@@ -62,9 +66,10 @@ mixin HttpClientUtils on ProxyUtils {
     }
   }
 
-  Map<String, String> headers({String basicAuthorization}) {
+  Map<String, String> headers({String basicAuthorization, String bearerAuthorization}) {
     return {
       if (isNotEmpty(basicAuthorization)) 'Authorization': 'Basic $basicAuthorization',
+      if (isNotEmpty(bearerAuthorization)) 'Authorization': 'Bearer $bearerAuthorization',
     };
   }
 }

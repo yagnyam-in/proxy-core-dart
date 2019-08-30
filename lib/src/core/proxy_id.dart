@@ -18,11 +18,9 @@ class ProxyId extends ProxyBaseObject with ProxyUtils {
   @JsonKey(nullable: true, includeIfNull: false)
   final String sha256Thumbprint;
 
-  ProxyId(this.id, [this.sha256Thumbprint = null])
-  {
+  ProxyId(this.id, [this.sha256Thumbprint = null]) {
     assertValid();
   }
-
 
   @deprecated
   ProxyId.nonSafe({this.id, this.sha256Thumbprint}) {
@@ -43,7 +41,6 @@ class ProxyId extends ProxyBaseObject with ProxyUtils {
     }
   }
 
-
   @override
   bool operator ==(dynamic other) {
     if (other == null || other is! ProxyId) {
@@ -53,7 +50,8 @@ class ProxyId extends ProxyBaseObject with ProxyUtils {
     return id == otherProxyId.id && sha256Thumbprint == otherProxyId.sha256Thumbprint;
   }
 
-  @override int get hashCode => id.hashCode;
+  @override
+  int get hashCode => id.hashCode;
 
   /// Can `this` ProxyId sign on behalf of `other` ProxyId??
   ///
@@ -102,5 +100,4 @@ class ProxyId extends ProxyBaseObject with ProxyUtils {
   factory ProxyId.fromJson(Map json) => _$ProxyIdFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProxyIdToJson(this);
-
 }
