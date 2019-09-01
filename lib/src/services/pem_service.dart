@@ -4,7 +4,6 @@ import "package:asn1lib/asn1lib.dart";
 import "package:pointycastle/export.dart";
 
 class PemService {
-
   RSAPublicKey decodePublicKey(pemString) {
     List<int> publicKeyDER = _decodePEM(pemString);
     var asn1Parser = new ASN1Parser(publicKeyDER);
@@ -24,8 +23,7 @@ class PemService {
       exponent = publicKeySeq.elements[1] as ASN1Integer;
     }
 
-    RSAPublicKey rsaPublicKey =
-        RSAPublicKey(modulus.valueAsBigInteger, exponent.valueAsBigInteger);
+    RSAPublicKey rsaPublicKey = RSAPublicKey(modulus.valueAsBigInteger, exponent.valueAsBigInteger);
 
     return rsaPublicKey;
   }
@@ -55,10 +53,7 @@ class PemService {
     }
 
     RSAPrivateKey rsaPrivateKey = RSAPrivateKey(
-        modulus.valueAsBigInteger,
-        privateExponent.valueAsBigInteger,
-        p.valueAsBigInteger,
-        q.valueAsBigInteger);
+        modulus.valueAsBigInteger, privateExponent.valueAsBigInteger, p.valueAsBigInteger, q.valueAsBigInteger);
 
     return rsaPrivateKey;
   }

@@ -80,6 +80,7 @@ class SubscribeForAlertsRequest extends SignableMessage with ProxyUtils {
   static SubscribeForAlertsRequest fromJson(Map json) => _$SubscribeForAlertsRequestFromJson(json);
 
   static SignedMessage<SubscribeForAlertsRequest> signedMessageFromJson(Map json) {
+    if (json == null) return null;
     SignedMessage<SubscribeForAlertsRequest> signedMessage = SignedMessage.fromJson<SubscribeForAlertsRequest>(json);
     signedMessage.message = MessageBuilder.instance().buildSignableMessage(signedMessage.payload, fromJson);
     return signedMessage;

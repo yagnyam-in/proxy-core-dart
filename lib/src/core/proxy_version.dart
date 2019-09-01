@@ -51,7 +51,9 @@ class ProxyVersionV0 extends ProxyVersion {
   Set<String> get preferredSignatureAlgorithmSet => {"SHA256WithRSAEncryption"};
 
   @override
-  List<Set<String>> get validSignatureAlgorithmSets => [{"SHA256WithRSAEncryption"}];
+  List<Set<String>> get validSignatureAlgorithmSets => [
+        {"SHA256WithRSAEncryption"}
+      ];
 
   @override
   String get certificateSignatureAlgorithm => "SHA256WithRSAEncryption";
@@ -61,5 +63,4 @@ class ProxyVersionV0 extends ProxyVersion {
 
   @override
   int get keySize => 2048;
-
 }

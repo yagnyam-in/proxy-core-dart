@@ -1,6 +1,4 @@
-
 class InvalidMessageException implements Exception {
-
   final String errorMessage;
 
   final Object invalidMessage;
@@ -11,5 +9,4 @@ class InvalidMessageException implements Exception {
   String toString() {
     return "InvalidMessageException: $errorMessage in $invalidMessage";
   }
-
 }

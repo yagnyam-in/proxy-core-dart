@@ -36,10 +36,10 @@ class PointyCastleCryptographyService extends CryptographyService {
     Map<String, String> signatures = {};
     signatureAlgorithms.forEach(
       (signatureAlgorithm) async => signatures[signatureAlgorithm] = await getSignature(
-            proxyKey: proxyKey,
-            input: input,
-            signatureAlgorithm: signatureAlgorithm,
-          ),
+        proxyKey: proxyKey,
+        input: input,
+        signatureAlgorithm: signatureAlgorithm,
+      ),
     );
     return signatures;
   }

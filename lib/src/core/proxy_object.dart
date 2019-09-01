@@ -1,7 +1,5 @@
-
 /// Base class for all Proxy Objects
 abstract class ProxyBaseObject {
-
   const ProxyBaseObject();
 
   /// Is this object Valid
@@ -13,8 +11,4 @@ abstract class ProxyBaseObject {
   ///
   /// isValid doesn't point to the problem. Hence this method.
   void assertValid();
-
 }
-
-
-

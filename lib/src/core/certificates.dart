@@ -32,6 +32,4 @@ class Certificates extends ProxyBaseObject with ProxyUtils {
   void assertValid() {
     assertValidProxyObjectList(certificates);
   }
-
-
 }

@@ -50,9 +50,11 @@ class MessageVerificationService with ProxyUtils {
       throw InvalidMessageException("No signatures found", message);
     }
     Set<String> signatureAlgorithmSet = message.signatures.map((s) => s.algorithm).toSet();
-    if (!proxyVersion.validSignatureAlgorithmSets.any((set) => set.length == signatureAlgorithmSet.length && set.every(signatureAlgorithmSet.contains))) {
+    if (!proxyVersion.validSignatureAlgorithmSets
+        .any((set) => set.length == signatureAlgorithmSet.length && set.every(signatureAlgorithmSet.contains))) {
       logger.info("Un-recognised signature algorithms $signatureAlgorithmSet in $message");
-      print("Un-recognised signature algorithms $signatureAlgorithmSet. Valid => ${proxyVersion.validSignatureAlgorithmSets}");
+      print(
+          "Un-recognised signature algorithms $signatureAlgorithmSet. Valid => ${proxyVersion.validSignatureAlgorithmSets}");
       throw InvalidMessageException("Un-recognised signature algorithms $signatureAlgorithmSet", message);
     }
     Proxy proxy = await _getSignerProxy(message.signedBy);
@@ -66,7 +68,6 @@ class MessageVerificationService with ProxyUtils {
     return valid;
   }
 
-
   Future<bool> verifyMultiSignedMessage<T extends MultiSignableMessage>(MultiSignedMessage<T> message) async {
     assert(message != null);
     if (message.message == null) {
@@ -77,11 +78,13 @@ class MessageVerificationService with ProxyUtils {
       logger.info("Message validation failed $message");
       throw InvalidMessageException("Message validation failed", message);
     }
-    final verificationResults = await Future.wait(message.signatures.map((signature) => _verifyMultiSignature(message, signature)).toList());
+    final verificationResults =
+        await Future.wait(message.signatures.map((signature) => _verifyMultiSignature(message, signature)).toList());
     return verificationResults.every((e) => e);
   }
 
-  Future<bool> _verifyMultiSignature<T extends MultiSignableMessage>(MultiSignedMessage<T> message, MultiSignedMessageSignature signature) async {
+  Future<bool> _verifyMultiSignature<T extends MultiSignableMessage>(
+      MultiSignedMessage<T> message, MultiSignedMessageSignature signature) async {
     if (!message.cabBeSignedBy(signature.signedBy)) {
       logger.info(
           "Message can only be signed by ${message.validSigners()}, but signed by ${signature.signedBy}", message);
@@ -89,9 +92,11 @@ class MessageVerificationService with ProxyUtils {
           "Message can only be signed by ${message.validSigners()}, but signed by ${signature.signedBy}", message);
     }
     Set<String> signatureAlgorithmSet = signature.signatures.map((s) => s.algorithm).toSet();
-    if (!proxyVersion.validSignatureAlgorithmSets.any((set) => set.length == signatureAlgorithmSet.length && set.every(signatureAlgorithmSet.contains))) {
+    if (!proxyVersion.validSignatureAlgorithmSets
+        .any((set) => set.length == signatureAlgorithmSet.length && set.every(signatureAlgorithmSet.contains))) {
       logger.info("Un-recognised signature algorithms $signatureAlgorithmSet in $message");
-      print("Un-recognised signature algorithms $signatureAlgorithmSet. Valid => ${proxyVersion.validSignatureAlgorithmSets}");
+      print(
+          "Un-recognised signature algorithms $signatureAlgorithmSet. Valid => ${proxyVersion.validSignatureAlgorithmSets}");
       throw InvalidMessageException("Un-recognised signature algorithms $signatureAlgorithmSet", message);
     }
     Proxy proxy = await _getSignerProxy(signature.signedBy);

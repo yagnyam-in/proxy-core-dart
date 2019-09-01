@@ -70,22 +70,22 @@ class MessageFactory with ProxyUtils {
   // Multi Signed Messages
 
   MultiSignedMessage<T> buildMultiSignedMessage<T extends MultiSignableMessage>(
-      String jsonMessage,
-      MultiSignableMessageFromJsonMethod<T> fromJson,
-      ) {
+    String jsonMessage,
+    MultiSignableMessageFromJsonMethod<T> fromJson,
+  ) {
     return messageBuilder.buildMultiSignedMessage(jsonMessage, fromJson);
   }
 
   T buildMultiSignableMessage<T extends MultiSignableMessage>(
-      String jsonMessage,
-      MultiSignableMessageFromJsonMethod<T> fromJson,
-      ) {
+    String jsonMessage,
+    MultiSignableMessageFromJsonMethod<T> fromJson,
+  ) {
     return messageBuilder.buildMultiSignableMessage(jsonMessage, fromJson);
   }
 
   Future<bool> verifyMultiSignedMessage<T extends MultiSignableMessage>(
-      MultiSignedMessage<T> signedMessage,
-      ) async {
+    MultiSignedMessage<T> signedMessage,
+  ) async {
     assert(signedMessage != null);
     // Already verified
     if (signedMessage.verified) {
@@ -105,9 +105,9 @@ class MessageFactory with ProxyUtils {
   }
 
   Future<MultiSignedMessage<T>> buildAndVerifyMultiSignedMessage<T extends MultiSignableMessage>(
-      String jsonMessage,
-      MultiSignableMessageFromJsonMethod<T> buildMethod,
-      ) async {
+    String jsonMessage,
+    MultiSignableMessageFromJsonMethod<T> buildMethod,
+  ) async {
     MultiSignedMessage<T> signedMessage = buildMultiSignedMessage(jsonMessage, buildMethod);
     bool valid = await verifyMultiSignedMessage(signedMessage);
     if (valid) {
@@ -117,5 +117,4 @@ class MessageFactory with ProxyUtils {
       throw InvalidMessageException("Message verification failed", signedMessage);
     }
   }
-
 }

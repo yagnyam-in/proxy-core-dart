@@ -100,9 +100,12 @@ abstract class CryptographyService with ProxyUtils {
   }) async {
     var iv = randomIv();
     var digest = sha256.convert(iv + utf8.encode(input));
-    return HashValue(iv: base64Encode(iv), hash: base64Encode(digest.bytes), algorithm: hashAlgorithm,);
+    return HashValue(
+      iv: base64Encode(iv),
+      hash: base64Encode(digest.bytes),
+      algorithm: hashAlgorithm,
+    );
   }
-
 
   Future<bool> verifySha256Hash({
     @required HashValue hashValue,
@@ -112,7 +115,6 @@ abstract class CryptographyService with ProxyUtils {
     var digest = sha256.convert(iv + utf8.encode(input));
     return listEquals(digest.bytes, base64Decode(hashValue.hash));
   }
-
 
   static List<int> randomIv([int length = 32]) {
     var rand = Random.secure();

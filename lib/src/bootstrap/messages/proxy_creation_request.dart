@@ -36,7 +36,7 @@ class ProxyCreationRequest extends ProxyBaseObject with ProxyUtils {
     @required this.proxyId,
     @required this.revocationPassPhraseHash,
     @required this.certificateRequestEncoded,
-  })  {
+  }) {
     assertValid();
   }
 

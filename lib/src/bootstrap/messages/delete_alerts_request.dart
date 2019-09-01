@@ -115,6 +115,7 @@ class DeleteAlertsRequest extends SignableMessage with ProxyUtils {
   static DeleteAlertsRequest fromJson(Map json) => _$DeleteAlertsRequestFromJson(json);
 
   static SignedMessage<DeleteAlertsRequest> signedMessageFromJson(Map json) {
+    if (json == null) return null;
     SignedMessage<DeleteAlertsRequest> signedMessage = SignedMessage.fromJson<DeleteAlertsRequest>(json);
     signedMessage.message = MessageBuilder.instance().buildSignableMessage(signedMessage.payload, fromJson);
     return signedMessage;

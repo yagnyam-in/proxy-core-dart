@@ -11,7 +11,7 @@ class SignedMessageSignature extends ProxyBaseObject with ProxyUtils {
   @JsonKey(nullable: false)
   final String value;
 
-  SignedMessageSignature(this.algorithm, this.value){
+  SignedMessageSignature(this.algorithm, this.value) {
     assertValid();
   }
 
@@ -43,5 +43,4 @@ class SignedMessageSignature extends ProxyBaseObject with ProxyUtils {
   factory SignedMessageSignature.fromJson(Map json) => _$SignedMessageSignatureFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignedMessageSignatureToJson(this);
-
 }

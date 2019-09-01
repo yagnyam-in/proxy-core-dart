@@ -82,6 +82,7 @@ class PendingAlertsRequest extends SignableMessage with ProxyUtils {
   static PendingAlertsRequest fromJson(Map json) => _$PendingAlertsRequestFromJson(json);
 
   static SignedMessage<PendingAlertsRequest> signedMessageFromJson(Map json) {
+    if (json == null) return null;
     SignedMessage<PendingAlertsRequest> signedMessage = SignedMessage.fromJson<PendingAlertsRequest>(json);
     signedMessage.message = MessageBuilder.instance().buildSignableMessage(signedMessage.payload, fromJson);
     return signedMessage;

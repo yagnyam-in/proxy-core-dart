@@ -10,7 +10,6 @@ mixin ProxyUtils {
     return value != null && value.trim().isNotEmpty;
   }
 
-
   bool assertNotEmpty(String value) {
     assert(value != null);
     assert(value.isNotEmpty);
@@ -34,16 +33,14 @@ mixin ProxyUtils {
     assert(dateTime != null);
   }
 
-
   bool isValidProxyObject(ProxyBaseObject proxyObject) {
     return proxyObject != null && proxyObject.isValid();
   }
-  
+
   bool assertValidProxyObject(ProxyBaseObject proxyObject) {
     assert(proxyObject != null);
     proxyObject.assertValid();
   }
-
 
   bool isValidProxyId(ProxyId proxyId) {
     return proxyId != null && proxyId.isValid();
@@ -67,7 +64,7 @@ mixin ProxyUtils {
     if (aList.length != bList.length) {
       return false;
     }
-    for (var i=0; i<aList.length; i++){
+    for (var i = 0; i < aList.length; i++) {
       if (aList.elementAt(i) != bList.elementAt(i)) {
         return false;
       }

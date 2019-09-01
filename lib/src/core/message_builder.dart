@@ -14,7 +14,8 @@ typedef SignedMessageFromJsonMethod<T extends SignableMessage> = SignedMessage<T
 
 typedef MultiSignableMessageFromJsonMethod<T extends MultiSignableMessage> = T Function(Map<String, dynamic>);
 
-typedef MultiSignedMessageFromJsonMethod<T extends MultiSignableMessage> = MultiSignedMessage<T> Function(Map<String, dynamic>);
+typedef MultiSignedMessageFromJsonMethod<T extends MultiSignableMessage> = MultiSignedMessage<T> Function(
+    Map<String, dynamic>);
 
 class MessageBuilder with ProxyUtils {
   final Logger logger = Logger('proxy.services.MessageBuilder');
@@ -45,11 +46,10 @@ class MessageBuilder with ProxyUtils {
     return fromJson(jsonDecode(jsonMessage));
   }
 
-
   MultiSignedMessage<T> buildMultiSignedMessage<T extends MultiSignableMessage>(
-      String jsonMessage,
-      MultiSignableMessageFromJsonMethod<T> fromJson,
-      ) {
+    String jsonMessage,
+    MultiSignableMessageFromJsonMethod<T> fromJson,
+  ) {
     assert(isNotEmpty(jsonMessage));
     assert(fromJson != null);
     logger.fine("building MultiSignedMessage from $jsonMessage");
@@ -59,9 +59,9 @@ class MessageBuilder with ProxyUtils {
   }
 
   T buildMultiSignableMessage<T extends MultiSignableMessage>(
-      String jsonMessage,
-      MultiSignableMessageFromJsonMethod<T> fromJson,
-      ) {
+    String jsonMessage,
+    MultiSignableMessageFromJsonMethod<T> fromJson,
+  ) {
     assert(isNotEmpty(jsonMessage));
     assert(fromJson != null);
     logger.fine("building MultiSignableMessage from $jsonMessage");

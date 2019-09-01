@@ -21,7 +21,7 @@ class CertificateChain extends ProxyBaseObject with ProxyUtils {
     this.certificateSerial,
     this.certificateId,
     @required this.certificates,
-  })  {
+  }) {
     assertValid();
   }
 

@@ -2,7 +2,6 @@ import 'proxy_id.dart';
 import 'signable_message.dart';
 
 abstract class SignableAlertMessage extends SignableMessage {
-
   static const String FIELD_ALERT_TYPE = "alertType";
   static const String FIELD_ALERT_ID = "alertId";
   static const String FIELD_PROXY_UNIVERSE = "proxyUniverse";
@@ -19,11 +18,9 @@ abstract class SignableAlertMessage extends SignableMessage {
    *
    * @return Map of minimum required fields for this Alert.
    */
-  Map<String, String> toFcmMap() =>
-      {
+  Map<String, String> toFcmMap() => {
         FIELD_ALERT_TYPE: messageType,
         FIELD_ALERT_ID: alertId,
         FIELD_PROXY_UNIVERSE: proxyUniverse,
       };
-
 }
