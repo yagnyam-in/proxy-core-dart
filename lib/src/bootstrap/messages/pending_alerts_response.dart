@@ -29,16 +29,14 @@ class PendingAlertsResponse extends SignableMessage with ProxyUtils {
   @override
   bool isValid() {
     return isValidProxyObject(request) &&
-        (alerts.isEmpty || isValidProxyObjectList(alerts)) &&
+        isValidProxyObjectList(alerts) &&
         (tillTime != null || isValidDateTime(tillTime));
   }
 
   @override
   void assertValid() {
     assertValidProxyObject(request);
-    if (alerts.isNotEmpty) {
-      assertValidProxyObjectList(alerts);
-    }
+    assertValidProxyObjectList(alerts);
     if (tillTime != null) {
       assertValidDateTime(tillTime);
     }

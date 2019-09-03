@@ -38,13 +38,13 @@ class CertificateChain extends ProxyBaseObject with ProxyUtils {
   bool isValid() {
     return (certificateSerial == null || isNotEmpty(certificateSerial)) &&
         (certificateId == null || isNotEmpty(certificateId)) &&
-        isValidProxyObjectList(certificates);
+        isNonEmptyProxyObjectList(certificates);
   }
 
   @override
   void assertValid() {
     assert(certificateSerial == null || isNotEmpty(certificateSerial));
     assert(certificateId == null || isNotEmpty(certificateId));
-    assert(isValidProxyObjectList(certificates));
+    assert(isNonEmptyProxyObjectList(certificates));
   }
 }

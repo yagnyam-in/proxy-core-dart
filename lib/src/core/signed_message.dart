@@ -83,7 +83,7 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
         (_message == null || isNotEmpty(payload)) &&
         (_message == null || _message.isValid()) &&
         signedBy.isValid() &&
-        isValidProxyObjectList(signatures);
+        isNonEmptyProxyObjectList(signatures);
   }
 
   @override
@@ -92,7 +92,7 @@ class SignedMessage<T extends SignableMessage> extends ProxyBaseObject with Prox
     assert(_message == null || isNotEmpty(payload));
     assert(_message == null || _message.isValid());
     signedBy.assertValid();
-    assertValidProxyObjectList(signatures);
+    assertNonEmptyProxyObjectList(signatures);
   }
 
   Set<ProxyId> validSigners() {

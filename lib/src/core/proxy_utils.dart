@@ -1,5 +1,5 @@
-import 'proxy_object.dart';
 import 'proxy_id.dart';
+import 'proxy_object.dart';
 
 mixin ProxyUtils {
   bool isEmpty(String value) {
@@ -10,26 +10,34 @@ mixin ProxyUtils {
     return value != null && value.trim().isNotEmpty;
   }
 
-  bool assertNotEmpty(String value) {
+  void assertNotEmpty(String value) {
     assert(value != null);
     assert(value.isNotEmpty);
   }
 
   bool isValidProxyObjectList<T extends ProxyBaseObject>(List<T> values) {
-    return values != null && values.isNotEmpty && values.every((e) => e.isValid());
+    return values != null && values.every((e) => e.isValid());
+  }
+
+  bool isNonEmptyProxyObjectList<T extends ProxyBaseObject>(List<T> values) {
+    return isValidProxyObjectList(values) && values.isNotEmpty;
   }
 
   void assertValidProxyObjectList<T extends ProxyBaseObject>(List<T> values) {
     assert(values != null);
-    assert(values.isNotEmpty);
     values.forEach((e) => e.assertValid());
+  }
+
+  void assertNonEmptyProxyObjectList<T extends ProxyBaseObject>(List<T> values) {
+    assertValidProxyObjectList(values);
+    assert(values.isNotEmpty);
   }
 
   bool isValidDateTime(DateTime dateTime) {
     return dateTime != null;
   }
 
-  bool assertValidDateTime(DateTime dateTime) {
+  void assertValidDateTime(DateTime dateTime) {
     assert(dateTime != null);
   }
 
@@ -37,7 +45,7 @@ mixin ProxyUtils {
     return proxyObject != null && proxyObject.isValid();
   }
 
-  bool assertValidProxyObject(ProxyBaseObject proxyObject) {
+  void assertValidProxyObject(ProxyBaseObject proxyObject) {
     assert(proxyObject != null);
     proxyObject.assertValid();
   }

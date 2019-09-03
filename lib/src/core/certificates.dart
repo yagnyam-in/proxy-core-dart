@@ -25,11 +25,11 @@ class Certificates extends ProxyBaseObject with ProxyUtils {
 
   @override
   bool isValid() {
-    return isValidProxyObjectList(certificates);
+    return isNonEmptyProxyObjectList(certificates);
   }
 
   @override
   void assertValid() {
-    assertValidProxyObjectList(certificates);
+    assertNonEmptyProxyObjectList(certificates);
   }
 }

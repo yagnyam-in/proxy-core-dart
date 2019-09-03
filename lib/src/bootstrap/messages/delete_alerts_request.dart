@@ -75,7 +75,7 @@ class DeleteAlertsRequest extends SignableMessage with ProxyUtils {
     assert(isNotEmpty(requestId));
     assertValidProxyId(proxyId);
     assert(isNotEmpty(deviceId));
-    assertValidProxyObjectList(alertIds);
+    assertNonEmptyProxyObjectList(alertIds);
     assertValidProxyId(alertProviderProxyId);
   }
 
@@ -84,7 +84,7 @@ class DeleteAlertsRequest extends SignableMessage with ProxyUtils {
     return isNotEmpty(requestId) &&
         isValidProxyId(proxyId) &&
         isNotEmpty(deviceId) &&
-        isValidProxyObjectList(alertIds) &&
+        isNonEmptyProxyObjectList(alertIds) &&
         isValidProxyId(alertProviderProxyId);
   }
 
