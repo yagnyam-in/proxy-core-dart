@@ -12,7 +12,24 @@ mixin ProxyUtils {
 
   void assertNotEmpty(String value) {
     assert(value != null);
-    assert(value.isNotEmpty);
+    assert(value.trim().isNotEmpty);
+  }
+
+  void assertValidList<T>(List<T> values) {
+    assert(values != null);
+  }
+
+  void assertNonEmptyList<T>(List<T> values) {
+    assertValidList(values);
+    assert(values.isNotEmpty);
+  }
+
+  bool isValidList<T>(List<T> values) {
+    return values != null;
+  }
+
+  bool isNonEmptyList<T>(List<T> values) {
+    return isValidList(values) && values.isNotEmpty;
   }
 
   bool isValidProxyObjectList<T extends ProxyBaseObject>(List<T> values) {
@@ -54,7 +71,7 @@ mixin ProxyUtils {
     return proxyId != null && proxyId.isValid();
   }
 
-  bool assertValidProxyId(ProxyId proxyId) {
+  void assertValidProxyId(ProxyId proxyId) {
     assert(proxyId != null);
     proxyId.assertValid();
   }

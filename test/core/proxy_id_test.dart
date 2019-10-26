@@ -1,8 +1,9 @@
 library proxy.core;
 
+import 'dart:convert';
+
 import 'package:proxy_core/src/core/proxy_id.dart';
 import "package:test/test.dart";
-import 'dart:convert';
 
 main() {
   String _encode(ProxyId proxyId) {
@@ -13,12 +14,6 @@ main() {
     Map userMap = jsonDecode(jsonString);
     return ProxyId.fromJson(userMap);
   }
-
-  test('isValid', () {
-    expect(ProxyId.nonSafe(id: null).isValid(), false);
-    expect(ProxyId.nonSafe(id: " ").isValid(), false);
-    expect(ProxyId.nonSafe(id: "x", sha256Thumbprint: " ").isValid(), false);
-  });
 
   test('proxy id without sha256Thumbprint', () {
     ProxyId proxyId = ProxyId("id");

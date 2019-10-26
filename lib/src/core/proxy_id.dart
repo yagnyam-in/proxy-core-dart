@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:logging/logging.dart';
 
 import 'proxy_object.dart';
 import 'proxy_utils.dart';
@@ -20,11 +19,6 @@ class ProxyId extends ProxyBaseObject with ProxyUtils {
 
   ProxyId(this.id, [this.sha256Thumbprint = null]) {
     assertValid();
-  }
-
-  @deprecated
-  ProxyId.nonSafe({this.id, this.sha256Thumbprint}) {
-    Logger('proxy.core.ProxyId').shout("ProxyId.nonSafe is being used");
   }
 
   factory ProxyId.any() {

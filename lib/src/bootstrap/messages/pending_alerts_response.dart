@@ -12,7 +12,7 @@ class PendingAlertsResponse extends SignableMessage with ProxyUtils {
   @JsonKey(nullable: false)
   final SignedMessage<PendingAlertsRequest> request;
 
-  @JsonKey(nullable: false, fromJson: signedAlertsFromJson)
+  @JsonKey(nullable: false, fromJson: PendingAlertsResponse.signedAlertsFromJson)
   final List<SignedMessage<SignableAlertMessage>> alerts;
 
   @JsonKey(nullable: true)
