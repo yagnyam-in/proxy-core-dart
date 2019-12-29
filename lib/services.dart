@@ -4,6 +4,7 @@ export 'src/services/proxy_resolver.dart';
 export 'src/services/remote_proxy_resolver.dart';
 export 'src/services/cached_proxy_resolver.dart';
 
+export 'src/services/pem_service.dart';
 export 'src/services/cryptography_service.dart';
 export 'src/services/pc_cryptography_service.dart';
 export 'src/services/symmetric_key_encryption_service.dart';
