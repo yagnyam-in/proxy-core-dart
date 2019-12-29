@@ -18,7 +18,7 @@ class ProxyFactory with ProxyUtils, HttpClientUtils, DebugUtils {
 
   ProxyFactory({String createProxyUrl, HttpClientFactory httpClientFactory})
       : createProxyUrl = createProxyUrl ?? "https://cs.pxy.yagnyam.in/proxy",
-        httpClientFactory = httpClientFactory ?? ProxyHttpClient.client {
+        httpClientFactory = httpClientFactory ?? HttpClientUtils.httpClient() {
     assert(isNotEmpty(this.createProxyUrl));
   }
 

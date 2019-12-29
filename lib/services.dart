@@ -9,7 +9,7 @@ export 'src/services/cryptography_service.dart';
 export 'src/services/pc_cryptography_service.dart';
 export 'src/services/symmetric_key_encryption_service.dart';
 
-export 'src/services/proxy_http_client.dart';
+export 'src/services/http_client_utils.dart';
 export 'src/services/proxy_key_resolver.dart';
 
 export 'src/services/message_factory.dart';

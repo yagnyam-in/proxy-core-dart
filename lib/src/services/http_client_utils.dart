@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
-import 'package:proxy_core/core.dart';
+import 'package:quiver/strings.dart';
 
-class ProxyHttpClient {
-  static http.Client client() {
+mixin HttpClientUtils {
+
+  static http.Client httpClient() {
     return http.Client();
   }
-}
 
-mixin HttpClientUtils on ProxyUtils {
   Future<String> get(
     http.Client httpClient,
     String url, {

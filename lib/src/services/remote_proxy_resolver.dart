@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 import 'package:proxy_core/core.dart';
 
-import 'proxy_http_client.dart';
+import 'http_client_utils.dart';
 import 'proxy_resolver.dart';
 
 typedef HttpClientFactory = http.Client Function();
@@ -19,7 +19,7 @@ class RemoteProxyResolver with ProxyUtils, HttpClientUtils implements ProxyResol
     String proxyFetchUrl,
     HttpClientFactory httpClientFactory,
   })  : proxyFetchUrl = proxyFetchUrl ?? "https://cs.pxy.yagnyam.in/proxy",
-        httpClientFactory = httpClientFactory ?? ProxyHttpClient.client {
+        httpClientFactory = httpClientFactory ?? HttpClientUtils.httpClient() {
     _logger.info("constructing RemoteProxyResolver(proxyFetchUrl: $proxyFetchUrl)");
   }
 
