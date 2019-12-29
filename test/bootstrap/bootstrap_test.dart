@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 
 main() {
   PointyCastleCryptographyService cryptographyService = PointyCastleCryptographyService();
-  PointyCastleProxyRequestFactory proxyRequestFactory = PointyCastleProxyRequestFactory(cryptographyService);
+  PointyCastleProxyRequestFactory proxyRequestFactory = PointyCastleProxyRequestFactory(ProxyVersion.latestVersion(), cryptographyService);
   PointyCastleProxyKeyFactory proxyKeyFactory = PointyCastleProxyKeyFactory();
 
   test('Proxy Creation', () async {

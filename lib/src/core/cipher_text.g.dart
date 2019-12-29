@@ -9,8 +9,8 @@ part of 'cipher_text.dart';
 CipherText _$CipherTextFromJson(Map json) {
   return CipherText(
     encryptionAlgorithm: json['encryptionAlgorithm'] as String,
-    iv: json['iv'] as String,
     cipherText: json['cipherText'] as String,
+    iv: json['iv'] as String,
     hmacAlgorithm: json['hmacAlgorithm'] as String,
     hmac: json['hmac'] as String,
   );
@@ -19,7 +19,6 @@ CipherText _$CipherTextFromJson(Map json) {
 Map<String, dynamic> _$CipherTextToJson(CipherText instance) {
   final val = <String, dynamic>{
     'encryptionAlgorithm': instance.encryptionAlgorithm,
-    'iv': instance.iv,
     'cipherText': instance.cipherText,
   };
 
@@ -29,6 +28,7 @@ Map<String, dynamic> _$CipherTextToJson(CipherText instance) {
     }
   }
 
+  writeNotNull('iv', instance.iv);
   writeNotNull('hmacAlgorithm', instance.hmacAlgorithm);
   writeNotNull('hmac', instance.hmac);
   return val;

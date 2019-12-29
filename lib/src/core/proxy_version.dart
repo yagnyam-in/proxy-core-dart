@@ -15,6 +15,8 @@ abstract class ProxyVersion {
 
   int get keySize;
 
+  String get preferredHashAlgorithm;
+
   const ProxyVersion();
 
   factory ProxyVersion.latestVersion() {
@@ -63,4 +65,8 @@ class ProxyVersionV0 extends ProxyVersion {
 
   @override
   int get keySize => 2048;
+
+  @override
+  String get preferredHashAlgorithm => "SHA256";
+
 }

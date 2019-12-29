@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:pointycastle/api.dart';
+import 'package:proxy_core/core.dart';
 
 import 'proxy_id.dart';
 import 'proxy_object.dart';
@@ -13,11 +14,14 @@ class ProxyKey extends ProxyBaseObject with ProxyUtils {
   @JsonKey(nullable: false)
   final ProxyId id;
 
-  @JsonKey(nullable: true, includeIfNull: false)
+  @JsonKey(nullable: true)
   final String name;
 
-  @JsonKey(nullable: false)
+  @JsonKey(nullable: true)
   final String localAlias;
+
+  @JsonKey(nullable: true)
+  final CipherText privateKeyEncodedEncrypted;
 
   @JsonKey(nullable: true)
   final String privateKeyEncoded;
@@ -40,7 +44,8 @@ class ProxyKey extends ProxyBaseObject with ProxyUtils {
   ProxyKey({
     @required this.id,
     this.name,
-    @required this.localAlias,
+    this.localAlias,
+    this.privateKeyEncodedEncrypted,
     this.privateKeyEncoded,
     this.privateKeySha256Thumbprint,
     this.publicKeyEncoded,
@@ -75,6 +80,7 @@ class ProxyKey extends ProxyBaseObject with ProxyUtils {
       id: id ?? this.id,
       name: name ?? this.name,
       localAlias: localAlias ?? this.localAlias,
+      privateKeyEncodedEncrypted: privateKeyEncodedEncrypted,
       privateKeyEncoded: privateKeyEncoded,
       privateKeySha256Thumbprint: privateKeySha256Thumbprint,
       publicKeyEncoded: publicKeyEncoded,

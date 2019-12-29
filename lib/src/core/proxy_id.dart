@@ -7,14 +7,14 @@ part 'proxy_id.g.dart';
 
 @JsonSerializable()
 class ProxyId extends ProxyBaseObject with ProxyUtils {
-  static final ID_REGEX = RegExp(r"^[a-zA-Z][a-zA-Z0-9-]{0,34}[a-zA-Z0-9]$");
+  static final ID_REGEX = RegExp(r"^[a-zA-Z0-9][a-zA-Z0-9-@]{0,34}[a-zA-Z0-9]$");
 
   static ProxyId _any = ProxyId('any');
 
   @JsonKey(nullable: false)
   final String id;
 
-  @JsonKey(nullable: true, includeIfNull: false)
+  @JsonKey(nullable: true)
   final String sha256Thumbprint;
 
   ProxyId(this.id, [this.sha256Thumbprint = null]) {

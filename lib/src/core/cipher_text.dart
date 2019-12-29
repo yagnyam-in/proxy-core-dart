@@ -12,10 +12,10 @@ class CipherText extends ProxyBaseObject with ProxyUtils {
   final String encryptionAlgorithm;
 
   @JsonKey(nullable: false)
-  final String iv;
-
-  @JsonKey(nullable: false)
   final String cipherText;
+
+  @JsonKey(nullable: true)
+  final String iv;
 
   @JsonKey(nullable: true)
   final String hmacAlgorithm;
@@ -25,8 +25,8 @@ class CipherText extends ProxyBaseObject with ProxyUtils {
 
   CipherText({
     @required this.encryptionAlgorithm,
-    @required this.iv,
     @required this.cipherText,
+    this.iv,
     this.hmacAlgorithm,
     this.hmac,
   }) {
@@ -50,13 +50,12 @@ class CipherText extends ProxyBaseObject with ProxyUtils {
 
   @override
   bool isValid() {
-    return isNotEmpty(encryptionAlgorithm) && isNotEmpty(iv) && isNotEmpty(cipherText);
+    return isNotEmpty(encryptionAlgorithm) && isNotEmpty(cipherText);
   }
 
   @override
   void assertValid() {
     assert(isNotEmpty(encryptionAlgorithm));
-    assert(isNotEmpty(iv));
     assert(isNotEmpty(cipherText));
   }
 

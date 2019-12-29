@@ -10,21 +10,22 @@ import "package:x509csr/x509csr.dart";
 class PointyCastleProxyRequestFactory extends ProxyRequestFactory {
   final CryptographyService cryptographyService;
 
-  PointyCastleProxyRequestFactory(this.cryptographyService);
+  final ProxyVersion proxyVersion;
+
+  PointyCastleProxyRequestFactory(this.proxyVersion, this.cryptographyService);
 
   @override
   Future<ProxyRequest> createProxyRequest({
     @required ProxyKey proxyKey,
-    @required String signatureAlgorithm,
     @required String revocationPassPhrase,
   }) {
-    if (signatureAlgorithm.toUpperCase() == 'SHA256WithRSAEncryption'.toUpperCase()) {
+    if (proxyVersion.certificateSignatureAlgorithm == 'SHA256WithRSAEncryption'.toUpperCase()) {
       return createProxyRequestForSha256WithRSAEncryption(
         proxyKey: proxyKey,
         revocationPassPhrase: revocationPassPhrase,
       );
     }
-    throw ArgumentError("Unsupported signature algorithm $signatureAlgorithm");
+    throw ArgumentError("Unsupported signature algorithm ${proxyVersion.certificateSignatureAlgorithm}");
   }
 
   Future<ProxyRequest> createProxyRequestForSha256WithRSAEncryption({
@@ -40,7 +41,7 @@ class PointyCastleProxyRequestFactory extends ProxyRequestFactory {
     ASN1Object encodedCSR = makeRSACSR(dn, proxyKey.privateKey, proxyKey.publicKey);
     String requestEncoded = encodeCSRToPem(encodedCSR);
     HashValue revocationPassPhraseHash = await cryptographyService.getHash(
-      hashAlgorithm: 'SHA256',
+      hashAlgorithm: proxyVersion.preferredHashAlgorithm,
       input: revocationPassPhrase,
     );
     return ProxyRequest(

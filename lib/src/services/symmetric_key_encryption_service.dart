@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
@@ -86,23 +87,32 @@ class SymmetricKeyEncryptionService {
     return base64Encode(digest.bytes);
   }
 
+  Uint8List ensureCapacity(Uint8List input, int minLength, int padding) {
+    if (minLength > input.length) {
+      BytesBuilder builder = BytesBuilder();
+      builder.add(input);
+      builder.add(List.filled(minLength - input.length, padding));
+      return builder.toBytes();
+    }
+    return input;
+  }
+
   // TODO: Revisit
   Key _adjustedKey(String key) {
-    String adjusted = key;
-    Key adjustedKey = Key.fromUtf8(adjusted);
+    Key adjustedKey = Key.fromUtf8(key);
     int len = adjustedKey.bytes.lengthInBytes;
     if ({16, 24, 32}.contains(len)) {
       return adjustedKey;
     } else if (len < 16) {
-      adjusted = adjusted.padRight(16, '0');
+      adjustedKey = Key(ensureCapacity(adjustedKey.bytes, 16, 0));
     } else if (len < 24) {
-      adjusted = adjusted.padRight(24, '0');
+      adjustedKey = Key(ensureCapacity(adjustedKey.bytes, 24, 0));
     } else if (len < 32) {
-      adjusted = adjusted.padRight(32, '0');
+      adjustedKey = Key(ensureCapacity(adjustedKey.bytes, 32, 0));
     } else {
       throw ArgumentError("Invalid length $len for pass phrase");
     }
-    return Key.fromUtf8(adjusted);
+    return adjustedKey;
   }
 
   // TODO: Revisit
