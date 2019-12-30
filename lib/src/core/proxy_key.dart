@@ -21,10 +21,10 @@ class ProxyKey extends ProxyBaseObject with ProxyUtils {
   final String localAlias;
 
   @JsonKey(nullable: true)
-  final CipherText privateKeyEncodedEncrypted;
+  CipherText privateKeyEncodedEncrypted;
 
   @JsonKey(nullable: true)
-  final String privateKeyEncoded;
+  String privateKeyEncoded;
 
   @JsonKey(nullable: true)
   final String privateKeySha256Thumbprint;
